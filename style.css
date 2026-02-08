@@ -153,7 +153,7 @@ button {
 
 #yesBtn, #noBtn {
   position: fixed;
-  /* remove transform: translate */
+  z-index: 10;
   transition: left 0.3s ease, top 0.3s ease;
 }
 
