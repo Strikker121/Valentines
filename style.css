@@ -137,25 +137,26 @@ button {
   100% { opacity: 0; transform: scale(2) translateY(-20px); }
 }
 
-#noBtn {
-  position: absolute;  /* required */
-  transition: left 0.5s ease, top 0.5s ease; /* smooth glide */
-}
-
-#yesBtn {
-  position: absolute;  /* keep YES fixed */
-}
-
 .valentine-buttons {
-  position: absolute;      /* absolute so we can move NO independently */
+  position: relative;      /* relative to allow NO to move independently */
   display: flex;
-  justify-content: center; /* center horizontally */
-  align-items: center;     /* center vertically */
-  gap: 30px;               /* space between YES and NO */
+  justify-content: center; /* center YES initially */
+  align-items: center;
+  gap: 30px;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* perfectly center container */
+  transform: translate(-50%, -50%);
   width: auto;
   height: auto;
 }
+
+#yesBtn {
+  position: relative; /* keep YES inside container, flex handles centering */
+}
+
+#noBtn {
+  position: absolute; /* NO can move anywhere on screen */
+  transition: left 0.5s ease, top 0.5s ease; /* smooth movement */
+}
+
 
