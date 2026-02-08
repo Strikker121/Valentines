@@ -2,6 +2,10 @@
 const ENABLE_POP_SOUND = true;
 const ENABLE_MOVE_SOUND = true;
 
+function goToMemories() {
+  window.location.href = "memories.html";
+}
+
 // ===== AUDIO UNLOCK =====
 let audioUnlocked = false;
 document.addEventListener("click", () => {
