@@ -120,6 +120,7 @@ button {
 }
 
 /* --- Sparkle Trail Styles with Glow --- */
+/* --- Global Sparkle Trail --- */
 .sparkle {
   position: absolute;
   pointer-events: none;
@@ -135,4 +136,5 @@ button {
   0% { opacity: 1; transform: scale(1); }
   100% { opacity: 0; transform: scale(2) translateY(-20px); }
 }
+
 
