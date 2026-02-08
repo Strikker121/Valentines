@@ -96,15 +96,14 @@ function attachNoButton() {
 function moveNoButton() {
   const btnW = noBtn.offsetWidth;
   const btnH = noBtn.offsetHeight;
-  const winW = window.innerWidth;
-  const winH = window.innerHeight;
+  const padding = 20;
 
-  const padding = 20; // space from edges
+  const maxX = window.innerWidth - btnW - padding;
+  const maxY = window.innerHeight - btnH - padding;
 
-  const newX = Math.random() * (winW - btnW - padding * 2) + padding;
-  const newY = Math.random() * (winH - btnH - padding * 2) + padding;
+  const newX = Math.random() * (maxX - padding) + padding;
+  const newY = Math.random() * (maxY - padding) + padding;
 
-  // Move using top/left
   noBtn.style.left = newX + "px";
   noBtn.style.top = newY + "px";
 
@@ -116,6 +115,7 @@ function moveNoButton() {
     s.play().catch(()=>{});
   }
 }
+
 
 
   noBtn.addEventListener("mouseenter", moveNoButton); // PC hover
