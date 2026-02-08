@@ -193,9 +193,7 @@ document.addEventListener('mouseleave', () => lastPos = null);
 document.addEventListener('touchend', () => lastPos = null);
 
 // Initial positions
-yesBtn.style.left = (window.innerWidth / 2 - yesBtn.offsetWidth / 2) + "px";
-yesBtn.style.top = (window.innerHeight / 2 - yesBtn.offsetHeight / 2) + "px";
-
-noBtn.style.left = (window.innerWidth / 2 - noBtn.offsetWidth / 2 + 100) + "px"; // slightly offset
-noBtn.style.top = (window.innerHeight / 2 - noBtn.offsetHeight / 2) + "px";
+// Initial NO button position
+noBtn.style.left = (noBtn.offsetLeft) + "px"; // relative to container
+noBtn.style.top = (noBtn.offsetTop) + "px";
 
