@@ -7,7 +7,6 @@ html, body {
   overflow: hidden;
 }
 
-/* Dark overlay */
 body::before {
   content: "";
   position: fixed;
@@ -16,7 +15,6 @@ body::before {
   z-index: 0;
 }
 
-/* Sections */
 .section {
   position: absolute;
   width: 100%;
@@ -35,7 +33,6 @@ h1, h2, p {
   text-shadow: 0 0 12px rgba(0,0,0,0.4);
 }
 
-/* Buttons */
 button {
   padding: 14px 24px;
   border-radius: 30px;
@@ -47,7 +44,6 @@ button {
   cursor: pointer;
 }
 
-/* Hearts */
 .hearts, .sparkles {
   position: fixed;
   width: 100%;
@@ -58,7 +54,6 @@ button {
   z-index: 1;
 }
 
-/* Hearts animation */
 .heart {
   position: absolute;
   bottom: -40px;
@@ -84,14 +79,15 @@ button {
   50%  { transform: translateY(-50vh) translateX(25px) scale(1) rotate(45deg); }
   100% { transform: translateY(-120vh) translateX(-25px) scale(1.2) rotate(45deg); }
 }
+
 .pop { animation: popAnim 0.25s forwards !important; }
 @keyframes popAnim { 0% { transform: scale(1.2) rotate(45deg); opacity:1; } 100% { transform: scale(0) rotate(45deg); opacity:0; } }
 
-/* Memories CSS */
+/* Memories */
 .memories-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
   width: 90%;
   max-width: 600px;
   margin: 0 auto;
