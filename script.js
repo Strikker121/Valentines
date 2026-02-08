@@ -99,15 +99,16 @@ function moveNoButton() {
   const winW = window.innerWidth;
   const winH = window.innerHeight;
 
-  // Generate random new position inside viewport
-  const padding = 20; // prevent touching edges
+  const padding = 20; // space from edges
+
   const newX = Math.random() * (winW - btnW - padding * 2) + padding;
   const newY = Math.random() * (winH - btnH - padding * 2) + padding;
 
-  // Move smoothly using transform
-  noBtn.style.transform = `translate(${newX}px, ${newY}px)`;
+  // Move using top/left
+  noBtn.style.left = newX + "px";
+  noBtn.style.top = newY + "px";
 
-  // Play random whoosh sound
+  // Play whoosh
   if(audioUnlocked && ENABLE_MOVE_SOUND){
     const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
     s.volume = 0.12;
@@ -115,8 +116,6 @@ function moveNoButton() {
     s.play().catch(()=>{});
   }
 }
-
-
 
 
   noBtn.addEventListener("mouseenter", moveNoButton); // PC hover
