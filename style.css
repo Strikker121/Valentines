@@ -73,3 +73,45 @@ button {
   0% { transform: translateY(100vh) rotate(45deg); opacity: 1; }
   100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
 }
+
+/* Floating hearts */
+.heart {
+  position: absolute;
+  bottom: -20px;
+  width: 20px;
+  height: 20px;
+  background: #ff4d6d;
+  transform: rotate(45deg);
+  animation: floatUp linear forwards;
+}
+
+.heart::before,
+.heart::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #ff4d6d;
+  border-radius: 50%;
+}
+
+.heart::before { top: -10px; left: 0; }
+.heart::after { left: -10px; top: 0; }
+
+/* Float animation */
+@keyframes floatUp {
+  0% { transform: translateY(0) rotate(45deg); opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-110vh) rotate(45deg); opacity: 0; }
+}
+
+/* POP animation */
+.pop {
+  animation: popAnim 0.3s forwards !important;
+}
+
+@keyframes popAnim {
+  0% { transform: scale(1) rotate(45deg); opacity: 1; }
+  100% { transform: scale(1.8) rotate(45deg); opacity: 0; }
+}
+
