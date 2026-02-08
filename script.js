@@ -2,6 +2,9 @@
 const ENABLE_MUSIC = true;
 const ENABLE_SPARKLES = true;
 const ENABLE_SLIDESHOW = true;
+const ENABLE_POP_SOUND = true;
+const ENABLE_MOVE_SOUND = true;
+
 
 // ===== AUDIO UNLOCK =====
 let audioUnlocked = false;
@@ -35,12 +38,13 @@ function surprise() {
 const heartsContainer = document.querySelector('.hearts');
 
 function playPop() {
-  if (!audioUnlocked) return;
+  if (!audioUnlocked || !ENABLE_POP_SOUND) return;
   const sound = new Audio("pop.mp3");
-  sound.volume = 0.1 + Math.random()*0.1;
-  sound.playbackRate = 0.8 + Math.random()*0.5;
+  sound.volume = 0.08 + Math.random()*0.05;
+  sound.playbackRate = 0.85 + Math.random()*0.4;
   sound.play().catch(()=>{});
 }
+
 
 function createHeart() {
   const heart = document.createElement('div');
@@ -93,16 +97,6 @@ function startSlideshow() {
   },2500);
 }
 
-
-
-
-
-// YES CLICK
-yesBtn.addEventListener("click", () => {
-  responseText.innerText = "I knew it! 💖 Best decision ever 😌";
-  yesBtn.style.transform = "scale(1.2)";
-});
-
 function moveNoButton() {
   const containerRect = container.getBoundingClientRect();
   const yesRect = yesBtn.getBoundingClientRect();
@@ -153,53 +147,60 @@ window.addEventListener("DOMContentLoaded", () => {
   if (!noBtn || !yesBtn || !container) return;
 
   // ===== RANDOM MOVE SOUNDS =====
-  const moveSounds = [
-    new Audio("whoosh1.mp4"),
-    new Audio("whoosh2.mp4"),
-    new Audio("whoosh3.mp4"),
-    new Audio("whoosh4.mp4")
-  ];
+  const moveSounds = ["whoosh1.mp4","whoosh2.mp4","whoosh3.mp4","whoosh4.mp4"];
+
 
   // YES CLICK
   yesBtn.addEventListener("click", () => {
-    responseText.innerText = "I knew it! 💖 Best decision ever 😌";
-    yesBtn.style.transform = "scale(1.2)";
-  });
+  responseText.innerText = "I knew it! 💖 Best decision ever 😌";
+  yesBtn.style.transform = "scale(1.15)";
+  setTimeout(()=> yesBtn.style.transform = "scale(1)", 300);
+});
+
 
   function moveNoButton() {
-    const containerRect = container.getBoundingClientRect();
-    const yesRect = yesBtn.getBoundingClientRect();
 
-    const maxX = containerRect.width - noBtn.offsetWidth - 10;
-    const maxY = containerRect.height - noBtn.offsetHeight - 10;
+  const padding = 20;
+  const btnW = noBtn.offsetWidth;
+  const btnH = noBtn.offsetHeight;
 
-    let newX, newY;
-    let attempts = 0;
+  const maxX = window.innerWidth - btnW - padding;
+  const maxY = window.innerHeight - btnH - padding;
 
-    do {
-      newX = Math.random() * maxX;
-      newY = Math.random() * maxY;
-      attempts++;
-    } while (
-      newX < yesRect.right - containerRect.left &&
-      newX + noBtn.offsetWidth > yesRect.left - containerRect.left &&
-      newY < yesRect.bottom - containerRect.top &&
-      newY + noBtn.offsetHeight > yesRect.top - containerRect.top &&
-      attempts < 40
-    );
+  const yesRect = yesBtn.getBoundingClientRect();
 
-    noBtn.style.left = newX + "px";
-    noBtn.style.top = newY + "px";
+  let newX, newY, tries = 0;
 
-    const sound = moveSounds[Math.floor(Math.random() * moveSounds.length)];
-    sound.currentTime = 0;
-    sound.volume = 0.15;
-    sound.playbackRate = 0.9 + Math.random() * 0.4;
-    sound.play().catch(()=>{});
-  }
+  do {
+    newX = Math.random() * maxX;
+    newY = Math.random() * maxY;
+    tries++;
+  } while (
+    newX < yesRect.right &&
+    newX + btnW > yesRect.left &&
+    newY < yesRect.bottom &&
+    newY + btnH > yesRect.top &&
+    tries < 50
+  );
+
+  noBtn.style.left = newX + "px";
+  noBtn.style.top = newY + "px";
+
+  playMoveSound();
+}
+
 
   noBtn.addEventListener("mouseenter", moveNoButton); // laptop
   noBtn.addEventListener("touchstart", moveNoButton); // phone
 });
 
+function playMoveSound() {
+  if (!audioUnlocked || !ENABLE_MOVE_SOUND) return;
+
+  const src = moveSounds[Math.floor(Math.random()*moveSounds.length)];
+  const s = new Audio(src);
+  s.volume = 0.15;
+  s.playbackRate = 0.9 + Math.random()*0.3;
+  s.play().catch(()=>{});
+}
 
