@@ -141,44 +141,47 @@ function attachNoButton(){
   });
 
   // NO random movement inside screen
-  function moveNoButton(){
-    const padding = 10;
-    const btnW = noBtn.offsetWidth;
-    const btnH = noBtn.offsetHeight;
+ function moveNoButton(){
+  const padding = 10;
+  const btnW = noBtn.offsetWidth;
+  const btnH = noBtn.offsetHeight;
 
-    const yesRect = yesBtn.getBoundingClientRect();
-    const maxX = window.innerWidth - btnW - padding;
-    const maxY = window.innerHeight - btnH - padding;
+  const yesRect = yesBtn.getBoundingClientRect();
+  const screenW = window.innerWidth;
+  const screenH = window.innerHeight;
 
-    let newX, newY;
-    let safe = false;
-    while(!safe){
-      newX = Math.random()*maxX;
-      newY = Math.random()*maxY;
+  let maxAttempts = 50;
+  let attempt = 0;
+  let newX, newY;
 
-      const buffer = 50; // minimum distance from YES
-      if(
-        newX + btnW < yesRect.left - buffer ||
-        newX > yesRect.right + buffer ||
-        newY + btnH < yesRect.top - buffer ||
-        newY > yesRect.bottom + buffer
-      ){
-        safe = true;
-      }
-    }
+  do {
+    newX = padding + Math.random() * (screenW - btnW - 2*padding);
+    newY = padding + Math.random() * (screenH - btnH - 2*padding);
+    attempt++;
 
-    // smooth movement
-    noBtn.style.left = newX + "px";
-    noBtn.style.top = newY + "px";
+    const buffer = 80; // minimum distance from YES
+    var overlap = !(
+      newX + btnW < yesRect.left - buffer ||
+      newX > yesRect.right + buffer ||
+      newY + btnH < yesRect.top - buffer ||
+      newY > yesRect.bottom + buffer
+    );
 
-    // whoosh sound
-    if(audioUnlocked && ENABLE_MOVE_SOUND){
-      const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
-      s.volume = 0.12;
-      s.playbackRate = 0.9 + Math.random()*0.3;
-      s.play().catch(()=>{});
-    }
+  } while(overlap && attempt < maxAttempts);
+
+  // apply new position
+  noBtn.style.left = newX + "px";
+  noBtn.style.top = newY + "px";
+
+  // play whoosh sound
+  if(audioUnlocked && ENABLE_MOVE_SOUND){
+    const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
+    s.volume = 0.12;
+    s.playbackRate = 0.9 + Math.random()*0.3;
+    s.play().catch(()=>{});
   }
+}
+
 
   // PC hover + mobile tap
   noBtn.addEventListener("mouseenter", moveNoButton);
