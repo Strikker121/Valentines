@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>For You ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #ff9a9e, #fad0c4);
+      text-align: center;
+      color: white;
+    }
+
+    .section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    button {
+      padding: 15px 25px;
+      border: none;
+      border-radius: 30px;
+      background: white;
+      color: #ff4d6d;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="section">
+    <h1>Hey Love ❤️</h1>
+    <p>I made something special just for you…</p>
+    <button onclick="next()">Tap to continue</button>
+  </div>
+
+  <div class="section" id="page2" style="display:none;">
+    <h2>The Day We Met 💫</h2>
+    <p>I didn’t know you’d become my favorite person.</p>
+    <button onclick="next2()">Next</button>
+  </div>
+
+  <div class="section" id="page3" style="display:none;">
+    <h2>Why I Love You 💖</h2>
+    <p>Your smile. Your heart. Everything about you.</p>
+    <button onclick="surprise()">Open Surprise 🎁</button>
+  </div>
+
+  <div class="section" id="final" style="display:none;">
+    <h1>Surprise! 🎉</h1>
+    <p>Your gift is… A date with me on Valentine’s Day ❤️</p>
+  </div>
+
+<script>
+function next() {
+  document.querySelector(".section").style.display = "none";
+  document.getElementById("page2").style.display = "flex";
+}
+function next2() {
+  document.getElementById("page2").style.display = "none";
+  document.getElementById("page3").style.display = "flex";
+}
+function surprise() {
+  document.getElementById("page3").style.display = "none";
+  document.getElementById("final").style.display = "flex";
+}
+</script>
+
+</body>
+</html>
