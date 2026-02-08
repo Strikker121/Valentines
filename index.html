@@ -38,6 +38,46 @@
 <div class="section" id="memoriesSection" style="display:none;"></div>
 
 <!-- Final Valentine Page -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>For You ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<audio id="popSound" src="pop.mp3" preload="auto"></audio>
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
+<div class="hearts"></div>
+<div class="sparkles"></div>
+
+<!-- Page 1 -->
+<div class="section" id="page1">
+  <h1>Hey Love ❤️</h1>
+  <p>I made something special just for you…</p>
+  <button id="startBtn">Tap to continue</button>
+</div>
+
+<!-- Page 2 -->
+<div class="section" id="page2" style="display:none;">
+  <h2>The Day We Met 💫</h2>
+  <p>I didn’t know you’d become my favorite person.</p>
+  <button id="next2Btn">Next</button>
+</div>
+
+<!-- Page 3 -->
+<div class="section" id="page3" style="display:none;">
+  <h2>Why I Love You 💖</h2>
+  <p>Your smile. Your heart. Everything about you.</p>
+  <button id="memoriesBtn">See Our Memories 📸</button>
+</div>
+
+<!-- Memories Section -->
+<div class="section" id="memoriesSection" style="display:none;"></div>
+
+<!-- Final Valentine Page -->
 <div id="final" class="section" style="display:none;">
   <h1>Will You Be My Valentine? 💖</h1>
   <div class="valentine-buttons">
@@ -46,6 +86,10 @@
   </div>
   <p id="responseText"></p>
 </div>
+
+<script src="script.js"></script>
+</body>
+</html>
 
 <script src="script.js"></script>
 </body>
