@@ -5,63 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
+<audio id="popSound" src="pop.mp3" preload="auto"></audio>
 <audio id="bgMusic" src="music.mp3" loop></audio>
 
 <div class="hearts"></div>
 <div class="sparkles"></div>
 
+<!-- PAGE 1 -->
 <div class="section" id="page1">
   <h1>Hey Love ❤️</h1>
   <p>I made something special just for you…</p>
   <button onclick="next()">Tap to continue</button>
 </div>
 
+<!-- PAGE 2 -->
 <div class="section" id="page2" style="display:none;">
   <h2>The Day We Met 💫</h2>
   <p>I didn’t know you’d become my favorite person.</p>
   <button onclick="next2()">Next</button>
 </div>
 
+<!-- PAGE 3 -->
 <div class="section" id="page3" style="display:none;">
   <h2>Why I Love You 💖</h2>
-  <button onclick="goToMemories()">See Our Memories 📸</button>
+  <p>Your smile. Your heart. Everything about you.</p>
+  <button onclick="loadMemories()">See Our Memories 📸</button>
 </div>
 
-  <div class="section" id="memoriesSection" style="display:none; flex-direction: column; overflow-y: auto;">
-  <h2>Our Memories 📸</h2>
+<!-- MEMORIES WILL LOAD HERE -->
+<div class="section" id="memoriesSection" style="display:none;"></div>
 
-  <div class="memories-container">
-    <div class="memory-box">
-      <img src="photos/pic1.png" />
-      <p>Our first trip together 🏞️</p>
-    </div>
-    <div class="memory-box">
-      <img src="photos/pic2.png" />
-      <p>That fun day at the park 🎡</p>
-    </div>
-    <!-- add more memory-box divs as needed -->
-  </div>
-
-  <button onclick="closeMemories()">Back</button>
-</div>
-
-  
-<div class="section" id="slideshow" style="display:none;">
-  <img id="memoryPhoto" src="photos/pic1.png">
-  <button onclick="surprise()">Final Surprise 🎁</button>
-</div>
-
+<!-- FINAL YES/NO -->
 <div class="section" id="final" style="display:none;">
   <h1>Will You Be My Valentine? 💖</h1>
-
   <div class="valentine-buttons">
     <button id="yesBtn">YES 💖</button>
     <button id="noBtn">NO 😏</button>
   </div>
-
   <p id="responseText"></p>
 </div>
 
