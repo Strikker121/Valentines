@@ -51,9 +51,9 @@ document.addEventListener("mousemove", e=>{
 
 // ===== SLIDESHOW =====
 const photos = [
-  "photos/pic1.png",
-  "photos/pic2.png",
-  "photos/pic3.png"
+  "photos/pic1.jpg",
+  "photos/pic2.jpg",
+  "photos/pic3.jpg"
 ];
 let index=0;
 setInterval(()=>{
