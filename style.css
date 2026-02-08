@@ -148,22 +148,24 @@ button {
   position: relative;
 }
 
-.yes-no-wrapper {
-  position: relative;
+/* Container for YES/NO buttons already exists */
+.valentine-buttons {
+  position: relative;  /* relative positioning for YES button */
   width: 100%;
   display: flex;
-  justify-content: flex-start; /* YES on left */
+  justify-content: space-between; /* YES left, NO right initially */
+  align-items: center;
+  max-width: 400px; /* optional, for spacing */
 }
 
 #yesBtn {
-  position: relative; /* stays in container */
-  left: 0;
+  position: relative; /* stays in flow, left side */
 }
 
 #noBtn {
-  position: absolute;  /* moves freely on screen */
-  left: 65%;   /* initial mid-right */
+  position: absolute;  /* moves freely */
+  left: 70%;   /* initial mid-right position */
   top: 50%;
-  transform: translate(-50%, -50%); /* perfect vertical centering */
-  transition: left 0.5s ease, top 0.5s ease; /* smooth movement */
+  transform: translate(-50%, -50%); /* vertically centered */
+  transition: left 0.5s ease, top 0.5s ease; /* smooth glide */
 }
