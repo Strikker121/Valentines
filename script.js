@@ -126,67 +126,78 @@ document.addEventListener('mouseleave', () => lastPos=null);
 document.addEventListener('touchend', () => lastPos=null);
 
 // YES/NO BUTTON LOGIC
-function attachNoButton(){
+function attachNoButton() {
   const yesBtn = document.getElementById("yesBtn");
   const noBtn = document.getElementById("noBtn");
-  if(!yesBtn || !noBtn) return;
+  if (!yesBtn || !noBtn) return;
 
   const responseText = document.getElementById("responseText");
 
-  // YES click
-  yesBtn.addEventListener("click", ()=>{
+  // YES button click
+  yesBtn.addEventListener("click", () => {
     responseText.innerText = "I knew it! 💖 Best decision ever 😌";
     yesBtn.style.transform = "scale(1.15)";
-    setTimeout(()=> yesBtn.style.transform = "scale(1)", 300);
+    setTimeout(() => yesBtn.style.transform = "scale(1)", 300);
   });
 
-  // NO random movement inside screen
- function moveNoButton(){
-  const padding = 10;
-  const btnW = noBtn.offsetWidth;
-  const btnH = noBtn.offsetHeight;
+  // Move NO button randomly without overlapping YES and inside viewport
+  function moveNoButton() {
+    const padding = 10; // keep inside screen edges
+    const btnW = noBtn.offsetWidth;
+    const btnH = noBtn.offsetHeight;
 
-  const yesRect = yesBtn.getBoundingClientRect();
-  const screenW = window.innerWidth;
-  const screenH = window.innerHeight;
+    const yesRect = yesBtn.getBoundingClientRect();
+    const screenW = window.innerWidth;
+    const screenH = window.innerHeight;
 
-  let maxAttempts = 50;
-  let attempt = 0;
-  let newX, newY;
+    let maxAttempts = 50;
+    let attempt = 0;
+    let newX, newY;
+    let buffer = 80; // distance from YES
 
-  do {
-    newX = padding + Math.random() * (screenW - btnW - 2*padding);
-    newY = padding + Math.random() * (screenH - btnH - 2*padding);
-    attempt++;
+    do {
+      newX = padding + Math.random() * (screenW - btnW - 2 * padding);
+      newY = padding + Math.random() * (screenH - btnH - 2 * padding);
 
-    const buffer = 80; // minimum distance from YES
-    var overlap = !(
-      newX + btnW < yesRect.left - buffer ||
-      newX > yesRect.right + buffer ||
-      newY + btnH < yesRect.top - buffer ||
-      newY > yesRect.bottom + buffer
-    );
+      // check overlap with YES
+      var overlap = !(
+        newX + btnW < yesRect.left - buffer ||
+        newX > yesRect.right + buffer ||
+        newY + btnH < yesRect.top - buffer ||
+        newY > yesRect.bottom + buffer
+      );
 
-  } while(overlap && attempt < maxAttempts);
+      attempt++;
+    } while (overlap && attempt < maxAttempts);
 
-  // apply new position
-  noBtn.style.left = newX + "px";
-  noBtn.style.top = newY + "px";
+    noBtn.style.left = newX + "px";
+    noBtn.style.top = newY + "px";
 
-  // play whoosh sound
-  if(audioUnlocked && ENABLE_MOVE_SOUND){
-    const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
-    s.volume = 0.12;
-    s.playbackRate = 0.9 + Math.random()*0.3;
-    s.play().catch(()=>{});
+    // whoosh sound
+    if (audioUnlocked && ENABLE_MOVE_SOUND) {
+      const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
+      s.volume = 0.12;
+      s.playbackRate = 0.9 + Math.random() * 0.3;
+      s.play().catch(() => {});
+    }
   }
-}
-
 
   // PC hover + mobile tap
   noBtn.addEventListener("mouseenter", moveNoButton);
   noBtn.addEventListener("touchstart", moveNoButton);
+
+  // --- Set initial positions safely ---
+  const initialYesX = screenW * 0.3; // slightly left
+  const initialYesY = screenH * 0.5; // vertical center
+  yesBtn.style.left = initialYesX + "px";
+  yesBtn.style.top = initialYesY + "px";
+
+  const initialNoX = screenW * 0.7; // slightly right
+  const initialNoY = screenH * 0.5;
+  noBtn.style.left = initialNoX + "px";
+  noBtn.style.top = initialNoY + "px";
 }
+
 
 // Attach when final page loads
 window.addEventListener("DOMContentLoaded", ()=>{
