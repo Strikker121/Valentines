@@ -50,7 +50,7 @@ function loadMemories(){
             e.preventDefault();
             memoriesSection.style.display = "none";
             finalPage.style.display = "flex"; 
-            attachNoButton(); // attach NO behavior now
+            attachNoButton(); // attach NO behavior after page shows
           });
         }
       }, 10);
@@ -122,9 +122,10 @@ function attachNoButton(){
   if(!yesBtn || !noBtn) return;
 
   const responseText = document.getElementById("responseText");
+  const padding = 15;
+  const buffer = 100; // distance between YES and NO
 
-  // Set initial positions safely
-  const padding = 20;
+  // Initial safe positions
   yesBtn.style.left = "35%";
   yesBtn.style.top = "50%";
   noBtn.style.left = "65%";
@@ -143,31 +144,27 @@ function attachNoButton(){
     const yesRect = yesBtn.getBoundingClientRect();
     const screenW = document.documentElement.clientWidth;
     const screenH = document.documentElement.clientHeight;
-    const buffer = 80;
 
     let newX, newY, attempts=0;
     do {
-      newX = Math.random() * (screenW - btnW - 2*padding) + padding;
-      newY = Math.random() * (screenH - btnH - 2*padding) + padding;
+      newX = Math.random()*(screenW - btnW - 2*padding) + padding;
+      newY = Math.random()*(screenH - btnH - 2*padding) + padding;
 
-      // clamp
-      newX = Math.max(padding, Math.min(newX, screenW - btnW - padding));
-      newY = Math.max(padding, Math.min(newY, screenH - btnH - padding));
-
+      // Keep NO away from YES
       const overlap = !(
         newX + btnW < yesRect.left - buffer ||
         newX > yesRect.right + buffer ||
         newY + btnH < yesRect.top - buffer ||
         newY > yesRect.bottom + buffer
       );
+
       attempts++;
-      if(attempts>100) break;
+      if(attempts>50) break;
     } while(overlap);
 
     noBtn.style.left = newX+"px";
     noBtn.style.top = newY+"px";
 
-    // whoosh
     if(audioUnlocked && ENABLE_MOVE_SOUND){
       const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
       s.volume=0.12;
