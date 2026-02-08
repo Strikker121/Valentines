@@ -152,18 +152,20 @@ button {
 }
 
 #yesBtn {
-  position: absolute;
+  position: fixed;
   top: 50%;
-  left: 40%; /* slightly left of center */
+  left: 35%; /* slightly left of center */
   transform: translate(-50%, -50%);
+  z-index: 10;
 }
 
 #noBtn {
-  position: absolute;
+  position: fixed;
   top: 50%;
-  left: 60%; /* slightly right of center */
+  left: 65%; /* slightly right of center */
   transform: translate(-50%, -50%);
-  transition: left 0.4s ease, top 0.4s ease; /* smooth glide */
+  transition: left 0.4s ease, top 0.4s ease;
+  z-index: 10;
 }
 
 
