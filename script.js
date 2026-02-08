@@ -1,18 +1,33 @@
+let audioUnlocked = false;
+
+function unlockAudio() {
+  if (audioUnlocked) return;
+
+  const silentSound = new Audio("pop.mp3");
+  silentSound.volume = 0;
+  silentSound.play().then(() => {
+    audioUnlocked = true;
+  }).catch(()=>{});
+}
+
+// Unlock on ANY interaction
+document.addEventListener("click", unlockAudio);
+document.addEventListener("touchstart", unlockAudio);
+
+
 window.addEventListener("DOMContentLoaded", () => {
 
   const heartsContainer = document.querySelector('.hearts');
 
   function playPop() {
+  if (!audioUnlocked) return; // prevents blocked error
+
   const sound = new Audio("pop.mp3");
-
-  // Softer volume (romantic, not gunshot 💀)
-  sound.volume = 0.15 + Math.random() * 0.15;  // 0.15 – 0.30
-
-  // Pitch variation
-  sound.playbackRate = 0.85 + Math.random() * 0.4; // 0.85 – 1.25
-
+  sound.volume = 0.15 + Math.random() * 0.15;
+  sound.playbackRate = 0.85 + Math.random() * 0.4;
   sound.play().catch(()=>{});
 }
+
 
 
   function createHeart() {
