@@ -159,17 +159,18 @@ button {
 #yesBtn {
   position: absolute;
   left: 25%;   /* mid-left */
-  top: 50%;    /* vertical center */
+  top: 50%;
   transform: translateY(-50%);
 }
 
 #noBtn {
-  position: absolute;
+  position: absolute;  /* absolute relative to body */
   left: 75%;   /* mid-right */
-  top: 50%;    /* vertical center */
+  top: 50%;
   transform: translateY(-50%);
   transition: left 0.5s ease, top 0.5s ease; /* smooth movement */
 }
+
 
 
 
