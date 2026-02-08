@@ -137,4 +137,9 @@ button {
   100% { opacity: 0; transform: scale(2) translateY(-20px); }
 }
 
+#noBtn {
+  position: absolute; /* already required */
+  transition: left 0.4s ease, top 0.4s ease; /* smooth move */
+}
+
 
