@@ -150,24 +150,23 @@ button {
 
 /* Container for YES/NO buttons already exists */
 .valentine-buttons {
-  position: relative;  /* relative positioning for YES button */
-  width: 100%;
-  display: flex;
-  justify-content: space-between; /* YES left, NO right initially */
-  align-items: center;
-  max-width: 400px; /* optional, for spacing */
+  position: relative;
+  height: 200px; /* Needs a height to center things inside */
 }
 
 #yesBtn {
-  position: absolute;  /* moves freely */
-  left: 50%;   /* initial mid-right position */
+  position: absolute;
   top: 50%;
+  left: 40%; /* Moved slightly left of center */
+  transform: translate(-50%, -50%);
 }
 
 #noBtn {
-  position: absolute;  /* moves freely */
-  left: 50%;   /* initial mid-right position */
-  top: 70%;
-  transform: translate(-50%, -50%); /* vertically centered */
-  transition: left 0.5s ease, top 0.5s ease; /* smooth glide */
+  position: absolute;
+  top: 50%;
+  left: 60%; /* Moved slightly right of center */
+  transform: translate(-50%, -50%);
+   transition: left 0.5s ease, top 0.5s ease; /* smooth glide */
 }
+ 
+
