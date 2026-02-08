@@ -25,8 +25,14 @@ const page3 = document.getElementById("page3");
 const memoriesSection = document.getElementById("memoriesSection");
 const finalPage = document.getElementById("final");
 
-document.getElementById("startBtn").addEventListener("click", ()=> { page1.style.display="none"; page2.style.display="flex"; });
-document.getElementById("next2Btn").addEventListener("click", ()=> { page2.style.display="none"; page3.style.display="flex"; });
+document.getElementById("startBtn").addEventListener("click", ()=> {
+  page1.style.display="none";
+  page2.style.display="flex";
+});
+document.getElementById("next2Btn").addEventListener("click", ()=> {
+  page2.style.display="none";
+  page3.style.display="flex";
+});
 document.getElementById("memoriesBtn").addEventListener("click", loadMemories);
 
 function loadMemories(){
@@ -36,6 +42,7 @@ function loadMemories(){
       memoriesSection.innerHTML = html;
       page3.style.display = "none";
       memoriesSection.style.display = "flex";
+
       setTimeout(() => {
         const backBtn = memoriesSection.querySelector("#memoriesBackBtn");
         if(backBtn){
@@ -51,7 +58,7 @@ function loadMemories(){
     .catch(e => alert("Could not load memories. Make sure you are running on a server."));
 }
 
-// Hearts
+// HEARTS
 const heartsContainer = document.querySelector('.hearts');
 function playPop(){
   if(!audioUnlocked || !ENABLE_POP_SOUND) return;
@@ -82,24 +89,28 @@ function attachNoButton() {
 
   const responseText = document.getElementById("responseText");
 
+  // YES click
   yesBtn.addEventListener("click", () => {
     responseText.innerText = "I knew it! 💖 Best decision ever 😌";
     yesBtn.style.transform = "scale(1.15)";
     setTimeout(() => yesBtn.style.transform = "scale(1)", 300);
   });
 
+  // NO random movement
   function moveNoButton() {
+    const padding = 10;
     const btnW = noBtn.offsetWidth;
     const btnH = noBtn.offsetHeight;
-    const maxX = window.innerWidth - btnW;
-    const maxY = window.innerHeight - btnH;
+    const maxX = window.innerWidth - btnW - padding;
+    const maxY = window.innerHeight - btnH - padding;
 
-    const newX = Math.random() * maxX;
-    const newY = Math.random() * maxY;
+    let newX = Math.random() * maxX;
+    let newY = Math.random() * maxY;
 
     noBtn.style.left = newX + "px";
     noBtn.style.top = newY + "px";
 
+    // whoosh sound
     if(audioUnlocked && ENABLE_MOVE_SOUND){
       const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
       s.volume = 0.12;
@@ -114,4 +125,40 @@ function attachNoButton() {
 
 window.addEventListener("DOMContentLoaded", attachNoButton);
 
-// Sparkle trail code remains same...
+// Sparkle trail
+const sparklesContainer = document.querySelector('.sparkles');
+let lastPos = null;
+
+function createSparkleAt(x, y) {
+  const sparkle = document.createElement('div');
+  sparkle.className = 'sparkle';
+  sparkle.style.left = x + 'px';
+  sparkle.style.top = y + 'px';
+  sparkle.style.width = 6 + Math.random() * 4 + 'px';
+  sparkle.style.height = 6 + Math.random() * 4 + 'px';
+  sparklesContainer.appendChild(sparkle);
+  setTimeout(() => sparkle.remove(), 1200);
+}
+
+function createTrail(x, y) {
+  if (!lastPos) lastPos = {x, y};
+  const dx = x - lastPos.x;
+  const dy = y - lastPos.y;
+  const distance = Math.max(Math.abs(dx), Math.abs(dy));
+  for (let i = 0; i < distance; i += 4) {
+    const px = lastPos.x + (dx * i / distance);
+    const py = lastPos.y + (dy * i / distance);
+    createSparkleAt(px, py);
+  }
+  lastPos = {x, y};
+}
+
+document.addEventListener('mousemove', e => createTrail(e.clientX, e.clientY));
+document.addEventListener('touchmove', e => {
+  for (const touch of e.touches) createTrail(touch.clientX, touch.clientY);
+});
+document.addEventListener('touchstart', e => {
+  for (const touch of e.touches) createTrail(touch.clientX, touch.clientY);
+});
+document.addEventListener('mouseleave', () => lastPos = null);
+document.addEventListener('touchend', () => lastPos = null);
