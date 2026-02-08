@@ -81,16 +81,20 @@ setInterval(createHeart,700);
 function attachNoButton() {
   const yesBtn = document.getElementById("yesBtn");
   const noBtn = document.getElementById("noBtn");
-  if(!yesBtn || !noBtn) return;
-
   const responseText = document.getElementById("responseText");
 
-  // YES button
+  if (!yesBtn || !noBtn) return;
+
   yesBtn.addEventListener("click", () => {
     responseText.innerText = "I knew it! 💖 Best decision ever 😌";
     yesBtn.style.transform = "scale(1.15)";
     setTimeout(() => yesBtn.style.transform = "scale(1)", 300);
   });
+
+  noBtn.addEventListener("mouseenter", moveNoButton); // PC
+  noBtn.addEventListener("touchstart", moveNoButton);  // mobile
+}
+
 
   // NO button movement + sound
 function moveNoButton() {
