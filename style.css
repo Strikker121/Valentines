@@ -156,13 +156,21 @@ button {
   position: relative; /* buttons move inside container */
 }
 
-#yesBtn, #noBtn {
-  position: relative;
+#yesBtn {
+  position: absolute;
+  left: 25%;   /* mid-left */
+  top: 50%;    /* vertical center */
+  transform: translateY(-50%);
 }
 
 #noBtn {
-  transition: transform 0.5s ease; /* smooth glide */
+  position: absolute;
+  left: 75%;   /* mid-right */
+  top: 50%;    /* vertical center */
+  transform: translateY(-50%);
+  transition: left 0.5s ease, top 0.5s ease; /* smooth movement */
 }
+
 
 
 
