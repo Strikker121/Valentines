@@ -1,11 +1,8 @@
-// ===== OPTIONS =====
-const ENABLE_POP_SOUND = true;
-const ENABLE_MOVE_SOUND = true;
+const ENABLE_POP_SOUND = true;   // turn heart pop sound ON/OFF
+const ENABLE_MOVE_SOUND = true;  // turn whoosh ON/OFF
 
-// ===== MOVE SOUNDS =====
-const moveSounds = ["whoosh1.mp4","whoosh2.mp4","whoosh3.mp4","whoosh4.mp4"];
+const moveSounds = ["whoosh1.mp3","whoosh2.mp3","whoosh3.mp3","whoosh4.mp3"];
 
-// ===== AUDIO UNLOCK =====
 let audioUnlocked = false;
 function unlockAudio() {
   if (audioUnlocked) return;
@@ -16,122 +13,78 @@ function unlockAudio() {
 document.addEventListener("click", unlockAudio);
 document.addEventListener("touchstart", unlockAudio);
 
+/* PAGE NAV */
+function next(){ page1.style.display="none"; page2.style.display="flex"; }
+function next2(){ page2.style.display="none"; page3.style.display="flex"; }
+function startSlideshow(){ page3.style.display="none"; slideshow.style.display="flex"; }
+function surprise(){ slideshow.style.display="none"; final.style.display="flex"; }
 
-
-// ================= PAGE NAVIGATION =================
-function next() {
-  document.getElementById("page1").style.display = "none";
-  document.getElementById("page2").style.display = "flex";
-}
-
-function next2() {
-  document.getElementById("page2").style.display = "none";
-  document.getElementById("page3").style.display = "flex";
-}
-
-function startSlideshow() {
-  document.getElementById("page3").style.display = "none";
-  document.getElementById("slideshow").style.display = "flex";
-}
-
-function surprise() {
-  document.getElementById("slideshow").style.display = "none";
-  document.getElementById("final").style.display = "flex";
-}
-
-
-
-// ================= HEARTS SYSTEM =================
+/* HEARTS */
 const heartsContainer = document.querySelector('.hearts');
 
-function playPop() {
-  if (!audioUnlocked || !ENABLE_POP_SOUND) return;
-  const sound = new Audio("pop.mp3");
-  sound.volume = 0.08 + Math.random()*0.05;
-  sound.playbackRate = 0.85 + Math.random()*0.4;
-  sound.play().catch(()=>{});
+function playPop(){
+  if(!audioUnlocked || !ENABLE_POP_SOUND) return;
+  const s=new Audio("pop.mp3");
+  s.volume=0.1; s.play().catch(()=>{});
 }
 
-function createHeart() {
-  const heart = document.createElement('div');
-  heart.className = 'heart';
-  heart.style.left = Math.random()*100 + 'vw';
-
-  const duration = 6 + Math.random()*3;
-  heart.style.animationDuration = duration + 's';
-
+function createHeart(){
+  const heart=document.createElement('div');
+  heart.className='heart';
+  heart.style.left=Math.random()*100+'vw';
+  heart.style.animationDuration=(6+Math.random()*3)+'s';
   heartsContainer.appendChild(heart);
 
-  heart.addEventListener("animationend", () => {
+  heart.addEventListener("animationend",()=>{
     heart.classList.add("pop");
     playPop();
     setTimeout(()=>heart.remove(),250);
   });
 }
-
 setInterval(createHeart,700);
 
+/* YES / NO */
+window.addEventListener("DOMContentLoaded",()=>{
+  const noBtn=noBtn=document.getElementById("noBtn");
+  const yesBtn=document.getElementById("yesBtn");
+  const responseText=document.getElementById("responseText");
 
-
-// ================= YES / NO BUTTON SYSTEM =================
-window.addEventListener("DOMContentLoaded", () => {
-
-  const noBtn = document.getElementById("noBtn");
-  const yesBtn = document.getElementById("yesBtn");
-  const responseText = document.getElementById("responseText");
-
-  if (!noBtn || !yesBtn) return;
-
-  // YES CLICK
-  yesBtn.addEventListener("click", () => {
-    responseText.innerText = "I knew it! 💖 Best decision ever 😌";
-    yesBtn.style.transform = "scale(1.15)";
-    setTimeout(()=> yesBtn.style.transform = "scale(1)", 300);
+  yesBtn.addEventListener("click",()=>{
+    responseText.innerText="I knew it! 💖 Best decision ever 😌";
   });
 
-  function moveNoButton() {
-    const padding = 20;
-    const btnW = noBtn.offsetWidth;
-    const btnH = noBtn.offsetHeight;
+  function moveNo(){
+    const pad=40;
+    const w=noBtn.offsetWidth, h=noBtn.offsetHeight;
+    const maxX=window.innerWidth-w-pad;
+    const maxY=window.innerHeight-h-pad;
+    const yesRect=yesBtn.getBoundingClientRect();
 
-    const maxX = window.innerWidth - btnW - padding;
-    const maxY = window.innerHeight - btnH - padding;
-
-    const yesRect = yesBtn.getBoundingClientRect();
-
-    let newX, newY, tries = 0;
-
-    do {
-      newX = Math.random()*maxX;
-      newY = Math.random()*maxY;
+    let x,y,tries=0;
+    do{
+      x=Math.random()*maxX;
+      y=Math.random()*maxY;
       tries++;
-    } while (
-      newX < yesRect.right &&
-      newX + btnW > yesRect.left &&
-      newY < yesRect.bottom &&
-      newY + btnH > yesRect.top &&
-      tries < 50
+    }while(
+      x<yesRect.right && x+w>yesRect.left &&
+      y<yesRect.bottom && y+h>yesRect.top &&
+      tries<50
     );
 
-    noBtn.style.left = newX + "px";
-    noBtn.style.top = newY + "px";
-
+    noBtn.style.left=x+"px";
+    noBtn.style.top=y+"px";
     playMoveSound();
   }
 
-  noBtn.addEventListener("mouseenter", moveNoButton);
-  noBtn.addEventListener("touchstart", moveNoButton);
+  noBtn.addEventListener("mouseenter",moveNo);
+  noBtn.addEventListener("touchstart",moveNo);
 });
 
-
-
-// ================= MOVE SOUND =================
-function playMoveSound() {
-  if (!audioUnlocked || !ENABLE_MOVE_SOUND) return;
-
-  const src = moveSounds[Math.floor(Math.random()*moveSounds.length)];
-  const s = new Audio(src);
-  s.volume = 0.12;
-  s.playbackRate = 0.9 + Math.random()*0.3;
+/* MOVE SOUND */
+function playMoveSound(){
+  if(!audioUnlocked || !ENABLE_MOVE_SOUND) return;
+  const src=moveSounds[Math.floor(Math.random()*moveSounds.length)];
+  const s=new Audio(src);
+  s.volume=0.15;
   s.play().catch(()=>{});
 }
