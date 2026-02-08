@@ -1,6 +1,11 @@
 const ENABLE_POP_SOUND = true;
 const ENABLE_MOVE_SOUND = true;
-const moveSounds = ["whoosh1.mp4","whoosh2.mp4","whoosh3.mp4","whoosh4.mp4"];
+// Preload whoosh sounds
+const moveAudio = ["whoosh1.mp3","whoosh2.mp3","whoosh3.mp3","whoosh4.mp3"].map(src => {
+  const a = new Audio(src);
+  a.volume = 0.12;
+  return a;
+});
 
 let audioUnlocked = false;
 function unlockAudio() {
@@ -88,40 +93,39 @@ function attachNoButton() {
   });
 
   // NO button movement + sound
-  function moveNoButton(){
-    const padding = 20;
-    const btnW = noBtn.offsetWidth;
-    const btnH = noBtn.offsetHeight;
-    const maxX = window.innerWidth - btnW - padding;
-    const maxY = window.innerHeight - btnH - padding;
-    const yesRect = yesBtn.getBoundingClientRect();
-    let newX, newY, tries = 0;
+function moveNoButton(){
+  const padding = 20;
+  const btnW = noBtn.offsetWidth;
+  const btnH = noBtn.offsetHeight;
+  const maxX = window.innerWidth - btnW - padding;
+  const maxY = window.innerHeight - btnH - padding;
+  const yesRect = yesBtn.getBoundingClientRect();
+  let newX, newY, tries = 0;
 
-    do {
-      newX = Math.random() * maxX;
-      newY = Math.random() * maxY;
-      tries++;
-    } while (
-      newX < yesRect.right &&
-      newX + btnW > yesRect.left &&
-      newY < yesRect.bottom &&
-      newY + btnH > yesRect.top &&
-      tries < 50
-    );
+  do {
+    newX = Math.random() * maxX;
+    newY = Math.random() * maxY;
+    tries++;
+  } while (
+    newX < yesRect.right &&
+    newX + btnW > yesRect.left &&
+    newY < yesRect.bottom &&
+    newY + btnH > yesRect.top &&
+    tries < 50
+  );
 
-    noBtn.style.position = "absolute"; 
-    noBtn.style.left = newX + "px";
-    noBtn.style.top = newY + "px";
+  // Smooth movement
+  noBtn.style.left = newX + "px";
+  noBtn.style.top = newY + "px";
 
-    // Play random whoosh sound
-    if(audioUnlocked && ENABLE_MOVE_SOUND){
-      const src = moveSounds[Math.floor(Math.random() * moveSounds.length)];
-      const s = new Audio(src);
-      s.volume = 0.12;
-      s.playbackRate = 0.9 + Math.random() * 0.3;
-      s.play().catch(()=>{});
-    }
+  // Play random whoosh sound
+  if(audioUnlocked && ENABLE_MOVE_SOUND){
+    const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
+    s.playbackRate = 0.9 + Math.random() * 0.3;
+    s.play().catch(()=>{});
   }
+}
+
 
   noBtn.addEventListener("mouseenter", moveNoButton);
   noBtn.addEventListener("touchstart", moveNoButton);
