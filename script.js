@@ -50,7 +50,7 @@ function loadMemories(){
             e.preventDefault();
             memoriesSection.style.display = "none";
             finalPage.style.display = "flex"; 
-            attachNoButton(); // attach NO behavior after page shows
+            attachNoButton(); // attach NO behavior now
           });
         }
       }, 10);
@@ -122,14 +122,14 @@ function attachNoButton() {
   if (!yesBtn || !noBtn) return;
 
   const responseText = document.getElementById("responseText");
-  const padding = 20;  // space from edges
-  const buffer = 80;   // distance from YES
+  const padding = 20;  // space from screen edges
+  const buffer = 80;   // distance from YES button
 
-  // Set initial safe positions
+  // YES initial position
   yesBtn.style.left = "35%";
   yesBtn.style.top = "50%";
 
-  // Move NO to a random safe spot initially
+  // NO initial safe position
   function placeNoInitially() {
     const btnW = noBtn.offsetWidth;
     const btnH = noBtn.offsetHeight;
@@ -156,16 +156,16 @@ function attachNoButton() {
     noBtn.style.top = newY + "px";
   }
 
-  placeNoInitially(); // first safe placement
+  placeNoInitially();
 
-  // YES click behavior
+  // YES click
   yesBtn.addEventListener("click", () => {
     responseText.innerText = "I knew it! 💖 Best decision ever 😌";
     yesBtn.style.transform = "scale(1.15)";
     setTimeout(() => yesBtn.style.transform = "scale(1)", 300);
   });
 
-  // Function to move NO button
+  // Function to move NO button randomly
   function moveNoButton() {
     const btnW = noBtn.offsetWidth;
     const btnH = noBtn.offsetHeight;
@@ -182,7 +182,6 @@ function attachNoButton() {
       newX = Math.max(padding, Math.min(newX, screenW - btnW - padding));
       newY = Math.max(padding, Math.min(newY, screenH - btnH - padding));
 
-      // ensure not overlapping YES
       const overlap = !(
         newX + btnW < yesRect.left - buffer ||
         newX > yesRect.right + buffer ||
@@ -194,19 +193,19 @@ function attachNoButton() {
       if (attempts > 50) break;
     } while (overlap);
 
-    noBtn.style.left = newX + "px";
-    noBtn.style.top = newY + "px";
+    noBtn.style.left = newX+"px";
+    noBtn.style.top = newY+"px";
 
-    // whoosh sound
-    if (audioUnlocked && ENABLE_MOVE_SOUND) {
-      const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
+    // Play whoosh sound
+    if(audioUnlocked && ENABLE_MOVE_SOUND){
+      const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
       s.volume = 0.12;
-      s.playbackRate = 0.9 + Math.random() * 0.3;
-      s.play().catch(() => { });
+      s.playbackRate = 0.9 + Math.random()*0.3;
+      s.play().catch(()=>{});
     }
   }
 
   // PC hover + mobile tap
-  noBtn.addEventListener("mouseover", moveNoButton); // PC
-  noBtn.addEventListener("touchstart", moveNoButton); // mobile
+  noBtn.addEventListener("mouseover", moveNoButton);
+  noBtn.addEventListener("touchstart", moveNoButton);
 }
