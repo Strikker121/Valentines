@@ -36,21 +36,21 @@ function loadMemories(){
       page3.style.display = "none";
       memoriesSection.style.display = "flex";
 
-      // Use a small timeout to ensure the button is fully in the DOM
       setTimeout(() => {
         const backBtn = memoriesSection.querySelector("#memoriesBackBtn");
         if(backBtn){
           backBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          memoriesSection.style.display = "none";
-          finalPage.style.display = "flex"; 
-          attachNoButton(); // Re-attach NO button events after showing final page
-        });
+            e.preventDefault();
+            memoriesSection.style.display = "none";
+            finalPage.style.display = "flex"; // Show final page
+            attachNoButton(); // Attach YES/NO buttons **now**
+          });
         }
-      }, 10); // 10ms delay ensures DOM is ready
+      }, 10);
     })
     .catch(e => alert("Could not load memories. Make sure you are running on a server."));
 }
+
 
 
 // HEARTS
