@@ -96,16 +96,18 @@ function attachNoButton() {
 function moveNoButton() {
   const btnW = noBtn.offsetWidth;
   const btnH = noBtn.offsetHeight;
-  const container = document.querySelector(".valentine-buttons");
-  const maxX = container.offsetWidth - btnW;
-  const maxY = 0; // keep vertically aligned, only horizontal
+  const winW = window.innerWidth;
+  const winH = window.innerHeight;
 
-  const newX = Math.random() * maxX;
-  const newY = 0; // vertically aligned in container
+  // Generate random new position inside viewport
+  const padding = 20; // prevent touching edges
+  const newX = Math.random() * (winW - btnW - padding * 2) + padding;
+  const newY = Math.random() * (winH - btnH - padding * 2) + padding;
 
+  // Move smoothly using transform
   noBtn.style.transform = `translate(${newX}px, ${newY}px)`;
 
-  // play whoosh sound
+  // Play random whoosh sound
   if(audioUnlocked && ENABLE_MOVE_SOUND){
     const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
     s.volume = 0.12;
@@ -113,6 +115,7 @@ function moveNoButton() {
     s.play().catch(()=>{});
   }
 }
+
 
 
 
