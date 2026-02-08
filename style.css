@@ -140,10 +140,10 @@ button {
 #final {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: center; /* vertical center */
   align-items: center;
-  height: 100%;
   gap: 50px; /* space between text and buttons */
+  height: 100%;
   text-align: center;
   position: relative;
 }
@@ -151,20 +151,17 @@ button {
 .valentine-buttons {
   display: flex;
   justify-content: space-between; /* YES left, NO right */
-  align-items: center;
-  width: 300px; /* container width */
-  position: relative; /* NO moves inside this container */
+  align-items: center; 
+  width: 300px; /* adjust for button spacing */
+  position: relative; /* keep buttons relative inside container */
 }
 
-/* YES stays fixed in container */
-#yesBtn {
+#yesBtn, #noBtn {
   position: relative;
 }
 
-/* NO will move inside container */
 #noBtn {
-  position: relative; /* relative to .valentine-buttons */
-  transition: transform 0.4s ease; /* smooth movement */
+  transition: transform 0.5s ease; /* smooth movement on hover/tap */
 }
 
 
