@@ -192,8 +192,5 @@ document.addEventListener('touchstart', e => {
 document.addEventListener('mouseleave', () => lastPos = null);
 document.addEventListener('touchend', () => lastPos = null);
 
-// Initial positions
-// Initial NO button position
-noBtn.style.left = (noBtn.offsetLeft) + "px"; // relative to container
-noBtn.style.top = (noBtn.offsetTop) + "px";
+
 
