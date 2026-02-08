@@ -18,7 +18,7 @@ function unlockAudio() {
 document.addEventListener("click", unlockAudio);
 document.addEventListener("touchstart", unlockAudio);
 
-// PAGE NAV
+// PAGE NAVIGATION
 const page1 = document.getElementById("page1");
 const page2 = document.getElementById("page2");
 const page3 = document.getElementById("page3");
@@ -50,7 +50,7 @@ function loadMemories(){
             e.preventDefault();
             memoriesSection.style.display = "none";
             finalPage.style.display = "flex"; 
-            attachNoButton();
+            attachNoButton(); // Attach NO button when final page is shown
           });
         }
       }, 10);
@@ -58,7 +58,7 @@ function loadMemories(){
     .catch(e => alert("Could not load memories. Make sure you are running on a server."));
 }
 
-// HEARTS
+// HEARTS EFFECT
 const heartsContainer = document.querySelector('.hearts');
 function playPop(){
   if(!audioUnlocked || !ENABLE_POP_SOUND) return;
@@ -68,10 +68,10 @@ function playPop(){
   sound.play().catch(()=>{});
 }
 function createHeart(){
-  const heart=document.createElement("div");
+  const heart = document.createElement("div");
   heart.className="heart";
-  heart.style.left=Math.random()*100 + "vw";
-  heart.style.animationDuration=(6+Math.random()*3)+"s";
+  heart.style.left = Math.random()*100 + "vw";
+  heart.style.animationDuration = (6 + Math.random()*3) + "s";
   heartsContainer.appendChild(heart);
   heart.addEventListener("animationend", ()=>{
     heart.classList.add("pop");
@@ -79,53 +79,9 @@ function createHeart(){
     setTimeout(()=>heart.remove(),250);
   });
 }
-setInterval(createHeart,700);
+setInterval(createHeart, 700);
 
-// YES/NO
-function attachNoButton() {
-  const yesBtn = document.getElementById("yesBtn");
-  const noBtn = document.getElementById("noBtn");
-  if(!yesBtn || !noBtn) return;
-
-  const responseText = document.getElementById("responseText");
-
-  // YES click
-  yesBtn.addEventListener("click", () => {
-    responseText.innerText = "I knew it! 💖 Best decision ever 😌";
-    yesBtn.style.transform = "scale(1.15)";
-    setTimeout(() => yesBtn.style.transform = "scale(1)", 300);
-  });
-
-  // NO random movement
-  function moveNoButton() {
-    const padding = 10;
-    const btnW = noBtn.offsetWidth;
-    const btnH = noBtn.offsetHeight;
-    const maxX = window.innerWidth - btnW - padding;
-    const maxY = window.innerHeight - btnH - padding;
-
-    let newX = Math.random() * maxX;
-    let newY = Math.random() * maxY;
-
-    noBtn.style.left = newX + "px";
-    noBtn.style.top = newY + "px";
-
-    // whoosh sound
-    if(audioUnlocked && ENABLE_MOVE_SOUND){
-      const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
-      s.volume = 0.12;
-      s.playbackRate = 0.9 + Math.random() * 0.3;
-      s.play().catch(()=>{});
-    }
-  }
-
-  noBtn.addEventListener("mouseenter", moveNoButton);
-  noBtn.addEventListener("touchstart", moveNoButton);
-}
-
-window.addEventListener("DOMContentLoaded", attachNoButton);
-
-// Sparkle trail
+// SPARKLE TRAIL
 const sparklesContainer = document.querySelector('.sparkles');
 let lastPos = null;
 
@@ -134,31 +90,103 @@ function createSparkleAt(x, y) {
   sparkle.className = 'sparkle';
   sparkle.style.left = x + 'px';
   sparkle.style.top = y + 'px';
-  sparkle.style.width = 6 + Math.random() * 4 + 'px';
-  sparkle.style.height = 6 + Math.random() * 4 + 'px';
+  sparkle.style.width = 6 + Math.random()*4 + 'px';
+  sparkle.style.height = 6 + Math.random()*4 + 'px';
+  sparkle.style.background = 'rgba(255,255,255,0.8)';
+  sparkle.style.borderRadius = '50%';
+  sparkle.style.position = 'absolute';
+  sparkle.style.pointerEvents = 'none';
+  sparkle.style.animation = `sparkleAnim ${0.8 + Math.random()*0.8}s ease-out forwards`;
   sparklesContainer.appendChild(sparkle);
   setTimeout(() => sparkle.remove(), 1200);
 }
 
 function createTrail(x, y) {
-  if (!lastPos) lastPos = {x, y};
+  if(!lastPos) lastPos = {x, y};
   const dx = x - lastPos.x;
   const dy = y - lastPos.y;
   const distance = Math.max(Math.abs(dx), Math.abs(dy));
-  for (let i = 0; i < distance; i += 4) {
-    const px = lastPos.x + (dx * i / distance);
-    const py = lastPos.y + (dy * i / distance);
+  for(let i=0; i<distance; i+=4){
+    const px = lastPos.x + (dx*i/distance);
+    const py = lastPos.y + (dy*i/distance);
     createSparkleAt(px, py);
   }
   lastPos = {x, y};
 }
 
+// Cursor/finger sparkle trail
 document.addEventListener('mousemove', e => createTrail(e.clientX, e.clientY));
 document.addEventListener('touchmove', e => {
-  for (const touch of e.touches) createTrail(touch.clientX, touch.clientY);
+  for(const touch of e.touches) createTrail(touch.clientX, touch.clientY);
 });
 document.addEventListener('touchstart', e => {
-  for (const touch of e.touches) createTrail(touch.clientX, touch.clientY);
+  for(const touch of e.touches) createTrail(touch.clientX, touch.clientY);
 });
-document.addEventListener('mouseleave', () => lastPos = null);
-document.addEventListener('touchend', () => lastPos = null);
+document.addEventListener('mouseleave', () => lastPos=null);
+document.addEventListener('touchend', () => lastPos=null);
+
+// YES/NO BUTTON LOGIC
+function attachNoButton(){
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+  if(!yesBtn || !noBtn) return;
+
+  const responseText = document.getElementById("responseText");
+
+  // YES click
+  yesBtn.addEventListener("click", ()=>{
+    responseText.innerText = "I knew it! 💖 Best decision ever 😌";
+    yesBtn.style.transform = "scale(1.15)";
+    setTimeout(()=> yesBtn.style.transform = "scale(1)", 300);
+  });
+
+  // NO random movement inside screen
+  function moveNoButton(){
+    const padding = 10;
+    const btnW = noBtn.offsetWidth;
+    const btnH = noBtn.offsetHeight;
+
+    const yesRect = yesBtn.getBoundingClientRect();
+    const maxX = window.innerWidth - btnW - padding;
+    const maxY = window.innerHeight - btnH - padding;
+
+    let newX, newY;
+    let safe = false;
+    while(!safe){
+      newX = Math.random()*maxX;
+      newY = Math.random()*maxY;
+
+      const buffer = 50; // minimum distance from YES
+      if(
+        newX + btnW < yesRect.left - buffer ||
+        newX > yesRect.right + buffer ||
+        newY + btnH < yesRect.top - buffer ||
+        newY > yesRect.bottom + buffer
+      ){
+        safe = true;
+      }
+    }
+
+    // smooth movement
+    noBtn.style.left = newX + "px";
+    noBtn.style.top = newY + "px";
+
+    // whoosh sound
+    if(audioUnlocked && ENABLE_MOVE_SOUND){
+      const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
+      s.volume = 0.12;
+      s.playbackRate = 0.9 + Math.random()*0.3;
+      s.play().catch(()=>{});
+    }
+  }
+
+  // PC hover + mobile tap
+  noBtn.addEventListener("mouseenter", moveNoButton);
+  noBtn.addEventListener("touchstart", moveNoButton);
+}
+
+// Attach when final page loads
+window.addEventListener("DOMContentLoaded", ()=>{
+  // Buttons shouldn't appear on first pages
+  document.getElementById("final").style.display = "none";
+});
