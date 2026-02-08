@@ -142,16 +142,15 @@ function attachNoButton() {
 
   // Move NO button randomly without overlapping YES and inside viewport
   function moveNoButton() {
-    const padding = 10; // distance from screen edges
+    const padding = 10;
     const btnW = noBtn.offsetWidth;
     const btnH = noBtn.offsetHeight;
-
     const yesRect = yesBtn.getBoundingClientRect();
     const screenW = document.documentElement.clientWidth;
     const screenH = document.documentElement.clientHeight;
+    const buffer = 80; // distance from YES
 
     let newX, newY;
-    const buffer = 80; // distance from YES
     let attempts = 0;
     const maxAttempts = 100;
 
@@ -159,11 +158,11 @@ function attachNoButton() {
         newX = Math.random() * (screenW - btnW - 2 * padding) + padding;
         newY = Math.random() * (screenH - btnH - 2 * padding) + padding;
 
-        // clamp to viewport
+        // clamp
         newX = Math.max(padding, Math.min(newX, screenW - btnW - padding));
         newY = Math.max(padding, Math.min(newY, screenH - btnH - padding));
 
-        // check overlap with YES
+        // check overlap
         const overlap = !(
             newX + btnW < yesRect.left - buffer ||
             newX > yesRect.right + buffer ||
@@ -172,18 +171,17 @@ function attachNoButton() {
         );
 
         attempts++;
-        if (attempts > maxAttempts) break; // fallback in case no safe spot
+        if (attempts > maxAttempts) break;
     } while (overlap);
 
     noBtn.style.left = newX + "px";
     noBtn.style.top = newY + "px";
 
-    // play whoosh sound
     if (audioUnlocked && ENABLE_MOVE_SOUND) {
         const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
         s.volume = 0.12;
         s.playbackRate = 0.9 + Math.random() * 0.3;
-        s.play().catch(() => {});
+        s.play().catch(()=>{});
     }
 }
 
