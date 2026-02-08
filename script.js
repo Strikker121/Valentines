@@ -121,8 +121,7 @@ noBtn.addEventListener("touchstart", moveNoButton); // Mobile tap
 
 }
 
-// Initial attach when page loads
-window.addEventListener("DOMContentLoaded", attachNoButton);
+
 
 
 // --- Global Sparkle Trail ---
