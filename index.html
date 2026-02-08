@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
-<audio id="popSound" src="pop.mp3" preload="auto"></audio>
 
 <body>
   <div class="hearts"></div>
 
-
+  <audio id="popSound" src="pop.mp3" preload="auto"></audio>
 
   <div class="section">
     <h1>Hey Love ❤️</h1>
@@ -35,54 +34,6 @@
     <p>Your gift is… A date with me on Valentine’s Day ❤️</p>
   </div>
 
-<script>
-function next() {
-  document.querySelector(".section").style.display = "none";
-  document.getElementById("page2").style.display = "flex";
-}
-
-function next2() {
-  document.getElementById("page2").style.display = "none";
-  document.getElementById("page3").style.display = "flex";
-}
-
-function surprise() {
-  document.getElementById("page3").style.display = "none";
-  document.getElementById("final").style.display = "flex";
-}
-
-const heartsContainer = document.querySelector('.hearts');
-
-function playPop() {
-  const sound = new Audio("pop.mp3"); // create new instance every time
-  sound.volume = 0.7 + Math.random() * 0.3; // random loud volume (70–100%)
-  sound.playbackRate = 0.9 + Math.random() * 0.2; // slight pitch variation
-  sound.play().catch(()=>{});
-}
-
-function createHeart() {
-  const heart = document.createElement('div');
-  heart.classList.add('heart');
-  heart.style.left = Math.random() * 100 + 'vw';
-
-  const duration = 5 + Math.random() * 3;
-  heart.style.animationDuration = duration + 's';
-
-  heartsContainer.appendChild(heart);
-
-  setTimeout(() => {
-    heart.classList.add('pop');
-    playPop();
-    setTimeout(() => heart.remove(), 300);
-  }, duration * 1000 - 300);
-}
-
-setInterval(createHeart, 600);
-
-}
-
-setInterval(createHeart, 800);
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>
