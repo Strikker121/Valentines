@@ -150,11 +150,11 @@ button {
   height: auto;
 }
 
-/* YES button container centered */
+/* YES button container (mid-left) */
 .yes-container {
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 40%; /* mid-left */
   transform: translate(-50%, -50%);
 }
 
@@ -163,13 +163,13 @@ button {
   position: relative;
 }
 
-/* NO button floats anywhere, moves smoothly */
+/* NO button (mid-right) */
 #noBtn {
   position: absolute;
-  left: 50%;  /* initial center */
-  top: 60%;   /* slightly below YES */
+  top: 50%;
+  left: 60%; /* mid-right */
   transform: translate(-50%, -50%);
-  transition: left 0.5s ease, top 0.5s ease;
+  transition: left 0.5s ease, top 0.5s ease; /* smooth glide */
 }
 
 
