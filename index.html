@@ -11,6 +11,7 @@
 <audio id="bgMusic" src="music.mp3" loop></audio>
 
 <div class="hearts"></div>
+<div class="sparkles"></div>
 
 <div class="section" id="page1">
   <h1>Hey Love ❤️</h1>
@@ -26,7 +27,11 @@
 
 <div class="section" id="page3" style="display:none;">
   <h2>Why I Love You 💖</h2>
-  <p>Your smile. Your heart. Everything about you.</p>
+  <button onclick="startSlideshow()">See Our Memories 📸</button>
+</div>
+
+<div class="section" id="slideshow" style="display:none;">
+  <img id="memoryPhoto" src="photos/pic1.jpg">
   <button onclick="surprise()">Final Surprise 🎁</button>
 </div>
 
