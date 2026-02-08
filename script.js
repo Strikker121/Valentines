@@ -95,25 +95,23 @@ function attachNoButton() {
   // NO button movement + sound
 function moveNoButton() {
   const noBtn = document.getElementById("noBtn");
-  const container = document.querySelector(".valentine-buttons");
-  
-  const btnW = noBtn.offsetWidth;
-  const btnH = noBtn.offsetHeight;
-  const containerW = container.offsetWidth;
-  const containerH = container.offsetHeight;
+  const container = document.getElementById("final");
 
-  // Keep NO fully inside container
-  const maxX = containerW - btnW;
-  const maxY = containerH - btnH;
+  const btnRect = noBtn.getBoundingClientRect();
+  const containerRect = container.getBoundingClientRect();
 
-  // Random x/y inside container
+  const btnW = btnRect.width;
+  const btnH = btnRect.height;
+
+  const maxX = containerRect.width - btnW;
+  const maxY = containerRect.height - btnH;
+
   const newX = Math.random() * maxX;
   const newY = Math.random() * maxY;
 
-  // Apply transform for smooth movement
-  noBtn.style.transform = `translate(${newX}px, ${newY}px)`;
+  noBtn.style.transform = `translate(${newX - btnRect.left + containerRect.left}px, ${newY - btnRect.top + containerRect.top}px)`;
 
-  // Play whoosh sound
+  // whoosh sound
   if (audioUnlocked && ENABLE_MOVE_SOUND) {
     const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
     s.volume = 0.12;
@@ -121,6 +119,7 @@ function moveNoButton() {
     s.play().catch(() => {});
   }
 }
+
 
 // Attach events after showing #final page
 const noBtn = document.getElementById("noBtn");
