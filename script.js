@@ -3,11 +3,17 @@ window.addEventListener("DOMContentLoaded", () => {
   const heartsContainer = document.querySelector('.hearts');
 
   function playPop() {
-    const sound = new Audio("pop.mp3");
-    sound.volume = 0.8 + Math.random() * 0.2;
-    sound.playbackRate = 0.9 + Math.random() * 0.2;
-    sound.play().catch(()=>{});
-  }
+  const sound = new Audio("pop.mp3");
+
+  // Softer volume (romantic, not gunshot 💀)
+  sound.volume = 0.15 + Math.random() * 0.15;  // 0.15 – 0.30
+
+  // Pitch variation
+  sound.playbackRate = 0.85 + Math.random() * 0.4; // 0.85 – 1.25
+
+  sound.play().catch(()=>{});
+}
+
 
   function createHeart() {
     if (!heartsContainer) return;
