@@ -16,7 +16,32 @@ function unlockAudio() {
 document.addEventListener("click", unlockAudio);
 document.addEventListener("touchstart", unlockAudio);
 
-// ===== HEARTS SYSTEM =====
+
+
+// ================= PAGE NAVIGATION =================
+function next() {
+  document.getElementById("page1").style.display = "none";
+  document.getElementById("page2").style.display = "flex";
+}
+
+function next2() {
+  document.getElementById("page2").style.display = "none";
+  document.getElementById("page3").style.display = "flex";
+}
+
+function startSlideshow() {
+  document.getElementById("page3").style.display = "none";
+  document.getElementById("slideshow").style.display = "flex";
+}
+
+function surprise() {
+  document.getElementById("slideshow").style.display = "none";
+  document.getElementById("final").style.display = "flex";
+}
+
+
+
+// ================= HEARTS SYSTEM =================
 const heartsContainer = document.querySelector('.hearts');
 
 function playPop() {
@@ -46,7 +71,9 @@ function createHeart() {
 
 setInterval(createHeart,700);
 
-// ===== YES / NO BUTTON SYSTEM =====
+
+
+// ================= YES / NO BUTTON SYSTEM =================
 window.addEventListener("DOMContentLoaded", () => {
 
   const noBtn = document.getElementById("noBtn");
@@ -63,7 +90,6 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   function moveNoButton() {
-
     const padding = 20;
     const btnW = noBtn.offsetWidth;
     const btnH = noBtn.offsetHeight;
@@ -97,7 +123,9 @@ window.addEventListener("DOMContentLoaded", () => {
   noBtn.addEventListener("touchstart", moveNoButton);
 });
 
-// ===== MOVE SOUND =====
+
+
+// ================= MOVE SOUND =================
 function playMoveSound() {
   if (!audioUnlocked || !ENABLE_MOVE_SOUND) return;
 
