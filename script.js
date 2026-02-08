@@ -93,7 +93,7 @@ function attachNoButton() {
   });
 
   // NO button movement + sound
-function moveNoButton(){
+function moveNoButton() {
   const padding = 20;
   const btnW = noBtn.offsetWidth;
   const btnH = noBtn.offsetHeight;
@@ -114,21 +114,24 @@ function moveNoButton(){
     tries < 50
   );
 
-  // Smooth movement
+  // Set NO button position smoothly
   noBtn.style.left = newX + "px";
   noBtn.style.top = newY + "px";
 
   // Play random whoosh sound
   if(audioUnlocked && ENABLE_MOVE_SOUND){
     const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
+    s.volume = 0.12;
     s.playbackRate = 0.9 + Math.random() * 0.3;
     s.play().catch(()=>{});
   }
 }
 
 
-  noBtn.addEventListener("mouseenter", moveNoButton);
-  noBtn.addEventListener("touchstart", moveNoButton);
+
+  noBtn.addEventListener("mouseenter", moveNoButton); // PC hover
+noBtn.addEventListener("touchstart", moveNoButton); // Mobile tap
+
 }
 
 // Initial attach when page loads
@@ -188,3 +191,11 @@ document.addEventListener('touchstart', e => {
 // Reset last position on mouse leave / touch end
 document.addEventListener('mouseleave', () => lastPos = null);
 document.addEventListener('touchend', () => lastPos = null);
+
+// Initial positions
+yesBtn.style.left = (window.innerWidth / 2 - yesBtn.offsetWidth / 2) + "px";
+yesBtn.style.top = (window.innerHeight / 2 - yesBtn.offsetHeight / 2) + "px";
+
+noBtn.style.left = (window.innerWidth / 2 - noBtn.offsetWidth / 2 + 100) + "px"; // slightly offset
+noBtn.style.top = (window.innerHeight / 2 - noBtn.offsetHeight / 2) + "px";
+
