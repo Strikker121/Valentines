@@ -94,32 +94,39 @@ function attachNoButton() {
 
   // NO button movement + sound
 function moveNoButton() {
+  const noBtn = document.getElementById("noBtn");
+  const container = document.querySelector(".valentine-buttons");
+  
   const btnW = noBtn.offsetWidth;
   const btnH = noBtn.offsetHeight;
-  const padding = 20;
+  const containerW = container.offsetWidth;
+  const containerH = container.offsetHeight;
 
-  const maxX = window.innerWidth - btnW - padding;
-  const maxY = window.innerHeight - btnH - padding;
+  // Keep NO fully inside container
+  const maxX = containerW - btnW;
+  const maxY = containerH - btnH;
 
-  const newX = Math.random() * (maxX - padding) + padding;
-  const newY = Math.random() * (maxY - padding) + padding;
+  // Random x/y inside container
+  const newX = Math.random() * maxX;
+  const newY = Math.random() * maxY;
 
-  noBtn.style.left = newX + "px";
-  noBtn.style.top = newY + "px";
+  // Apply transform for smooth movement
+  noBtn.style.transform = `translate(${newX}px, ${newY}px)`;
 
-  // Play whoosh
-  if(audioUnlocked && ENABLE_MOVE_SOUND){
+  // Play whoosh sound
+  if (audioUnlocked && ENABLE_MOVE_SOUND) {
     const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
     s.volume = 0.12;
     s.playbackRate = 0.9 + Math.random() * 0.3;
-    s.play().catch(()=>{});
+    s.play().catch(() => {});
   }
 }
 
+// Attach events after showing #final page
+const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseenter", moveNoButton); // PC
+noBtn.addEventListener("touchstart", moveNoButton);  // mobile tap
 
-
-  noBtn.addEventListener("mouseenter", moveNoButton); // PC hover
-noBtn.addEventListener("touchstart", moveNoButton); // Mobile tap
 
 }
 
