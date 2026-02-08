@@ -37,18 +37,20 @@ button {
   position: fixed;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   top: 0;
   left: 0;
-  z-index: 1;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .heart {
   position: absolute;
-  bottom: -20px;
   width: 20px;
   height: 20px;
   background: #ff4d6d;
   transform: rotate(45deg);
+  animation: floatUp linear forwards;
 }
 
 .heart::before,
@@ -57,24 +59,45 @@ button {
   position: absolute;
   width: 20px;
   height: 20px;
-  background: inherit;
+  background: #ff4d6d;
   border-radius: 50%;
 }
 
 .heart::before { top: -10px; left: 0; }
 .heart::after { left: -10px; top: 0; }
 
-.pop {
-  animation: popAnim 0.3s forwards !important;
-}
+
 
 @keyframes floatUp {
-  from { transform: translateY(0) rotate(45deg); opacity: 1; }
-  to { transform: translateY(-110vh) rotate(45deg); opacity: 0; }
+  0% {
+    transform: translateY(100vh) translateX(0px) scale(0.5) rotate(45deg);
+    opacity: 0.8;
+  }
+
+  25% {
+    transform: translateY(75vh) translateX(-20px) scale(0.8) rotate(45deg);
+  }
+
+  50% {
+    transform: translateY(50vh) translateX(20px) scale(1) rotate(45deg);
+  }
+
+  75% {
+    transform: translateY(25vh) translateX(-15px) scale(1.2) rotate(45deg);
+  }
+
+  100% {
+    transform: translateY(-10vh) translateX(10px) scale(1.4) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+.pop {
+  animation: popAnim 0.3s forwards;
 }
 
 @keyframes popAnim {
-  0% { transform: scale(1) rotate(45deg); opacity: 1; }
-  70% { transform: scale(1.8) rotate(45deg); opacity: 1; }
+  0% { transform: scale(1.4) rotate(45deg); opacity: 1; }
+  50% { transform: scale(1.8) rotate(45deg); }
   100% { transform: scale(0) rotate(45deg); opacity: 0; }
 }
