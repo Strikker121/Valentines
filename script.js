@@ -114,26 +114,56 @@ function playMoveSound(){
   s.play().catch(()=>{});
 }
 
+// --- Global Sparkle Trail ---
 const sparklesContainer = document.querySelector('.sparkles');
+let lastPos = null;
 
-function createSparkle() {
+function createSparkleAt(x, y) {
   const sparkle = document.createElement('div');
   sparkle.className = 'sparkle';
-  sparkle.style.left = Math.random() * 100 + 'vw';
-  sparkle.style.top = Math.random() * 100 + 'vh';
-  sparkle.style.width = 8 + Math.random() * 4 + 'px';
-  sparkle.style.height = 8 + Math.random() * 4 + 'px';
+  sparkle.style.left = x + 'px';
+  sparkle.style.top = y + 'px';
+  sparkle.style.width = 6 + Math.random() * 4 + 'px';
+  sparkle.style.height = 6 + Math.random() * 4 + 'px';
   sparkle.style.background = 'rgba(255,255,255,0.8)';
   sparkle.style.borderRadius = '50%';
   sparkle.style.position = 'absolute';
   sparkle.style.pointerEvents = 'none';
-  sparkle.style.animation = `sparkleAnim ${1+Math.random()*1}s ease-out forwards`;
+  sparkle.style.animation = `sparkleAnim ${0.8 + Math.random()*0.8}s ease-out forwards`;
   sparklesContainer.appendChild(sparkle);
-  setTimeout(() => sparkle.remove(), 2000);
+  setTimeout(() => sparkle.remove(), 1200);
 }
 
-// create sparkles continuously every 300ms
-setInterval(createSparkle, 300);
+function createTrail(x, y) {
+  if (!lastPos) lastPos = {x, y};
+  const dx = x - lastPos.x;
+  const dy = y - lastPos.y;
+  const distance = Math.max(Math.abs(dx), Math.abs(dy));
+  for (let i = 0; i < distance; i += 4) {
+    const px = lastPos.x + (dx * i / distance);
+    const py = lastPos.y + (dy * i / distance);
+    createSparkleAt(px, py);
+  }
+  lastPos = {x, y};
+}
 
-// optional: also create on touch
-document.addEventListener('touchstart', createSparkle);
+// PC: follow cursor
+document.addEventListener('mousemove', e => createTrail(e.clientX, e.clientY));
+
+// Mobile: follow finger
+document.addEventListener('touchmove', e => {
+  for (const touch of e.touches) {
+    createTrail(touch.clientX, touch.clientY);
+  }
+});
+
+// Touchstart sparkle (tap)
+document.addEventListener('touchstart', e => {
+  for (const touch of e.touches) {
+    createTrail(touch.clientX, touch.clientY);
+  }
+});
+
+// Reset last position on mouse leave / touch end
+document.addEventListener('mouseleave', () => lastPos = null);
+document.addEventListener('touchend', () => lastPos = null);
