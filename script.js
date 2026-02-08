@@ -50,7 +50,11 @@ document.addEventListener("mousemove", e=>{
 });
 
 // ===== SLIDESHOW =====
-const photos=["photos/pic1.png","photos/pic2.png","photos/pic3.png"];
+const photos = [
+  "photos/pic1.png",
+  "photos/pic2.png",
+  "photos/pic3.png"
+];
 let index=0;
 setInterval(()=>{
   if(slideshow.style.display==="flex"){
