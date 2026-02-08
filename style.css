@@ -119,3 +119,20 @@ button {
   100% { opacity: 0; transform: scale(2) translateY(-20px); }
 }
 
+/* --- Sparkle Trail Styles with Glow --- */
+.sparkle {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 6px rgba(255,255,255,0.6), 0 0 10px rgba(255,192,203,0.4);
+  width: 6px;
+  height: 6px;
+  animation: sparkleAnim 1s ease-out forwards;
+}
+
+@keyframes sparkleAnim {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(2) translateY(-20px); }
+}
+
