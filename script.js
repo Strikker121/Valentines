@@ -17,7 +17,11 @@ document.addEventListener("click", () => {
 // ===== PAGE NAV =====
 function next(){ page1.style.display="none"; page2.style.display="flex"; }
 function next2(){ page2.style.display="none"; page3.style.display="flex"; }
-function startSlideshow(){ page3.style.display="none"; slideshow.style.display="flex"; }
+function startSlideshow() {
+  document.getElementById("page3").style.display = "none";
+  document.getElementById("memoriesSection").style.display = "flex";
+}
+
 function surprise(){ slideshow.style.display="none"; final.style.display="flex"; }
 
 // ===== HEARTS =====
