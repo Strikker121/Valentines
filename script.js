@@ -77,4 +77,46 @@ const photos = ["photos/pic1.jpg","photos/pic2.jpg","photos/pic3.jpg"];
 let index = 0;
 
 setInterval(() => {
-  const img = document.getE
+  const img = document.getElementById("memoryPhoto");
+  if (!img || slideshow.style.display !== "flex") return;
+  index = (index+1)%photos.length;
+  img.src = photos[index];
+}, 2500);
+
+// ================= YES / NO BUTTON =================
+window.addEventListener("DOMContentLoaded", () => {
+
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const responseText = document.getElementById("responseText");
+  const container = document.querySelector(".valentine-buttons");
+
+  yesBtn.addEventListener("click", () => {
+    responseText.innerText = "I knew it! 💖 Best decision ever 😌";
+    yesBtn.style.transform = "scale(1.2)";
+    setTimeout(()=> yesBtn.style.transform="scale(1)",300);
+  });
+
+  function moveNoButton() {
+    const rect = container.getBoundingClientRect();
+    const btnW = noBtn.offsetWidth;
+    const btnH = noBtn.offsetHeight;
+
+    const maxX = rect.width - btnW - 10;
+    const maxY = rect.height - btnH - 10;
+
+    const newX = Math.random() * maxX;
+    const newY = Math.random() * maxY;
+
+    noBtn.style.transform = `translate(${newX}px, ${newY}px)`;
+
+    if (audioUnlocked && ENABLE_MOVE_SOUND) {
+      const sound = moveSounds[Math.floor(Math.random()*moveSounds.length)];
+      sound.currentTime = 0;
+      sound.play().catch(()=>{});
+    }
+  }
+
+  noBtn.addEventListener("mouseenter", moveNoButton);
+  noBtn.addEventListener("touchstart", moveNoButton);
+});
