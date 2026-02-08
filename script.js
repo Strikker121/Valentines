@@ -22,6 +22,12 @@ function startSlideshow() {
   document.getElementById("memoriesSection").style.display = "flex";
 }
 
+function closeMemories() {
+  document.getElementById("memoriesSection").style.display = "none";
+  document.getElementById("page3").style.display = "flex";
+}
+
+
 function surprise(){ slideshow.style.display="none"; final.style.display="flex"; }
 
 // ===== HEARTS =====
