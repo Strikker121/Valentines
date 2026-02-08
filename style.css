@@ -156,22 +156,24 @@ button {
   position: relative; /* buttons move inside container */
 }
 
-#yesBtn {
+/* Shared positioning for both */
+#yesBtn, #noBtn {
   position: absolute;
-  left: 25%;   /* mid-left */
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%); /* Keeps them vertically centered */
+  padding: 10px 20px;         /* Optional: makes buttons look nicer */
+}
+
+#yesBtn {
+  /* Move left from the center line */
+  left: calc(50% - 100px); 
 }
 
 #noBtn {
-  position: absolute;  /* absolute relative to body */
-  left: 75%;   /* mid-right */
-  top: 50%;
-  transform: translateY(-50%);
-  transition: left 0.5s ease, top 0.5s ease; /* smooth movement */
+  /* Move right from the center line */
+  left: calc(50% + 20px); 
+  transition: left 0.5s ease, top 0.5s ease;
 }
-
-
 
 
 
