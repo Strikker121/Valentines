@@ -69,3 +69,19 @@ body {
   will-change: transform, opacity;
 }
 
+.sparkle {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.8);
+  width: 8px;
+  height: 8px;
+  animation: sparkleAnim 1s ease-out forwards;
+}
+
+@keyframes sparkleAnim {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(2) translateY(-20px); }
+}
+
+
