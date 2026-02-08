@@ -36,7 +36,22 @@
   </div>
 
 <script>
-  <script>
+function next() {
+  document.querySelector(".section").style.display = "none";
+  document.getElementById("page2").style.display = "flex";
+}
+
+function next2() {
+  document.getElementById("page2").style.display = "none";
+  document.getElementById("page3").style.display = "flex";
+}
+
+function surprise() {
+  document.getElementById("page3").style.display = "none";
+  document.getElementById("final").style.display = "flex";
+}
+
+/* Heart pop system */
 const heartsContainer = document.querySelector('.hearts');
 const popSound = document.getElementById('popSound');
 
@@ -57,20 +72,6 @@ function createHeart() {
 }
 
 setInterval(createHeart, 800);
-</script>
-
-function next() {
-  document.querySelector(".section").style.display = "none";
-  document.getElementById("page2").style.display = "flex";
-}
-function next2() {
-  document.getElementById("page2").style.display = "none";
-  document.getElementById("page3").style.display = "flex";
-}
-function surprise() {
-  document.getElementById("page3").style.display = "none";
-  document.getElementById("final").style.display = "flex";
-}
 </script>
 
 </body>
