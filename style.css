@@ -2,10 +2,20 @@ html, body {
   margin: 0;
   height: 100%;
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #ff6f91, #ff9671, #ffc75f);
+  background: linear-gradient(135deg, #ff758c, #ff7eb3, #ffb199);
   color: white;
   overflow: hidden;
 }
+
+/* dark glass overlay so text is readable */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 0;
+}
+
 
 /* Centering */
 .section {
@@ -68,3 +78,45 @@ button {
 @keyframes fadeOut {
   to { opacity: 0; transform: scale(0); }
 }
+
+/* ===== FLOATING HEARTS SYSTEM ===== */
+
+.heart {
+  position: absolute;
+  bottom: -40px; /* start below screen */
+  width: 18px;
+  height: 18px;
+  background: #ff4d6d;
+  transform: rotate(45deg);
+  animation: floatUp linear forwards;
+}
+
+.heart::before,
+.heart::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: #ff4d6d;
+  border-radius: 50%;
+}
+
+.heart::before { top: -9px; left: 0; }
+.heart::after { left: -9px; top: 0; }
+
+@keyframes floatUp {
+  0%   { transform: translateY(0) scale(0.6) rotate(45deg); }
+  50%  { transform: translateY(-50vh) translateX(25px) scale(1) rotate(45deg); }
+  100% { transform: translateY(-120vh) translateX(-25px) scale(1.2) rotate(45deg); }
+}
+
+/* POP */
+.pop {
+  animation: popAnim 0.25s forwards !important;
+}
+
+@keyframes popAnim {
+  0% { transform: scale(1.2) rotate(45deg); opacity: 1; }
+  100% { transform: scale(0) rotate(45deg); opacity: 0; }
+}
+
