@@ -137,47 +137,29 @@ button {
   100% { opacity: 0; transform: scale(2) translateY(-20px); }
 }
 
-.valentine-buttons {
-  position: relative;      /* relative to allow NO to move independently */
-  display: flex;
-  justify-content: center; /* center YES initially */
-  align-items: center;
-  gap: 30px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: auto;
-  height: auto;
-}
-
-/* YES button container (mid-left) */
-.yes-container {
-  position: absolute;
-  top: 50%;
-  left: 40%; /* mid-left */
-  transform: translate(-50%, -50%);
-}
-
-/* YES button stays inside container */
-#yesBtn {
-  position: relative;
-}
-
-/* NO button (mid-right) */
-#noBtn {
-  position: absolute;
-  top: 50%;
-  left: 60%; /* mid-right */
-  transform: translate(-50%, -50%);
-  transition: left 0.5s ease, top 0.5s ease; /* smooth glide */
-}
-
 #final {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* vertical center */
+  justify-content: center;
   align-items: center;
   gap: 50px; /* space between text and buttons */
+  height: 100%; /* make sure it takes full screen */
+  text-align: center;
+  position: relative; /* keep NO absolute inside it */
+}
+
+.valentine-buttons {
+  position: relative; /* remove absolute positioning */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px; /* space between YES and NO */
+}
+#yesBtn, #noBtn {
+  position: relative; /* remove absolute for YES, keep NO absolute for movement */
+  top: auto;
+  left: auto;
+  transform: none;
 }
 
 
