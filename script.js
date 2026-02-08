@@ -15,8 +15,8 @@ function unlockAudio() {
   s.volume = 0;
   s.play().then(()=> audioUnlocked = true).catch(()=>{});
 }
-document.addEventListener("click", unlockAudio);
-document.addEventListener("touchstart", unlockAudio);
+document.addEventListener("click", unlockAudio, {once:true});
+document.addEventListener("touchstart", unlockAudio, {once:true});
 
 // PAGE NAV
 const page1 = document.getElementById("page1");
@@ -50,7 +50,7 @@ function loadMemories(){
             e.preventDefault();
             memoriesSection.style.display = "none";
             finalPage.style.display = "flex"; 
-            attachNoButton(); // attach NO behavior now
+            attachNoButton(); // attach NO behavior now that page is visible
           });
         }
       }, 10);
@@ -165,7 +165,7 @@ function attachNoButton() {
     setTimeout(() => yesBtn.style.transform = "scale(1)", 300);
   });
 
-  // Function to move NO button randomly
+  // NO move function
   function moveNoButton() {
     const btnW = noBtn.offsetWidth;
     const btnH = noBtn.offsetHeight;
@@ -178,7 +178,6 @@ function attachNoButton() {
       newX = Math.random() * (screenW - btnW - 2 * padding) + padding;
       newY = Math.random() * (screenH - btnH - 2 * padding) + padding;
 
-      // clamp inside screen
       newX = Math.max(padding, Math.min(newX, screenW - btnW - padding));
       newY = Math.max(padding, Math.min(newY, screenH - btnH - padding));
 
@@ -193,8 +192,8 @@ function attachNoButton() {
       if (attempts > 50) break;
     } while (overlap);
 
-    noBtn.style.left = newX+"px";
-    noBtn.style.top = newY+"px";
+    noBtn.style.left = newX + "px";
+    noBtn.style.top = newY + "px";
 
     // Play whoosh sound
     if(audioUnlocked && ENABLE_MOVE_SOUND){
@@ -205,7 +204,7 @@ function attachNoButton() {
     }
   }
 
-  // PC hover + mobile tap
-  noBtn.addEventListener("mouseover", moveNoButton);
+  // Attach hover/touch listeners AFTER button is visible
+  noBtn.addEventListener("mouseenter", moveNoButton);
   noBtn.addEventListener("touchstart", moveNoButton);
 }
