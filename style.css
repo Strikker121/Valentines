@@ -148,34 +148,22 @@ button {
   position: relative;
 }
 
-.valentine-buttons {
+.yes-no-wrapper {
+  position: relative;
+  width: 100%;
   display: flex;
-  justify-content: space-between; /* YES left, NO right */
-  align-items: center; 
-  width: 300px; /* adjust spacing */
-  position: relative; /* buttons move inside container */
-}
-
-/* Shared positioning for both */
-#yesBtn, #noBtn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%); /* Keeps them vertically centered */
-  padding: 10px 20px;         /* Optional: makes buttons look nicer */
+  justify-content: flex-start; /* YES on left */
 }
 
 #yesBtn {
-  /* Move left from the center line */
-  left: calc(50% - 100px); 
+  position: relative; /* stays in container */
+  left: 0;
 }
 
 #noBtn {
-  /* Move right from the center line */
-  left: calc(50% + 20px); 
-  transition: left 0.5s ease, top 0.5s ease;
+  position: absolute;  /* moves freely on screen */
+  left: 65%;   /* initial mid-right */
+  top: 50%;
+  transform: translate(-50%, -50%); /* perfect vertical centering */
+  transition: left 0.5s ease, top 0.5s ease; /* smooth movement */
 }
-
-
-
-
-
