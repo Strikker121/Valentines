@@ -116,41 +116,73 @@ document.addEventListener('mouseleave', () => lastPos=null);
 document.addEventListener('touchend', () => lastPos=null);
 
 // YES / NO BUTTONS
-function attachNoButton(){
+function attachNoButton() {
   const yesBtn = document.getElementById("yesBtn");
   const noBtn = document.getElementById("noBtn");
-  if(!yesBtn || !noBtn) return;
+  if (!yesBtn || !noBtn) return;
 
   const responseText = document.getElementById("responseText");
-  const padding = 15;
-  const buffer = 100; // distance between YES and NO
+  const padding = 20;  // space from edges
+  const buffer = 80;   // distance from YES
 
-  // Initial safe positions
+  // Set initial safe positions
   yesBtn.style.left = "35%";
   yesBtn.style.top = "50%";
-  noBtn.style.left = "65%";
-  noBtn.style.top = "50%";
 
-  // YES click
-  yesBtn.addEventListener("click", ()=>{
-    responseText.innerText = "I knew it! 💖 Best decision ever 😌";
-    yesBtn.style.transform = "scale(1.15)";
-    setTimeout(()=> yesBtn.style.transform="scale(1)", 300);
-  });
-
-  function moveNoButton(){
+  // Move NO to a random safe spot initially
+  function placeNoInitially() {
     const btnW = noBtn.offsetWidth;
     const btnH = noBtn.offsetHeight;
     const yesRect = yesBtn.getBoundingClientRect();
     const screenW = document.documentElement.clientWidth;
     const screenH = document.documentElement.clientHeight;
 
-    let newX, newY, attempts=0;
+    let newX, newY, attempts = 0;
     do {
-      newX = Math.random()*(screenW - btnW - 2*padding) + padding;
-      newY = Math.random()*(screenH - btnH - 2*padding) + padding;
+      newX = Math.random() * (screenW - btnW - 2 * padding) + padding;
+      newY = Math.random() * (screenH - btnH - 2 * padding) + padding;
 
-      // Keep NO away from YES
+      const overlap = !(
+        newX + btnW < yesRect.left - buffer ||
+        newX > yesRect.right + buffer ||
+        newY + btnH < yesRect.top - buffer ||
+        newY > yesRect.bottom + buffer
+      );
+      attempts++;
+      if (attempts > 50) break;
+    } while (overlap);
+
+    noBtn.style.left = newX + "px";
+    noBtn.style.top = newY + "px";
+  }
+
+  placeNoInitially(); // first safe placement
+
+  // YES click behavior
+  yesBtn.addEventListener("click", () => {
+    responseText.innerText = "I knew it! 💖 Best decision ever 😌";
+    yesBtn.style.transform = "scale(1.15)";
+    setTimeout(() => yesBtn.style.transform = "scale(1)", 300);
+  });
+
+  // Function to move NO button
+  function moveNoButton() {
+    const btnW = noBtn.offsetWidth;
+    const btnH = noBtn.offsetHeight;
+    const yesRect = yesBtn.getBoundingClientRect();
+    const screenW = document.documentElement.clientWidth;
+    const screenH = document.documentElement.clientHeight;
+
+    let newX, newY, attempts = 0;
+    do {
+      newX = Math.random() * (screenW - btnW - 2 * padding) + padding;
+      newY = Math.random() * (screenH - btnH - 2 * padding) + padding;
+
+      // clamp inside screen
+      newX = Math.max(padding, Math.min(newX, screenW - btnW - padding));
+      newY = Math.max(padding, Math.min(newY, screenH - btnH - padding));
+
+      // ensure not overlapping YES
       const overlap = !(
         newX + btnW < yesRect.left - buffer ||
         newX > yesRect.right + buffer ||
@@ -159,21 +191,22 @@ function attachNoButton(){
       );
 
       attempts++;
-      if(attempts>50) break;
-    } while(overlap);
+      if (attempts > 50) break;
+    } while (overlap);
 
-    noBtn.style.left = newX+"px";
-    noBtn.style.top = newY+"px";
+    noBtn.style.left = newX + "px";
+    noBtn.style.top = newY + "px";
 
-    if(audioUnlocked && ENABLE_MOVE_SOUND){
-      const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
-      s.volume=0.12;
-      s.playbackRate=0.9+Math.random()*0.3;
-      s.play().catch(()=>{});
+    // whoosh sound
+    if (audioUnlocked && ENABLE_MOVE_SOUND) {
+      const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
+      s.volume = 0.12;
+      s.playbackRate = 0.9 + Math.random() * 0.3;
+      s.play().catch(() => { });
     }
   }
 
   // PC hover + mobile tap
-  noBtn.addEventListener("mouseenter", moveNoButton);
-  noBtn.addEventListener("touchstart", moveNoButton);
+  noBtn.addEventListener("mouseover", moveNoButton); // PC
+  noBtn.addEventListener("touchstart", moveNoButton); // mobile
 }
