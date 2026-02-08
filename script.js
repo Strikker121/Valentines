@@ -142,7 +142,7 @@ function attachNoButton() {
 
   // Move NO button randomly without overlapping YES and inside viewport
   function moveNoButton() {
-    const padding = 10; // keep inside screen edges
+    const padding = 10; // distance from screen edges
     const btnW = noBtn.offsetWidth;
     const btnH = noBtn.offsetHeight;
 
@@ -150,24 +150,29 @@ function attachNoButton() {
     const screenW = window.innerWidth;
     const screenH = window.innerHeight;
 
-    let maxAttempts = 50;
-    let attempt = 0;
     let newX, newY;
     let buffer = 80; // distance from YES
+    let maxAttempts = 50;
+    let attempt = 0;
 
     do {
-      newX = padding + Math.random() * (screenW - btnW - 2 * padding);
-      newY = padding + Math.random() * (screenH - btnH - 2 * padding);
+        // random position
+        newX = Math.random() * (screenW - btnW - 2 * padding) + padding;
+        newY = Math.random() * (screenH - btnH - 2 * padding) + padding;
 
-      // check overlap with YES
-      var overlap = !(
-        newX + btnW < yesRect.left - buffer ||
-        newX > yesRect.right + buffer ||
-        newY + btnH < yesRect.top - buffer ||
-        newY > yesRect.bottom + buffer
-      );
+        // clamp to stay fully on screen
+        newX = Math.min(Math.max(newX, padding), screenW - btnW - padding);
+        newY = Math.min(Math.max(newY, padding), screenH - btnH - padding);
 
-      attempt++;
+        // check if NO overlaps YES
+        var overlap = !(
+            newX + btnW < yesRect.left - buffer ||
+            newX > yesRect.right + buffer ||
+            newY + btnH < yesRect.top - buffer ||
+            newY > yesRect.bottom + buffer
+        );
+
+        attempt++;
     } while (overlap && attempt < maxAttempts);
 
     noBtn.style.left = newX + "px";
@@ -175,12 +180,13 @@ function attachNoButton() {
 
     // whoosh sound
     if (audioUnlocked && ENABLE_MOVE_SOUND) {
-      const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
-      s.volume = 0.12;
-      s.playbackRate = 0.9 + Math.random() * 0.3;
-      s.play().catch(() => {});
+        const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
+        s.volume = 0.12;
+        s.playbackRate = 0.9 + Math.random() * 0.3;
+        s.play().catch(() => {});
     }
-  }
+}
+
 
   // PC hover + mobile tap
   noBtn.addEventListener("mouseenter", moveNoButton);
