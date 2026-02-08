@@ -45,16 +45,24 @@ function playPop() {
 function createHeart() {
   const heart = document.createElement('div');
   heart.className = 'heart';
-  heart.style.left = Math.random()*100 + 'vw';
-  heart.style.animationDuration = (6+Math.random()*3)+'s';
+
+  // random horizontal start
+  heart.style.left = Math.random() * 100 + 'vw';
+
+  // random animation duration
+  const duration = 6 + Math.random() * 3;
+  heart.style.animationDuration = duration + 's';
+
   heartsContainer.appendChild(heart);
 
-  setTimeout(()=>{
-    heart.classList.add('pop');
+  // Use animationend instead of timeout (PERFECT TIMING)
+  heart.addEventListener("animationend", () => {
+    heart.classList.add("pop");
     playPop();
-    setTimeout(()=>heart.remove(),250);
-  }, (parseFloat(heart.style.animationDuration)*1000)-250);
+    setTimeout(() => heart.remove(), 250);
+  });
 }
+
 setInterval(createHeart,700);
 
 // ===== SPARKLES =====
