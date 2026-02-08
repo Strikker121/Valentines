@@ -94,35 +94,22 @@ function attachNoButton() {
 
   // NO button movement + sound
 function moveNoButton() {
-  const padding = 20;
   const btnW = noBtn.offsetWidth;
   const btnH = noBtn.offsetHeight;
-  const maxX = window.innerWidth - btnW - padding;
-  const maxY = window.innerHeight - btnH - padding;
+  const container = document.querySelector(".valentine-buttons");
+  const maxX = container.offsetWidth - btnW;
+  const maxY = 0; // keep vertically aligned, only horizontal
 
-  let newX, newY, tries = 0;
-  const yesRect = yesBtn.getBoundingClientRect();
+  const newX = Math.random() * maxX;
+  const newY = 0; // vertically aligned in container
 
-  do {
-    newX = Math.random() * maxX;
-    newY = Math.random() * maxY;
-    tries++;
-  } while (
-    newX < yesRect.right &&
-    newX + btnW > yesRect.left &&
-    newY < yesRect.bottom &&
-    newY + btnH > yesRect.top &&
-    tries < 50
-  );
+  noBtn.style.transform = `translate(${newX}px, ${newY}px)`;
 
-  noBtn.style.left = newX + "px";
-  noBtn.style.top = newY + "px";
-
-  // Play random whoosh sound
+  // play whoosh sound
   if(audioUnlocked && ENABLE_MOVE_SOUND){
-    const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
+    const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
     s.volume = 0.12;
-    s.playbackRate = 0.9 + Math.random()*0.3;
+    s.playbackRate = 0.9 + Math.random() * 0.3;
     s.play().catch(()=>{});
   }
 }
