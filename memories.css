@@ -64,3 +64,8 @@ body {
     width: 100%;
   }
 }
+
+.memory {
+  will-change: transform, opacity;
+}
+
