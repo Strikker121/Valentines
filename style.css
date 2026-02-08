@@ -151,21 +151,20 @@ button {
   align-items: center;
 }
 
-#yesBtn {
-  position: fixed;
-  top: 50%;
-  left: 35%; /* slightly left of center */
+#yesBtn, #noBtn {
+  position: fixed;   /* free to move anywhere on screen */
+  top: 50%;          /* vertical center initially */
   transform: translate(-50%, -50%);
-  z-index: 10;
+  transition: left 0.5s ease, top 0.5s ease; /* smooth glide */
 }
 
-#noBtn {
-  position: fixed;
-  top: 50%;
-  left: 65%; /* slightly right of center */
-  transform: translate(-50%, -50%);
-  transition: left 0.4s ease, top 0.4s ease;
-  z-index: 10;
+/* initial horizontal positions */
+#yesBtn {
+  left: 35%;
 }
+#noBtn {
+  left: 65%;
+}
+
 
 
