@@ -152,8 +152,8 @@ button {
   display: flex;
   justify-content: space-between; /* YES left, NO right */
   align-items: center; 
-  width: 300px; /* adjust for button spacing */
-  position: relative; /* keep buttons relative inside container */
+  width: 300px; /* adjust spacing */
+  position: relative; /* buttons move inside container */
 }
 
 #yesBtn, #noBtn {
@@ -161,8 +161,9 @@ button {
 }
 
 #noBtn {
-  transition: transform 0.5s ease; /* smooth movement on hover/tap */
+  transition: transform 0.5s ease; /* smooth movement */
 }
+
 
 
 
