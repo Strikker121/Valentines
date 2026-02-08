@@ -140,9 +140,9 @@ button {
 #final {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* vertical center of section */
+  justify-content: center;
   align-items: center;
-  gap: 50px; /* space between heading and buttons */
+  gap: 50px;
   height: 100%;
   text-align: center;
   position: relative;
@@ -154,19 +154,14 @@ button {
   display: flex;
   justify-content: space-between; /* YES left, NO right */
   align-items: center;
-  width: 300px; /* adjust spacing as needed */
-  max-width: 90%; /* responsive on mobile */
+  width: 300px; /* adjust spacing */
+  max-width: 90%;
+  position: relative; /* parent for NO button */
 }
 
 #yesBtn, #noBtn {
-  position: relative; /* so flexbox handles placement */
+  position: relative; /* let flex handle initial placement */
   margin: 0;
+  transition: transform 0.3s ease; /* smooth movement for NO button */
 }
-
-/* Optional: add smooth scale on hover/click for NO button */
-#noBtn:hover {
-  transform: scale(1.1);
-  transition: transform 0.3s ease;
-}
-
 
