@@ -1,114 +1,52 @@
-html, body {
-  margin: 0;
-  height: 100%;
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #ff758c, #ff7eb3, #ffb199);
-  color: white;
-  overflow: hidden;
-}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>For You ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.25);
-  z-index: 0;
-}
+<audio id="popSound" src="pop.mp3" preload="auto"></audio>
+<audio id="bgMusic" src="music.mp3" loop></audio>
 
-.section {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
-  z-index: 2;
-}
+<div class="hearts"></div>
+<div class="sparkles"></div>
 
-button {
-  padding: 14px 24px;
-  border-radius: 30px;
-  border: none;
-  background: white;
-  color: #ff4d6d;
-  font-size: 18px;
-  margin-top: 20px;
-  cursor: pointer;
-}
+<!-- Page 1 -->
+<div class="section" id="page1">
+  <h1>Hey Love ❤️</h1>
+  <p>I made something special just for you…</p>
+  <button id="startBtn">Tap to continue</button>
+</div>
 
-.hearts, .sparkles {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
+<!-- Page 2 -->
+<div class="section" id="page2" style="display:none;">
+  <h2>The Day We Met 💫</h2>
+  <p>I didn’t know you’d become my favorite person.</p>
+  <button id="next2Btn">Next</button>
+</div>
 
-.sparkle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: white;
-  border-radius: 50%;
-  animation: fadeOut 0.8s linear forwards;
-}
+<!-- Page 3 -->
+<div class="section" id="page3" style="display:none;">
+  <h2>Why I Love You 💖</h2>
+  <p>Your smile. Your heart. Everything about you.</p>
+  <button id="memoriesBtn">See Our Memories 📸</button>
+</div>
 
-@keyframes fadeOut { to { opacity: 0; transform: scale(0); } }
+<!-- Memories Section -->
+<div class="section" id="memoriesSection" style="display:none;"></div>
 
-.heart {
-  position: absolute;
-  bottom: -40px;
-  width: 18px;
-  height: 18px;
-  background: #ff4d6d;
-  transform: rotate(45deg);
-  animation: floatUp linear forwards;
-}
+<!-- Final Valentine Page -->
+<div id="final" class="section" style="display:none;">
+  <h1>Will You Be My Valentine? 💖</h1>
+  <div class="valentine-buttons">
+    <button id="yesBtn">YES 💖</button>
+    <button id="noBtn">NO 😏</button>
+  </div>
+  <p id="responseText"></p>
+</div>
 
-.heart::before, .heart::after {
-  content: '';
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  background: #ff4d6d;
-  border-radius: 50%;
-}
-
-.heart::before { top: -9px; left: 0; }
-.heart::after { left: -9px; top: 0; }
-
-@keyframes floatUp {
-  0% { transform: translateY(0) scale(0.6) rotate(45deg); }
-  50% { transform: translateY(-50vh) translateX(25px) scale(1) rotate(45deg); }
-  100% { transform: translateY(-120vh) translateX(-25px) scale(1.2) rotate(45deg); }
-}
-
-.pop { animation: popAnim 0.25s forwards !important; }
-@keyframes popAnim { to { transform: scale(0) rotate(45deg); opacity: 0; } }
-
-#memoryPhoto {
-  max-width: 80%;
-  border-radius: 15px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.4);
-}
-
-.valentine-buttons {
-  position: relative;
-  width: 260px;
-  height: 140px;
-}
-
-#yesBtn, #noBtn {
-  position: absolute;
-  width: 120px;
-  height: 48px;
-  transition: left .35s cubic-bezier(.17,.67,.32,1.4),
-              top .35s cubic-bezier(.17,.67,.32,1.4),
-              transform .2s ease;
-}
-
-#yesBtn { left: 0; top: 45px; }
-#noBtn { left: 140px; top: 45px; }
+<script src="script.js"></script>
+</body>
+</html>
