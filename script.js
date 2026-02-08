@@ -147,38 +147,38 @@ function attachNoButton() {
     const btnH = noBtn.offsetHeight;
 
     const yesRect = yesBtn.getBoundingClientRect();
-    const screenW = window.innerWidth;
-    const screenH = window.innerHeight;
+    const screenW = document.documentElement.clientWidth;
+    const screenH = document.documentElement.clientHeight;
 
     let newX, newY;
-    let buffer = 80; // distance from YES
-    let maxAttempts = 50;
-    let attempt = 0;
+    const buffer = 80; // distance from YES
+    let attempts = 0;
+    const maxAttempts = 100;
 
     do {
-        // random position
         newX = Math.random() * (screenW - btnW - 2 * padding) + padding;
         newY = Math.random() * (screenH - btnH - 2 * padding) + padding;
 
-        // clamp to stay fully on screen
-        newX = Math.min(Math.max(newX, padding), screenW - btnW - padding);
-        newY = Math.min(Math.max(newY, padding), screenH - btnH - padding);
+        // clamp to viewport
+        newX = Math.max(padding, Math.min(newX, screenW - btnW - padding));
+        newY = Math.max(padding, Math.min(newY, screenH - btnH - padding));
 
-        // check if NO overlaps YES
-        var overlap = !(
+        // check overlap with YES
+        const overlap = !(
             newX + btnW < yesRect.left - buffer ||
             newX > yesRect.right + buffer ||
             newY + btnH < yesRect.top - buffer ||
             newY > yesRect.bottom + buffer
         );
 
-        attempt++;
-    } while (overlap && attempt < maxAttempts);
+        attempts++;
+        if (attempts > maxAttempts) break; // fallback in case no safe spot
+    } while (overlap);
 
     noBtn.style.left = newX + "px";
     noBtn.style.top = newY + "px";
 
-    // whoosh sound
+    // play whoosh sound
     if (audioUnlocked && ENABLE_MOVE_SOUND) {
         const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
         s.volume = 0.12;
@@ -186,6 +186,7 @@ function attachNoButton() {
         s.play().catch(() => {});
     }
 }
+
 
 
   // PC hover + mobile tap
