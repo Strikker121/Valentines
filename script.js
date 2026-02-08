@@ -25,22 +25,25 @@ document.getElementById("memoriesBtn").addEventListener("click", loadMemories);
 
 function loadMemories(){
   fetch("memories.html")
-    .then(r=>r.text())
-    .then(html=>{
+    .then(r => r.text())
+    .then(html => {
       memoriesSection.innerHTML = html;
       page3.style.display = "none";
       memoriesSection.style.display = "flex";
 
-      // Attach back button inside memories
-      const backBtn = memoriesSection.querySelector("#memoriesBackBtn");
-      backBtn.addEventListener("click", ()=>{
-        memoriesSection.style.display="none";
-        memoriesSection.style.display = "none";
-        finalPage.style.display = "flex"; // Go to YES/NO page
-  // ← currently goes back to page3
-      });
+      // Use a small timeout to ensure the button is fully in the DOM
+      setTimeout(() => {
+        const backBtn = memoriesSection.querySelector("#memoriesBackBtn");
+        if(backBtn){
+          backBtn.addEventListener("click", (e) => {
+            e.preventDefault(); // Prevent default button behavior
+            memoriesSection.style.display = "none";
+            finalPage.style.display = "flex"; // Go to YES/NO page
+          });
+        }
+      }, 10); // 10ms delay ensures DOM is ready
     })
-    .catch(e=> alert("Could not load memories. Make sure you are running on a server."));
+    .catch(e => alert("Could not load memories. Make sure you are running on a server."));
 }
 
 
