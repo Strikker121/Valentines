@@ -7,6 +7,38 @@ html, body {
   overflow: hidden;
 }
 
+.memories-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.memory-box {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #ff4d6d;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.memory-box img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.memory-box p {
+  color: white;
+  font-size: 16px;
+}
+
+
 body::before {
   content: "";
   position: fixed;
