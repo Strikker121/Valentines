@@ -7,14 +7,6 @@ html, body {
   overflow: hidden;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.25);
-  z-index: 0;
-}
-
 .section {
   position: absolute;
   width: 100%;
@@ -29,10 +21,6 @@ body::before {
   z-index: 2;
 }
 
-h1, h2, p {
-  text-shadow: 0 0 12px rgba(0,0,0,0.4);
-}
-
 button {
   padding: 14px 24px;
   border-radius: 30px;
@@ -44,6 +32,7 @@ button {
   cursor: pointer;
 }
 
+/* Hearts + Sparkles */
 .hearts, .sparkles {
   position: fixed;
   width: 100%;
@@ -54,113 +43,24 @@ button {
   z-index: 1;
 }
 
-.heart {
-  position: absolute;
-  bottom: -40px;
-  width: 18px;
-  height: 18px;
-  background: #ff4d6d;
-  transform: rotate(45deg);
-  animation: floatUp linear forwards;
-}
-.heart::before, .heart::after {
-  content: '';
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  background: #ff4d6d;
-  border-radius: 50%;
-}
-.heart::before { top: -9px; left: 0; }
-.heart::after { left: -9px; top: 0; }
-
-@keyframes floatUp {
-  0%   { transform: translateY(0) scale(0.6) rotate(45deg); }
-  50%  { transform: translateY(-50vh) translateX(25px) scale(1) rotate(45deg); }
-  100% { transform: translateY(-120vh) translateX(-25px) scale(1.2) rotate(45deg); }
-}
-
-.pop { animation: popAnim 0.25s forwards !important; }
-@keyframes popAnim { 0% { transform: scale(1.2) rotate(45deg); opacity:1; } 100% { transform: scale(0) rotate(45deg); opacity:0; } }
-
-/* Memories */
-.memories-container {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 90%;
-  max-width: 600px;
-  margin: 0 auto;
-  overflow-y: auto;
-  padding-bottom: 20px;
-}
-.memory-box {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  background: rgba(255,255,255,0.1);
-  border: 2px solid #ff4d6d;
-  border-radius: 12px;
-  padding: 10px;
-}
-.memory-box img {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-.memory-box p {
-  color: white;
-  font-size: 16px;
-}
-
-@keyframes sparkleAnim {
-  0% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(2) translateY(-20px); }
-}
-
-/* --- Sparkle Trail Styles with Glow --- */
-/* --- Global Sparkle Trail --- */
-.sparkle {
-  position: absolute;
-  pointer-events: none;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 6px rgba(255,255,255,0.6), 0 0 10px rgba(255,192,203,0.4);
-  width: 6px;
-  height: 6px;
-  animation: sparkleAnim 1s ease-out forwards;
-}
-
-@keyframes sparkleAnim {
-  0% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(2) translateY(-20px); }
-}
-
-#final {
-  display: none; /* keep hidden initially */
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 50px;
-  height: 100%;
-  text-align: center;
+/* Final page buttons */
+#final .valentine-buttons {
   position: relative;
-  z-index: 5; /* above hearts/sparkles */
-}
-
-.valentine-buttons {
-  position: relative; /* container for YES/NO */
   width: 300px;
-  height: 200px; /* enough space for buttons */
+  height: 200px;
 }
 
-#yesBtn, #noBtn {
+#yesBtn {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-  z-index: 10; /* clickable */
+  left: 25%;
+  transform: translate(-50%, -50%);
 }
 
-#yesBtn { left: 25%; }
-#noBtn { left: 75%; transition: left 0.5s ease, top 0.5s ease; }
+#noBtn {
+  position: absolute;
+  top: 50%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+  transition: left 0.5s ease, top 0.5s ease;
+}
