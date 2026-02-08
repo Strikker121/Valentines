@@ -71,54 +71,64 @@ function createHeart(){
 setInterval(createHeart,700);
 
 // YES/NO
-window.addEventListener("DOMContentLoaded", ()=>{
-  const yesBtn=document.getElementById("yesBtn");
-  const noBtn=document.getElementById("noBtn");
-  const responseText=document.getElementById("responseText");
+// Function to attach YES/NO button behaviors
+function attachNoButton() {
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
   if(!yesBtn || !noBtn) return;
 
-  yesBtn.addEventListener("click", ()=>{
-    responseText.innerText="I knew it! 💖 Best decision ever 😌";
-    yesBtn.style.transform="scale(1.15)";
-    setTimeout(()=> yesBtn.style.transform="scale(1)",300);
+  const responseText = document.getElementById("responseText");
+
+  // YES button
+  yesBtn.addEventListener("click", () => {
+    responseText.innerText = "I knew it! 💖 Best decision ever 😌";
+    yesBtn.style.transform = "scale(1.15)";
+    setTimeout(() => yesBtn.style.transform = "scale(1)", 300);
   });
 
+  // NO button movement + sound
   function moveNoButton(){
-    const padding=20;
-    const btnW=noBtn.offsetWidth;
-    const btnH=noBtn.offsetHeight;
-    const maxX=window.innerWidth-btnW-padding;
-    const maxY=window.innerHeight-btnH-padding;
-    const yesRect=yesBtn.getBoundingClientRect();
-    let newX,newY,tries=0;
-    do{
-      newX=Math.random()*maxX;
-      newY=Math.random()*maxY;
+    const padding = 20;
+    const btnW = noBtn.offsetWidth;
+    const btnH = noBtn.offsetHeight;
+    const maxX = window.innerWidth - btnW - padding;
+    const maxY = window.innerHeight - btnH - padding;
+    const yesRect = yesBtn.getBoundingClientRect();
+    let newX, newY, tries = 0;
+
+    do {
+      newX = Math.random() * maxX;
+      newY = Math.random() * maxY;
       tries++;
     } while (
-      newX<yesRect.right &&
-      newX+btnW>yesRect.left &&
-      newY<yesRect.bottom &&
-      newY+btnH>yesRect.top &&
-      tries<50
+      newX < yesRect.right &&
+      newX + btnW > yesRect.left &&
+      newY < yesRect.bottom &&
+      newY + btnH > yesRect.top &&
+      tries < 50
     );
-    noBtn.style.left=newX+"px";
-    noBtn.style.top=newY+"px";
-    playMoveSound();
+
+    noBtn.style.position = "absolute"; 
+    noBtn.style.left = newX + "px";
+    noBtn.style.top = newY + "px";
+
+    // Play random whoosh sound
+    if(audioUnlocked && ENABLE_MOVE_SOUND){
+      const src = moveSounds[Math.floor(Math.random() * moveSounds.length)];
+      const s = new Audio(src);
+      s.volume = 0.12;
+      s.playbackRate = 0.9 + Math.random() * 0.3;
+      s.play().catch(()=>{});
+    }
   }
 
   noBtn.addEventListener("mouseenter", moveNoButton);
   noBtn.addEventListener("touchstart", moveNoButton);
-});
-
-function playMoveSound(){
-  if(!audioUnlocked || !ENABLE_MOVE_SOUND) return;
-  const src=moveSounds[Math.floor(Math.random()*moveSounds.length)];
-  const s=new Audio(src);
-  s.volume=0.12;
-  s.playbackRate=0.9+Math.random()*0.3;
-  s.play().catch(()=>{});
 }
+
+// Initial attach when page loads
+window.addEventListener("DOMContentLoaded", attachNoButton);
+
 
 // --- Global Sparkle Trail ---
 const sparklesContainer = document.querySelector('.sparkles');
