@@ -93,10 +93,9 @@ function startSlideshow() {
   },2500);
 }
 
-const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
-const responseText = document.getElementById("responseText");
-const container = document.querySelector(".valentine-buttons");
+
+
+
 
 // YES CLICK
 yesBtn.addEventListener("click", () => {
@@ -104,20 +103,103 @@ yesBtn.addEventListener("click", () => {
   yesBtn.style.transform = "scale(1.2)";
 });
 
-// NO ESCAPE
 function moveNoButton() {
   const containerRect = container.getBoundingClientRect();
-  const maxX = containerRect.width - noBtn.offsetWidth;
-  const maxY = containerRect.height - noBtn.offsetHeight;
+  const yesRect = yesBtn.getBoundingClientRect();
 
-  const newX = Math.random() * maxX;
-  const newY = Math.random() * maxY;
+  const maxX = containerRect.width - noBtn.offsetWidth - 10;
+  const maxY = containerRect.height - noBtn.offsetHeight - 10;
+
+  let newX, newY;
+  let attempts = 0;
+
+  // Prevent overlap with YES button
+  do {
+    newX = Math.random() * maxX;
+    newY = Math.random() * maxY;
+    attempts++;
+  } while (
+    newX < yesRect.right - containerRect.left &&
+    newX + noBtn.offsetWidth > yesRect.left - containerRect.left &&
+    newY < yesRect.bottom - containerRect.top &&
+    newY + noBtn.offsetHeight > yesRect.top - containerRect.top &&
+    attempts < 40
+  );
 
   noBtn.style.left = newX + "px";
   noBtn.style.top = newY + "px";
+
+  // 🎵 Play random sound
+  const sound = moveSounds[Math.floor(Math.random() * moveSounds.length)];
+  sound.currentTime = 0;
+  sound.volume = 0.15;
+  sound.playbackRate = 0.9 + Math.random() * 0.4;
+  sound.play().catch(()=>{});
 }
+
 
 // Trigger on hover (desktop) and touch (mobile)
 noBtn.addEventListener("mouseover", moveNoButton);
 noBtn.addEventListener("touchstart", moveNoButton);
+
+// ===== YES / NO BUTTON SYSTEM =====
+window.addEventListener("DOMContentLoaded", () => {
+
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const responseText = document.getElementById("responseText");
+  const container = document.querySelector(".valentine-buttons");
+
+  if (!noBtn || !yesBtn || !container) return;
+
+  // ===== RANDOM MOVE SOUNDS =====
+  const moveSounds = [
+    new Audio("whoosh1.mp4"),
+    new Audio("whoosh2.mp4"),
+    new Audio("whoosh3.mp4"),
+    new Audio("whoosh4.mp4")
+  ];
+
+  // YES CLICK
+  yesBtn.addEventListener("click", () => {
+    responseText.innerText = "I knew it! 💖 Best decision ever 😌";
+    yesBtn.style.transform = "scale(1.2)";
+  });
+
+  function moveNoButton() {
+    const containerRect = container.getBoundingClientRect();
+    const yesRect = yesBtn.getBoundingClientRect();
+
+    const maxX = containerRect.width - noBtn.offsetWidth - 10;
+    const maxY = containerRect.height - noBtn.offsetHeight - 10;
+
+    let newX, newY;
+    let attempts = 0;
+
+    do {
+      newX = Math.random() * maxX;
+      newY = Math.random() * maxY;
+      attempts++;
+    } while (
+      newX < yesRect.right - containerRect.left &&
+      newX + noBtn.offsetWidth > yesRect.left - containerRect.left &&
+      newY < yesRect.bottom - containerRect.top &&
+      newY + noBtn.offsetHeight > yesRect.top - containerRect.top &&
+      attempts < 40
+    );
+
+    noBtn.style.left = newX + "px";
+    noBtn.style.top = newY + "px";
+
+    const sound = moveSounds[Math.floor(Math.random() * moveSounds.length)];
+    sound.currentTime = 0;
+    sound.volume = 0.15;
+    sound.playbackRate = 0.9 + Math.random() * 0.4;
+    sound.play().catch(()=>{});
+  }
+
+  noBtn.addEventListener("mouseenter", moveNoButton); // laptop
+  noBtn.addEventListener("touchstart", moveNoButton); // phone
+});
+
 
