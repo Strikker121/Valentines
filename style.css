@@ -152,19 +152,12 @@ button {
 }
 
 #yesBtn, #noBtn {
-  position: fixed;   /* free to move anywhere on screen */
-  top: 50%;          /* vertical center initially */
-  transform: translate(-50%, -50%);
-  transition: left 0.5s ease, top 0.5s ease; /* smooth glide */
+  position: fixed;
+  /* remove transform: translate */
+  transition: left 0.3s ease, top 0.3s ease;
 }
 
-/* initial horizontal positions */
-#yesBtn {
-  left: 35%;
-}
-#noBtn {
-  left: 65%;
-}
-
+#yesBtn { left: 35%; top: 50%; }
+#noBtn  { left: 65%; top: 50%; }
 
 
