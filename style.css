@@ -75,10 +75,13 @@ button {
 /* YES / NO AREA */
 .valentine-buttons {
   position: relative;
-  width: 260px;
+  width: 280px;
   height: 160px;
 }
 
 #noBtn {
   position: absolute;
+  left: 120px;
+  top: 40px;
+  transition: transform 0.35s cubic-bezier(.17,.67,.32,1.3);
 }
