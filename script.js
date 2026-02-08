@@ -35,11 +35,14 @@ function loadMemories(){
       const backBtn = memoriesSection.querySelector("#memoriesBackBtn");
       backBtn.addEventListener("click", ()=>{
         memoriesSection.style.display="none";
-        page3.style.display="flex";
+        memoriesSection.style.display = "none";
+        finalPage.style.display = "flex"; // Go to YES/NO page
+  // ← currently goes back to page3
       });
     })
     .catch(e=> alert("Could not load memories. Make sure you are running on a server."));
 }
+
 
 // HEARTS
 const heartsContainer = document.querySelector('.hearts');
