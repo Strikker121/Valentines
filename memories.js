@@ -1,3 +1,4 @@
+// Memory data
 const memories = [
   {
     img: "photos/pic1.jpg",
@@ -13,8 +14,10 @@ const memories = [
   }
 ];
 
+// Get timeline container
 const timeline = document.getElementById("timeline");
 
+// Dynamically create memory boxes
 memories.forEach(m => {
   const div = document.createElement("div");
   div.className = "memory";
@@ -27,33 +30,66 @@ memories.forEach(m => {
   timeline.appendChild(div);
 });
 
+// Optional: goBack function (can be used for a button)
 function goBack() {
   window.location.href = "index.html";
 }
 
+// Wait until DOM is loaded
 window.addEventListener('DOMContentLoaded', () => {
-  const memories = document.querySelectorAll('.memory');
+  const memoryBoxes = document.querySelectorAll('.memory');
 
-  // IntersectionObserver for fade-up on scroll
+  // --- Fade-up on scroll using IntersectionObserver ---
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if(entry.isIntersecting) {
+      if (entry.isIntersecting) {
         entry.target.style.transform = 'translateY(0)';
         entry.target.style.opacity = 1;
       }
     });
   }, { threshold: 0.1 });
 
-  memories.forEach(m => {
+  memoryBoxes.forEach(m => {
+    // Initial state for animation
     m.style.transform = 'translateY(20px)';
     m.style.opacity = 0;
     m.style.transition = 'all 0.6s ease-out';
+
     observer.observe(m);
 
-    // Tap bounce effect for mobile
+    // Tap bounce for mobile
     m.addEventListener('touchstart', () => {
       m.style.transform = 'scale(1.05)';
       setTimeout(() => m.style.transform = '', 200);
     });
+  });
+
+  // --- Sparkle Trail Effect ---
+  const sparklesContainer = document.querySelector('.sparkles');
+
+  function createSparkleAt(x, y) {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.style.left = x + 'px';
+    sparkle.style.top = y + 'px';
+    sparkle.style.width = 8 + Math.random() * 4 + 'px';
+    sparkle.style.height = 8 + Math.random() * 4 + 'px';
+    sparkle.style.background = 'rgba(255,255,255,0.8)';
+    sparkle.style.borderRadius = '50%';
+    sparkle.style.position = 'absolute';
+    sparkle.style.pointerEvents = 'none';
+    sparkle.style.animation = `sparkleAnim ${1 + Math.random() * 1}s ease-out forwards`;
+    sparklesContainer.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 2000);
+  }
+
+  // Mouse trail for PC
+  document.addEventListener('mousemove', e => createSparkleAt(e.clientX, e.clientY));
+
+  // Finger trail for mobile
+  document.addEventListener('touchmove', e => {
+    for (const touch of e.touches) {
+      createSparkleAt(touch.clientX, touch.clientY);
+    }
   });
 });
