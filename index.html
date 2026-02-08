@@ -8,14 +8,8 @@
 <audio id="popSound" src="pop.mp3" preload="auto"></audio>
 
 <body>
-  <div class="hearts">
-  <div class="heart" style="left:10%; animation-duration:8s;"></div>
-  <div class="heart" style="left:25%; animation-duration:12s;"></div>
-  <div class="heart" style="left:40%; animation-duration:10s;"></div>
-  <div class="heart" style="left:60%; animation-duration:14s;"></div>
-  <div class="heart" style="left:75%; animation-duration:9s;"></div>
-  <div class="heart" style="left:90%; animation-duration:11s;"></div>
-</div>
+  <div class="hearts"></div>
+
 
 
   <div class="section">
@@ -42,6 +36,29 @@
   </div>
 
 <script>
+  <script>
+const heartsContainer = document.querySelector('.hearts');
+const popSound = document.getElementById('popSound');
+
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.classList.add('heart');
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.animationDuration = (6 + Math.random() * 5) + 's';
+
+  heartsContainer.appendChild(heart);
+
+  setTimeout(() => {
+    heart.classList.add('pop');
+    popSound.currentTime = 0;
+    popSound.play().catch(()=>{});
+    setTimeout(() => heart.remove(), 300);
+  }, 6000);
+}
+
+setInterval(createHeart, 800);
+</script>
+
 function next() {
   document.querySelector(".section").style.display = "none";
   document.getElementById("page2").style.display = "flex";
