@@ -138,8 +138,24 @@ button {
 }
 
 #noBtn {
-  position: absolute; /* already required */
-  transition: left 0.4s ease, top 0.4s ease; /* smooth move */
+  position: absolute;  /* required */
+  transition: left 0.5s ease, top 0.5s ease; /* smooth glide */
 }
 
+#yesBtn {
+  position: absolute;  /* keep YES fixed */
+}
+
+.valentine-buttons {
+  position: absolute;      /* absolute so we can move NO independently */
+  display: flex;
+  justify-content: center; /* center horizontally */
+  align-items: center;     /* center vertically */
+  gap: 30px;               /* space between YES and NO */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* perfectly center container */
+  width: auto;
+  height: auto;
+}
 
