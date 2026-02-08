@@ -92,3 +92,32 @@ function startSlideshow() {
     document.getElementById("memoryPhoto").src = photos[index];
   },2500);
 }
+
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const responseText = document.getElementById("responseText");
+const container = document.querySelector(".valentine-buttons");
+
+// YES CLICK
+yesBtn.addEventListener("click", () => {
+  responseText.innerText = "I knew it! 💖 Best decision ever 😌";
+  yesBtn.style.transform = "scale(1.2)";
+});
+
+// NO ESCAPE
+function moveNoButton() {
+  const containerRect = container.getBoundingClientRect();
+  const maxX = containerRect.width - noBtn.offsetWidth;
+  const maxY = containerRect.height - noBtn.offsetHeight;
+
+  const newX = Math.random() * maxX;
+  const newY = Math.random() * maxY;
+
+  noBtn.style.left = newX + "px";
+  noBtn.style.top = newY + "px";
+}
+
+// Trigger on hover (desktop) and touch (mobile)
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
+
