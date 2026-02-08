@@ -36,10 +36,11 @@ function loadMemories(){
         const backBtn = memoriesSection.querySelector("#memoriesBackBtn");
         if(backBtn){
           backBtn.addEventListener("click", (e) => {
-            e.preventDefault(); // Prevent default button behavior
-            memoriesSection.style.display = "none";
-            finalPage.style.display = "flex"; // Go to YES/NO page
-          });
+          e.preventDefault();
+          memoriesSection.style.display = "none";
+          finalPage.style.display = "flex"; 
+          attachNoButton(); // Re-attach NO button events after showing final page
+        });
         }
       }, 10); // 10ms delay ensures DOM is ready
     })
