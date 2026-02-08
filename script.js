@@ -113,3 +113,27 @@ function playMoveSound(){
   s.playbackRate=0.9+Math.random()*0.3;
   s.play().catch(()=>{});
 }
+
+const sparklesContainer = document.querySelector('.sparkles');
+
+function createSparkle() {
+  const sparkle = document.createElement('div');
+  sparkle.className = 'sparkle';
+  sparkle.style.left = Math.random() * 100 + 'vw';
+  sparkle.style.top = Math.random() * 100 + 'vh';
+  sparkle.style.width = 8 + Math.random() * 4 + 'px';
+  sparkle.style.height = 8 + Math.random() * 4 + 'px';
+  sparkle.style.background = 'rgba(255,255,255,0.8)';
+  sparkle.style.borderRadius = '50%';
+  sparkle.style.position = 'absolute';
+  sparkle.style.pointerEvents = 'none';
+  sparkle.style.animation = `sparkleAnim ${1+Math.random()*1}s ease-out forwards`;
+  sparklesContainer.appendChild(sparkle);
+  setTimeout(() => sparkle.remove(), 2000);
+}
+
+// create sparkles continuously every 300ms
+setInterval(createSparkle, 300);
+
+// optional: also create on touch
+document.addEventListener('touchstart', createSparkle);
