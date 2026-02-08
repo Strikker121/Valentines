@@ -159,7 +159,9 @@ button {
 }
 
 #yesBtn {
-  position: relative; /* stays in flow, left side */
+  position: absolute;  /* moves freely */
+  left: 50%;   /* initial mid-right position */
+  top: 50%;
 }
 
 #noBtn {
