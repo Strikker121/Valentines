@@ -99,8 +99,9 @@ function moveNoButton() {
   const btnH = noBtn.offsetHeight;
   const maxX = window.innerWidth - btnW - padding;
   const maxY = window.innerHeight - btnH - padding;
-  const yesRect = yesBtn.getBoundingClientRect();
+
   let newX, newY, tries = 0;
+  const yesRect = yesBtn.getBoundingClientRect();
 
   do {
     newX = Math.random() * maxX;
@@ -114,15 +115,14 @@ function moveNoButton() {
     tries < 50
   );
 
-  // Set NO button position smoothly
   noBtn.style.left = newX + "px";
   noBtn.style.top = newY + "px";
 
   // Play random whoosh sound
   if(audioUnlocked && ENABLE_MOVE_SOUND){
-    const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
+    const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
     s.volume = 0.12;
-    s.playbackRate = 0.9 + Math.random() * 0.3;
+    s.playbackRate = 0.9 + Math.random()*0.3;
     s.play().catch(()=>{});
   }
 }
