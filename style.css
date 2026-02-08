@@ -172,5 +172,13 @@ button {
   transition: left 0.5s ease, top 0.5s ease; /* smooth glide */
 }
 
+#final {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* vertical center */
+  align-items: center;
+  gap: 50px; /* space between text and buttons */
+}
+
 
 
