@@ -1,42 +1,49 @@
-const heartsContainer = document.querySelector('.hearts');
+window.addEventListener("DOMContentLoaded", () => {
 
-function playPop() {
-  const sound = new Audio("pop.mp3");
-  sound.volume = 0.8 + Math.random() * 0.2;
-  sound.playbackRate = 0.9 + Math.random() * 0.2;
-  sound.play().catch(()=>{});
-}
+  const heartsContainer = document.querySelector('.hearts');
 
-function createHeart() {
-  const heart = document.createElement('div');
-  heart.className = 'heart';
-  heart.style.left = Math.random() * 100 + 'vw';
+  function playPop() {
+    const sound = new Audio("pop.mp3");
+    sound.volume = 0.8 + Math.random() * 0.2;
+    sound.playbackRate = 0.9 + Math.random() * 0.2;
+    sound.play().catch(()=>{});
+  }
 
-  const duration = 5 + Math.random() * 3;
-  heart.style.animation = `floatUp ${duration}s linear forwards`;
+  function createHeart() {
+    if (!heartsContainer) return;
 
-  heartsContainer.appendChild(heart);
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.style.left = Math.random() * 100 + 'vw';
 
-  setTimeout(() => {
-    heart.classList.add('pop');
-    playPop();
-    setTimeout(() => heart.remove(), 300);
-  }, duration * 1000 - 300);
-}
+    const duration = 5 + Math.random() * 3;
+    heart.style.animation = `floatUp ${duration}s linear forwards`;
 
-setInterval(createHeart, 700);
+    heartsContainer.appendChild(heart);
 
-function next() {
-  document.querySelector(".section").style.display = "none";
-  document.getElementById("page2").style.display = "flex";
-}
+    setTimeout(() => {
+      heart.classList.add('pop');
+      playPop();
+      setTimeout(() => heart.remove(), 300);
+    }, duration * 1000 - 300);
+  }
 
-function next2() {
-  document.getElementById("page2").style.display = "none";
-  document.getElementById("page3").style.display = "flex";
-}
+  setInterval(createHeart, 700);
 
-function surprise() {
-  document.getElementById("page3").style.display = "none";
-  document.getElementById("final").style.display = "flex";
-}
+  // Page navigation
+  window.next = function() {
+    document.querySelector(".section").style.display = "none";
+    document.getElementById("page2").style.display = "flex";
+  }
+
+  window.next2 = function() {
+    document.getElementById("page2").style.display = "none";
+    document.getElementById("page3").style.display = "flex";
+  }
+
+  window.surprise = function() {
+    document.getElementById("page3").style.display = "none";
+    document.getElementById("final").style.display = "flex";
+  }
+
+});
