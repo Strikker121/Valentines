@@ -18,7 +18,7 @@ function unlockAudio() {
 document.addEventListener("click", unlockAudio);
 document.addEventListener("touchstart", unlockAudio);
 
-// PAGE NAVIGATION
+// PAGE NAV
 const page1 = document.getElementById("page1");
 const page2 = document.getElementById("page2");
 const page3 = document.getElementById("page3");
@@ -50,7 +50,7 @@ function loadMemories(){
             e.preventDefault();
             memoriesSection.style.display = "none";
             finalPage.style.display = "flex"; 
-            attachNoButton(); // Attach NO button when final page is shown
+            attachNoButton(); // attach NO behavior now
           });
         }
       }, 10);
@@ -58,7 +58,7 @@ function loadMemories(){
     .catch(e => alert("Could not load memories. Make sure you are running on a server."));
 }
 
-// HEARTS EFFECT
+// HEARTS
 const heartsContainer = document.querySelector('.hearts');
 function playPop(){
   if(!audioUnlocked || !ENABLE_POP_SOUND) return;
@@ -68,10 +68,10 @@ function playPop(){
   sound.play().catch(()=>{});
 }
 function createHeart(){
-  const heart = document.createElement("div");
+  const heart=document.createElement("div");
   heart.className="heart";
-  heart.style.left = Math.random()*100 + "vw";
-  heart.style.animationDuration = (6 + Math.random()*3) + "s";
+  heart.style.left=Math.random()*100 + "vw";
+  heart.style.animationDuration=(6+Math.random()*3)+"s";
   heartsContainer.appendChild(heart);
   heart.addEventListener("animationend", ()=>{
     heart.classList.add("pop");
@@ -79,7 +79,7 @@ function createHeart(){
     setTimeout(()=>heart.remove(),250);
   });
 }
-setInterval(createHeart, 700);
+setInterval(createHeart,700);
 
 // SPARKLE TRAIL
 const sparklesContainer = document.querySelector('.sparkles');
@@ -90,122 +90,93 @@ function createSparkleAt(x, y) {
   sparkle.className = 'sparkle';
   sparkle.style.left = x + 'px';
   sparkle.style.top = y + 'px';
-  sparkle.style.width = 6 + Math.random()*4 + 'px';
-  sparkle.style.height = 6 + Math.random()*4 + 'px';
-  sparkle.style.background = 'rgba(255,255,255,0.8)';
-  sparkle.style.borderRadius = '50%';
-  sparkle.style.position = 'absolute';
-  sparkle.style.pointerEvents = 'none';
-  sparkle.style.animation = `sparkleAnim ${0.8 + Math.random()*0.8}s ease-out forwards`;
+  sparkle.style.width = 6 + Math.random() * 4 + 'px';
+  sparkle.style.height = 6 + Math.random() * 4 + 'px';
   sparklesContainer.appendChild(sparkle);
   setTimeout(() => sparkle.remove(), 1200);
 }
 
 function createTrail(x, y) {
-  if(!lastPos) lastPos = {x, y};
+  if (!lastPos) lastPos = {x, y};
   const dx = x - lastPos.x;
   const dy = y - lastPos.y;
   const distance = Math.max(Math.abs(dx), Math.abs(dy));
-  for(let i=0; i<distance; i+=4){
-    const px = lastPos.x + (dx*i/distance);
-    const py = lastPos.y + (dy*i/distance);
+  for (let i = 0; i < distance; i += 4) {
+    const px = lastPos.x + (dx * i / distance);
+    const py = lastPos.y + (dy * i / distance);
     createSparkleAt(px, py);
   }
   lastPos = {x, y};
 }
 
-// Cursor/finger sparkle trail
 document.addEventListener('mousemove', e => createTrail(e.clientX, e.clientY));
-document.addEventListener('touchmove', e => {
-  for(const touch of e.touches) createTrail(touch.clientX, touch.clientY);
-});
-document.addEventListener('touchstart', e => {
-  for(const touch of e.touches) createTrail(touch.clientX, touch.clientY);
-});
+document.addEventListener('touchmove', e => { for(const t of e.touches) createTrail(t.clientX, t.clientY); });
+document.addEventListener('touchstart', e => { for(const t of e.touches) createTrail(t.clientX, t.clientY); });
 document.addEventListener('mouseleave', () => lastPos=null);
 document.addEventListener('touchend', () => lastPos=null);
 
-// YES/NO BUTTON LOGIC
-function attachNoButton() {
+// YES / NO BUTTONS
+function attachNoButton(){
   const yesBtn = document.getElementById("yesBtn");
   const noBtn = document.getElementById("noBtn");
-  if (!yesBtn || !noBtn) return;
+  if(!yesBtn || !noBtn) return;
 
   const responseText = document.getElementById("responseText");
 
-  // YES button click
-  yesBtn.addEventListener("click", () => {
+  // Set initial positions safely
+  const padding = 20;
+  yesBtn.style.left = "35%";
+  yesBtn.style.top = "50%";
+  noBtn.style.left = "65%";
+  noBtn.style.top = "50%";
+
+  // YES click
+  yesBtn.addEventListener("click", ()=>{
     responseText.innerText = "I knew it! 💖 Best decision ever 😌";
     yesBtn.style.transform = "scale(1.15)";
-    setTimeout(() => yesBtn.style.transform = "scale(1)", 300);
+    setTimeout(()=> yesBtn.style.transform="scale(1)", 300);
   });
 
-  // Move NO button randomly without overlapping YES and inside viewport
-  function moveNoButton() {
-    const padding = 10;
+  function moveNoButton(){
     const btnW = noBtn.offsetWidth;
     const btnH = noBtn.offsetHeight;
     const yesRect = yesBtn.getBoundingClientRect();
     const screenW = document.documentElement.clientWidth;
     const screenH = document.documentElement.clientHeight;
-    const buffer = 80; // distance from YES
+    const buffer = 80;
 
-    let newX, newY;
-    let attempts = 0;
-    const maxAttempts = 100;
-
+    let newX, newY, attempts=0;
     do {
-        newX = Math.random() * (screenW - btnW - 2 * padding) + padding;
-        newY = Math.random() * (screenH - btnH - 2 * padding) + padding;
+      newX = Math.random() * (screenW - btnW - 2*padding) + padding;
+      newY = Math.random() * (screenH - btnH - 2*padding) + padding;
 
-        // clamp
-        newX = Math.max(padding, Math.min(newX, screenW - btnW - padding));
-        newY = Math.max(padding, Math.min(newY, screenH - btnH - padding));
+      // clamp
+      newX = Math.max(padding, Math.min(newX, screenW - btnW - padding));
+      newY = Math.max(padding, Math.min(newY, screenH - btnH - padding));
 
-        // check overlap
-        const overlap = !(
-            newX + btnW < yesRect.left - buffer ||
-            newX > yesRect.right + buffer ||
-            newY + btnH < yesRect.top - buffer ||
-            newY > yesRect.bottom + buffer
-        );
+      const overlap = !(
+        newX + btnW < yesRect.left - buffer ||
+        newX > yesRect.right + buffer ||
+        newY + btnH < yesRect.top - buffer ||
+        newY > yesRect.bottom + buffer
+      );
+      attempts++;
+      if(attempts>100) break;
+    } while(overlap);
 
-        attempts++;
-        if (attempts > maxAttempts) break;
-    } while (overlap);
+    noBtn.style.left = newX+"px";
+    noBtn.style.top = newY+"px";
 
-    noBtn.style.left = newX + "px";
-    noBtn.style.top = newY + "px";
-
-    if (audioUnlocked && ENABLE_MOVE_SOUND) {
-        const s = moveAudio[Math.floor(Math.random() * moveAudio.length)].cloneNode();
-        s.volume = 0.12;
-        s.playbackRate = 0.9 + Math.random() * 0.3;
-        s.play().catch(()=>{});
+    // whoosh
+    if(audioUnlocked && ENABLE_MOVE_SOUND){
+      const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
+      s.volume=0.12;
+      s.playbackRate=0.9+Math.random()*0.3;
+      s.play().catch(()=>{});
     }
-}
-
-
+  }
 
   // PC hover + mobile tap
   noBtn.addEventListener("mouseenter", moveNoButton);
   noBtn.addEventListener("touchstart", moveNoButton);
-
-  // --- Set initial positions safely ---
-  const initialYesX = screenW * 0.3; // slightly left
-  const initialYesY = screenH * 0.5; // vertical center
-  yesBtn.style.left = initialYesX + "px";
-  yesBtn.style.top = initialYesY + "px";
-
-  const initialNoX = screenW * 0.7; // slightly right
-  const initialNoY = screenH * 0.5;
-  noBtn.style.left = initialNoX + "px";
-  noBtn.style.top = initialNoY + "px";
 }
-
-
-// Attach when final page loads
-window.addEventListener("DOMContentLoaded", ()=>{
-  // Buttons shouldn't appear on first pages
-  document.getElementById("final").style.display = "none";
-});
