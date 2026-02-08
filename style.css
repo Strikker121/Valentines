@@ -138,7 +138,7 @@ button {
 }
 
 #final {
-  display: flex;
+  display: none; /* keep hidden initially */
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -146,22 +146,21 @@ button {
   height: 100%;
   text-align: center;
   position: relative;
-  padding: 20px;
-  box-sizing: border-box;
+  z-index: 5; /* above hearts/sparkles */
 }
 
 .valentine-buttons {
-  display: flex;
-  justify-content: space-between; /* YES left, NO right */
-  align-items: center;
-  width: 300px; /* adjust spacing */
-  max-width: 90%;
-  position: relative; /* parent for NO button */
+  position: relative; /* container for YES/NO */
+  width: 300px;
+  height: 200px; /* enough space for buttons */
 }
 
 #yesBtn, #noBtn {
-  position: relative; /* let flex handle initial placement */
-  margin: 0;
-  transition: transform 0.3s ease; /* smooth movement for NO button */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10; /* clickable */
 }
 
+#yesBtn { left: 25%; }
+#noBtn { left: 75%; transition: left 0.5s ease, top 0.5s ease; }
