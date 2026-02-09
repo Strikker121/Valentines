@@ -47,16 +47,21 @@
   <p id="responseText"></p>
 </div>
 
-<!-- 🎵 Music Icon -->
+<!-- 🎵 Music Floating Control -->
 <div id="musicControl">
-  <div id="musicBtn">🎶</div>
+  <div id="musicBtn">🎵</div>
 
-  <div id="songMenu">
-    <button onclick="playSong('music.mp3')">Romantic 1</button>
-    <button onclick="playSong('song2.mp3')">Romantic 2</button>
-    <button onclick="stopMusic()">Stop</button>
+  <div id="musicDropdown">
+    <div id="musicPlayPause">⏯️</div>
+    <div id="songList">
+      <button onclick="playSong('music.mp3')">Romantic 1</button>
+      <button onclick="playSong('song2.mp3')">Romantic 2</button>
+    </div>
   </div>
 </div>
+
+<audio id="bgMusic" loop></audio>
+
 
 
   
