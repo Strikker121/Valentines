@@ -187,50 +187,43 @@ function attachNoButton(){
 
  const musicBtn = document.getElementById("musicBtn");
 const musicDropdown = document.getElementById("musicDropdown");
-const musicPlayPause = document.getElementById("musicPlayPause");
 const bgMusic = document.getElementById("bgMusic");
-
 let isPlaying = false;
 
-// Prevent mobile selection/highlight
-musicBtn.style.webkitTapHighlightColor = "transparent";
-musicBtn.style.userSelect = "none";
-
-// Click music icon → rotate + toggle dropdown
+// Click icon → show dropdown + start/stop music
 musicBtn.addEventListener("click", e => {
-  e.stopPropagation(); // prevent body click closing immediately
-  musicBtn.classList.toggle("rotating");
+  e.stopPropagation();
   musicDropdown.classList.toggle("active");
-});
 
-// Click anywhere outside → close dropdown + stop rotation
-document.body.addEventListener("click", () => {
-  musicDropdown.classList.remove("active");
-  musicBtn.classList.remove("rotating");
-});
+  musicBtn.classList.add("clicked");
+  setTimeout(() => musicBtn.classList.remove("clicked"), 200);
 
-// Play/pause button
-musicPlayPause.addEventListener("click", e => {
-  e.stopPropagation(); // don't close dropdown
   if (!isPlaying) {
-    bgMusic.play();
-    musicPlayPause.src = "pause.png"; // replace with pause icon
-    isPlaying = true;
+    bgMusic.src = "music.mp3"; // default song
+    bgMusic.play().then(() => {
+      musicBtn.classList.add("playing"); // start rotation
+      isPlaying = true;
+    }).catch(()=>{});
   } else {
     bgMusic.pause();
-    musicPlayPause.src = "play.png"; // replace with play icon
+    musicBtn.classList.remove("playing"); // stop rotation
     isPlaying = false;
   }
 });
 
-// Songs list (example for first song)
+// Clicking outside closes dropdown
+document.body.addEventListener("click", () => {
+  musicDropdown.classList.remove("active");
+});
+
+// Play specific song
 function playSong(src) {
   bgMusic.src = src;
-  bgMusic.play();
-  musicPlayPause.src = "pause.png";
-  isPlaying = true;
-  musicDropdown.classList.add("active");
-  musicBtn.classList.add("rotating");
+  bgMusic.play().then(() => {
+    musicBtn.classList.add("playing"); // ensure rotation starts
+    isPlaying = true;
+  }).catch(()=>{});
+  musicDropdown.classList.remove("active");
 }
 
   
