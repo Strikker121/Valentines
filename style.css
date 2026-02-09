@@ -160,4 +160,7 @@ button {
 #yesBtn { left: 35%; top: 50%; }
 #noBtn  { left: 65%; top: 50%; }
 
+#final h1 {
+  margin-top: 20px;  /* move UP */
+}
 
