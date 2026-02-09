@@ -31,7 +31,6 @@ body::before {
 
 h1, h2, p {
   text-shadow: 0 0 12px rgba(0,0,0,0.4);
-  outline: none;
 }
 
 button {
@@ -145,36 +144,26 @@ button {
 }*/
 
 .valentine-buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 40px;               /* space between Yes & No */
-  margin-top: 30px;        /* space below heading */
   position: relative;
-  z-index: 5;
+  width: 320px;
+  height: 120px;
+  margin-top: 20px;
 }
 
-/* BASE button style */
 #yesBtn, #noBtn {
-  position: relative;      /* important — layout first */
-  padding: 14px 28px;
-  font-size: 18px;
-  border-radius: 30px;
-  min-width: 110px;
-  transition: transform 0.25s ease, left 0.25s ease, top 0.25s ease;
+  position: absolute;
+  transition: all 0.25s ease;
 }
-
-/* YES stays in layout */
 #yesBtn {
-  background: white;
-  color: #ff4d6d;
+  left: 40%;
+  top: 70px;
+  transform: translateX(-120%);
 }
 
-/* NO can escape later */
 #noBtn {
-  background: white;
-  color: #ff4d6d;
-}
+  position: fixed;
+  transition: left 0.25s ease, top 0.25s ease;
+} 
 
 #yesBtn, #noBtn {
   padding: 14px 28px;
