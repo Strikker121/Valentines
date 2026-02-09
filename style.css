@@ -144,33 +144,27 @@ button {
 }*/
 
 .valentine-buttons {
-  position: relative;
-  width: 320px;
-  height: 120px;
-  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  margin-top: 40px;
 }
 
-#yesBtn, #noBtn {
-  position: absolute;
-  transition: all 0.25s ease;
-}
-#yesBtn {
-  left: 40%;
-  top: 70px;
-  transform: translateX(-120%);
-}
-
-#noBtn {
+/* Both buttons in normal layout initially */
+#noBtn.moving {
   position: fixed;
-  transition: left 0.25s ease, top 0.25s ease;
-} 
+  z-index: 10;
 
-#yesBtn, #noBtn {
-  padding: 14px 28px;
-  border-radius: 40px;
-  font-weight: 600;
-  font-size: 18px;
+  /* ✨ Smooth motion */
+  
+  transition: left 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              top 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
+#yesBtn{
+    transition: left 0.3s ease, top 0.3s ease;
+}
+
 button {
   -webkit-tap-highlight-color: transparent;
   user-select: none;
