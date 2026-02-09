@@ -178,51 +178,53 @@ button {
 
 
 /* 🎵 Floating Music Widget */
-#musicWidget {
+/* 🎵 Floating Music Icon */
+#musicControl {
   position: fixed;
   top: 15px;
   right: 15px;
-  z-index: 50;
+  z-index: 100;
 }
 
-#musicIcon {
+#musicBtn {
   width: 50px;
   height: 50px;
+  border-radius: 50%;
   background: rgba(255,255,255,0.9);
   color: #ff4d6d;
-  border-radius: 50%;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   font-size: 24px;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  transition: transform 0.3s ease;
 }
 
-/* Rotating animation */
-#musicIcon.playing {
-  animation: spin 4s linear infinite;
+/* Rotation when playing */
+#musicBtn.playing {
+  animation: rotateMusic 4s linear infinite;
 }
 
-@keyframes spin {
+@keyframes rotateMusic {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-#musicPanel {
+/* Dropdown song list */
+#songMenu {
   display: none;
-  margin-top: 10px;
+  margin-top: 8px;
   background: rgba(0,0,0,0.7);
   backdrop-filter: blur(8px);
-  padding: 10px;
-  border-radius: 12px;
-  text-align: center;
+  border-radius: 10px;
+  padding: 8px;
 }
 
-#musicPanel button {
+#songMenu button {
   display: block;
-  margin: 6px auto;
+  width: 100%;
+  margin: 4px 0;
+  padding: 6px;
   font-size: 14px;
-  padding: 8px 12px;
+  border-radius: 6px;
 }
