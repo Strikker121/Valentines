@@ -100,29 +100,31 @@ function attachNoButton(){
   setTimeout(()=> noActive=true, 500);
 
   function moveNo(){
-    if(!noActive) return;
+  if(!noActive) return;
 
-    const area = yesBtn.parentElement.getBoundingClientRect();
-    const btnRect = noBtn.getBoundingClientRect();
-    const yesRect = yesBtn.getBoundingClientRect();
+  const area = noBtn.parentElement.getBoundingClientRect();
+  const btnW = noBtn.offsetWidth;
+  const btnH = noBtn.offsetHeight;
+  const yesRect = yesBtn.getBoundingClientRect();
 
-    let x,y,tries=0;
+  let x, y, tries = 0;
 
-    do{
-      x=(Math.random()*120)-60;  // small move range
-      y=(Math.random()*60)-30;
-      tries++;
-      if(tries>40) break;
-    }
-    while(isNearYes(btnRect.left+x, btnRect.top+y, yesRect));
+  do {
+    x = Math.random() * (area.width - btnW);
+    y = Math.random() * (area.height - btnH);
+    tries++;
+    if (tries > 50) break;
+  } while(isNearYes(x + area.left, y + area.top, yesRect));
 
-    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
 
-    if(audioUnlocked && ENABLE_MOVE_SOUND){
-      const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
-      s.play().catch(()=>{});
-    }
+  if(audioUnlocked && ENABLE_MOVE_SOUND){
+    const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
+    s.play().catch(()=>{});
   }
+}
+
 
   function isNearYes(x,y,yesRect){
     return !(
