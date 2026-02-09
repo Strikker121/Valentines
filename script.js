@@ -126,6 +126,9 @@ function attachNoButton(){
   function moveNoAway(cursorX, cursorY){
     if(!noActive) return;
 
+    noBtn.classList.add("moving");
+
+
     const btnW = noBtn.offsetWidth;
     const btnH = noBtn.offsetHeight;
     const screenW = window.innerWidth;
