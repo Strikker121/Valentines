@@ -99,7 +99,7 @@ function attachNoButton(){
   let noActive=false;
   setTimeout(()=> noActive=true, 500);
 
-  function moveNo(){
+  function moveNo(e){
   if(!noActive) return;
 
   const area = noBtn.parentElement.getBoundingClientRect();
@@ -110,11 +110,21 @@ function attachNoButton(){
   let x, y, tries = 0;
 
   do {
+    // Cursor position
+    const cursorX = e ? e.clientX : window.innerWidth / 2;
+    const cursorY = e ? e.clientY : window.innerHeight / 2;
+
+    // Move opposite direction of cursor
     x = Math.random() * (area.width - btnW);
     y = Math.random() * (area.height - btnH);
+
     tries++;
     if (tries > 50) break;
-  } while(isNearYes(x + area.left, y + area.top, yesRect));
+
+  } while(
+    isNearYes(x + area.left, y + area.top, yesRect) ||
+    isNearCursor(x + area.left, y + area.top, btnW, btnH, e)
+  );
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
@@ -126,17 +136,16 @@ function attachNoButton(){
 }
 
 
-  function isNearYes(x,y,yesRect){
-    return !(
-      x+noBtn.offsetWidth < yesRect.left-30 ||
-      x > yesRect.right+30 ||
-      y+noBtn.offsetHeight < yesRect.top-30 ||
-      y > yesRect.bottom+30
-    );
-  }
+
+  function isNearCursor(x,y,w,h,e){
+  if(!e) return false;
+  const dist = Math.hypot(e.clientX - (x + w/2), e.clientY - (y + h/2));
+  return dist < 120; // distance buffer from cursor
+}
 
   noBtn.addEventListener("mouseenter", moveNo);
-  noBtn.addEventListener("touchstart", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+
 }
 
   /* --- YES CLICK --- */
