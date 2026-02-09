@@ -153,9 +153,11 @@ button {
 
 #yesBtn, #noBtn {
   position: fixed;
+  transform: none; /* 🔥 important */
   z-index: 10;
   transition: left 0.3s ease, top 0.3s ease;
 }
+
 
 #yesBtn { left: 42%; top: 30%; }
 #noBtn  { left: 65%; top: 50%; }
