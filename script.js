@@ -184,40 +184,47 @@ function attachNoButton(){
 
 }
 
-const musicBtn = document.getElementById("musicBtn");
-const musicDropdown = document.getElementById("musicDropdown");
-const musicPlayPause = document.getElementById("musicPlayPause");
-const bgMusic = document.getElementById("bgMusic");
+document.addEventListener("DOMContentLoaded", () => {
+  const musicBtn = document.getElementById("musicBtn");
+  const musicDropdown = document.getElementById("musicDropdown");
+  const musicPlayPause = document.getElementById("musicPlayPause");
+  const bgMusic = document.getElementById("bgMusic");
 
-let isPlaying = false;
+  let isPlaying = false;
 
-// Toggle dropdown
-musicBtn.addEventListener("click", () => {
-  musicDropdown.style.display = musicDropdown.style.display === "block" ? "none" : "block";
-});
+  // Unlock audio on first user gesture
+  function unlockAudio() {
+    bgMusic.play().then(() => {
+      bgMusic.pause();
+    }).catch(() => {});
+  }
+  document.addEventListener("click", unlockAudio, { once: true });
+  document.addEventListener("touchstart", unlockAudio, { once: true });
 
-// Play/pause toggle
-musicPlayPause.addEventListener("click", () => {
-  if(isPlaying) {
-    bgMusic.pause();
-    musicBtn.classList.remove("rotating");
-  } else {
+  // Toggle dropdown
+  musicBtn.addEventListener("click", () => {
+    musicDropdown.classList.toggle("show");
+  });
+
+  // Play/pause toggle
+  musicPlayPause.addEventListener("click", () => {
+    if(isPlaying) {
+      bgMusic.pause();
+      musicBtn.classList.remove("rotating");
+    } else {
+      bgMusic.play().catch(()=>{});
+      musicBtn.classList.add("rotating");
+    }
+    isPlaying = !isPlaying;
+  });
+
+  // Play specific song
+  window.playSong = function(src) {
+    bgMusic.src = src;
     bgMusic.play().catch(()=>{});
     musicBtn.classList.add("rotating");
-  }
-  isPlaying = !isPlaying;
-});
-
-// Play specific song
-function playSong(src) {
-  bgMusic.src = src;
-  bgMusic.play().catch(()=>{});
-  musicBtn.classList.add("rotating");
-  isPlaying = true;
-}
-
-
-
+    isPlaying = true;
+  };
 
   
 });
