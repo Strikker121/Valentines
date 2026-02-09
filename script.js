@@ -184,7 +184,8 @@ function attachNoButton(){
 
 }
 
-const musicBtn = document.getElementById("musicBtn");
+
+  const musicBtn = document.getElementById("musicBtn");
   const musicDropdown = document.getElementById("musicDropdown");
   const musicPlayPause = document.getElementById("musicPlayPause");
   const bgMusic = document.getElementById("bgMusic");
@@ -199,12 +200,12 @@ const musicBtn = document.getElementById("musicBtn");
   document.addEventListener("click", unlockAudio, { once: true });
   document.addEventListener("touchstart", unlockAudio, { once: true });
 
-  // Toggle dropdown
-  musicBtn.addEventListener("click", () => {
+  // Toggle dropdown from icon
+  musicBtn.addEventListener("click", (e) => {
+    e.stopPropagation(); // prevent closing immediately
     dropdownOpen = !dropdownOpen;
     musicDropdown.classList.toggle("show", dropdownOpen);
 
-    // Start music + rotation only when dropdown opens for first time
     if(dropdownOpen && !isPlaying){
       bgMusic.play().catch(()=>{});
       musicBtn.classList.add("rotating");
@@ -212,8 +213,17 @@ const musicBtn = document.getElementById("musicBtn");
     }
   });
 
+  // Close dropdown when clicking outside
+  document.addEventListener("click", () => {
+    if(dropdownOpen){
+      dropdownOpen = false;
+      musicDropdown.classList.remove("show");
+    }
+  });
+
   // Play/Pause toggle inside dropdown
-  musicPlayPause.addEventListener("click", () => {
+  musicPlayPause.addEventListener("click", (e) => {
+    e.stopPropagation(); // prevent closing dropdown
     if(isPlaying){
       bgMusic.pause();
       musicBtn.classList.remove("rotating");
@@ -227,10 +237,6 @@ const musicBtn = document.getElementById("musicBtn");
 
   // Play a specific song
   window.playSong = function(src){
-    if(bgMusic.src.includes(src) && !bgMusic.paused){
-      // Already playing same song, do nothing
-      return;
-    }
     bgMusic.src = src;
     bgMusic.play().catch(()=>{});
     musicBtn.classList.add("rotating");
