@@ -147,31 +147,21 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 24px;
-  margin-top: 30px;
-  position: relative;   /* important */
+  gap: 40px;
+  margin-top: 40px;
 }
 
-/* YES stays normal */
-#yesBtn {
+/* Both buttons in normal layout initially */
+#yesBtn, #noBtn {
   position: relative;
 }
 
-/* NO starts in layout but JS will move it */
-#noBtn {
-  position: absolute;   /* ← key */
-  left: 50%;
-  transform: translateX(60px); /* small shift so it's right of YES */
-  top: 0;
+/* When JS starts moving NO, it will switch to absolute */
+#noBtn.moving {
+  position: fixed;   /* JS movement works relative to screen */
+  z-index: 10;
 }
 
-
-#yesBtn, #noBtn {
-  padding: 14px 28px;
-  border-radius: 40px;
-  font-weight: 600;
-  font-size: 18px;
-}
 button {
   -webkit-tap-highlight-color: transparent;
   user-select: none;
