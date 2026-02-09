@@ -1,13 +1,19 @@
 const ENABLE_POP_SOUND = true;
 const ENABLE_MOVE_SOUND = true;
 
+const heartsContainer = document.querySelector('.hearts');
+const sparklesContainer = document.querySelector('.sparkles');
+const finalPage = document.getElementById("final");
+
+let lastPos = null;
+let audioUnlocked = false;
+
+// ---------------- AUDIO ----------------
 const moveAudio = ["whoosh1.mp3","whoosh2.mp3","whoosh3.mp3","whoosh4.mp3"].map(src => {
   const a = new Audio(src);
   a.volume = 0.12;
   return a;
 });
-
-let audioUnlocked = false;
 
 function unlockAudio() {
   if (audioUnlocked) return;
@@ -15,97 +21,116 @@ function unlockAudio() {
   s.volume = 0;
   s.play().then(()=> audioUnlocked=true).catch(()=>{});
 }
+document.addEventListener("click", unlockAudio, {once:true});
+document.addEventListener("touchstart", unlockAudio, {once:true});
 
-// Unlock on **start button click** to ensure sounds work
-document.getElementById("startBtn").addEventListener("click", unlockAudio);
 
-// YES / NO Buttons
+// ---------------- HEART FLOATING ----------------
+function createHeart(){
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.style.left = Math.random()*100 + "vw";
+  heart.style.animationDuration = (4+Math.random()*3)+"s";
+  heartsContainer.appendChild(heart);
+  setTimeout(()=>heart.remove(),7000);
+}
+setInterval(createHeart, 500);
+
+
+// ---------------- SPARKLE TRAIL ----------------
+document.addEventListener("mousemove", e=>{
+  createSparkle(e.clientX,e.clientY);
+});
+document.addEventListener("touchmove", e=>{
+  const t=e.touches[0];
+  createSparkle(t.clientX,t.clientY);
+});
+
+function createSparkle(x,y){
+  const s=document.createElement("div");
+  s.className="sparkle";
+  s.style.left=x+"px";
+  s.style.top=y+"px";
+  sparklesContainer.appendChild(s);
+  setTimeout(()=>s.remove(),1000);
+}
+
+
+// ---------------- PAGE NAV ----------------
+const page1 = document.getElementById("page1");
+const page2 = document.getElementById("page2");
+const page3 = document.getElementById("page3");
+const memoriesSection = document.getElementById("memoriesSection");
+
+document.getElementById("startBtn").onclick=()=>{page1.style.display="none";page2.style.display="flex";}
+document.getElementById("next2Btn").onclick=()=>{page2.style.display="none";page3.style.display="flex";}
+document.getElementById("memoriesBtn").onclick=loadMemories;
+
+function loadMemories(){
+  fetch("memories.html").then(r=>r.text()).then(html=>{
+    memoriesSection.innerHTML=html;
+    page3.style.display="none";
+    memoriesSection.style.display="flex";
+    setTimeout(()=>{
+      const backBtn = memoriesSection.querySelector("#memoriesBackBtn");
+      backBtn.onclick=()=>{
+        memoriesSection.style.display="none";
+        finalPage.style.display="flex";
+        attachNoButton();
+      }
+    },50);
+  });
+}
+
+
+// ---------------- YES / NO ----------------
 function attachNoButton(){
   const yesBtn = document.getElementById("yesBtn");
   const noBtn = document.getElementById("noBtn");
   const responseText = document.getElementById("responseText");
-  if(!yesBtn || !noBtn) return;
+  if(!yesBtn||!noBtn) return;
 
-  const padding = 20;
-  const buffer = 80;
+  // CENTER YES PROPERLY
+  yesBtn.style.left="50%";
+  yesBtn.style.top="55%";
+  yesBtn.style.transform="translate(-50%,-50%)";
 
-  // YES initial position
-  yesBtn.style.left = "35%";
-  yesBtn.style.top = "50%";
+  placeNo();
 
-  // NO initial safe spot
-  function placeNoInitially(){
-    const btnW = noBtn.offsetWidth;
-    const btnH = noBtn.offsetHeight;
-    const yesRect = yesBtn.getBoundingClientRect();
-    const screenW = window.innerWidth;
-    const screenH = window.innerHeight;
-    let newX, newY, attempts = 0;
+  function placeNo(){
+    const btnW=noBtn.offsetWidth;
+    const btnH=noBtn.offsetHeight;
+    const padding=20;
+    const maxX=window.innerWidth-btnW-padding;
+    const maxY=window.innerHeight-btnH-padding;
 
-    do {
-      newX = Math.random()*(screenW-btnW-2*padding)+padding;
-      newY = Math.random()*(screenH-btnH-2*padding)+padding;
+    let x,y;
+    do{
+      x=Math.random()*maxX;
+      y=Math.random()*maxY;
+    }while(isNearYes(x,y,btnW,btnH));
 
-      const overlap = !(
-        newX+btnW < yesRect.left-buffer ||
-        newX > yesRect.right+buffer ||
-        newY+btnH < yesRect.top-buffer ||
-        newY > yesRect.bottom+buffer
-      );
-      attempts++;
-      if(attempts>50) break;
-    } while(overlap);
-
-    noBtn.style.left = newX+"px";
-    noBtn.style.top = newY+"px";
+    noBtn.style.left=x+"px";
+    noBtn.style.top=y+"px";
   }
-  placeNoInitially();
 
-  yesBtn.addEventListener("click", ()=>{
-    responseText.innerText = "I knew it! 💖 Best decision ever 😌";
-    yesBtn.style.transform = "scale(1.15)";
-    setTimeout(()=>yesBtn.style.transform="scale(1)",300);
-  });
+  function isNearYes(x,y,w,h){
+    const r=yesBtn.getBoundingClientRect();
+    return !(x+w<r.left-100||x>r.right+100||y+h<r.top-100||y>r.bottom+100);
+  }
+
+  yesBtn.onclick=()=>{
+    responseText.innerText="I knew it! 💖 Best decision ever 😌";
+  }
 
   function moveNo(){
-    const btnW = noBtn.offsetWidth;
-    const btnH = noBtn.offsetHeight;
-    const yesRect = yesBtn.getBoundingClientRect();
-    const screenW = window.innerWidth;
-    const screenH = window.innerHeight;
-    let newX, newY, attempts=0;
-
-    do{
-      newX = Math.random()*(screenW-btnW-2*padding)+padding;
-      newY = Math.random()*(screenH-btnH-2*padding)+padding;
-
-      const overlap = !(
-        newX+btnW < yesRect.left-buffer ||
-        newX > yesRect.right+buffer ||
-        newY+btnH < yesRect.top-buffer ||
-        newY > yesRect.bottom+buffer
-      );
-      attempts++;
-      if(attempts>50) break;
-    } while(overlap);
-
-    noBtn.style.left = newX+"px";
-    noBtn.style.top = newY+"px";
-
+    placeNo();
     if(audioUnlocked && ENABLE_MOVE_SOUND){
       const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
-      s.volume = 0.12;
-      s.playbackRate = 0.9 + Math.random()*0.3;
       s.play().catch(()=>{});
     }
   }
 
-  noBtn.addEventListener("mouseenter", moveNo);
-  noBtn.addEventListener("touchstart", moveNo);
+  noBtn.addEventListener("mouseenter",moveNo);
+  noBtn.addEventListener("touchstart",moveNo);
 }
-
-// Call attachNoButton() when final page is shown
-const finalObserver = new MutationObserver(() => {
-  if(finalPage.style.display === "flex") attachNoButton();
-});
-finalObserver.observe(finalPage, { attributes: true, attributeFilter: ["style"] });
