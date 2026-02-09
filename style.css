@@ -152,10 +152,9 @@ button {
 }
 
 #yesBtn, #noBtn {
-  position: fixed;
-  transform: none;
-  transition: left 0.3s ease, top 0.3s ease;
+  position: absolute;
 }
+
 
 /* Perfect center alignment */
 #yesBtn {
