@@ -157,7 +157,7 @@ button {
   transition: left 0.3s ease, top 0.3s ease;
 }
 
-#yesBtn { left: 42%; top: 52%; }
+#yesBtn { left: 42%; top: 30%; }
 #noBtn  { left: 65%; top: 50%; }
 
 #final h1 {
