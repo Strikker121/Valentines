@@ -131,6 +131,19 @@ function attachNoButton(){
     }
   }
 
-  noBtn.addEventListener("mouseenter",moveNo);
-  noBtn.addEventListener("touchstart",moveNo);
+  let noActive = false;
+
+// Activate movement AFTER page is visible & stable
+setTimeout(() => {
+  noActive = true;
+}, 800); // delay in ms (adjust if needed)
+
+function guardedMoveNo() {
+  if (!noActive) return;
+  moveNo();
+}
+
+noBtn.addEventListener("mouseenter", guardedMoveNo);
+noBtn.addEventListener("touchstart", guardedMoveNo);
+
 }
