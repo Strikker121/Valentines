@@ -184,4 +184,40 @@ function attachNoButton(){
 
 }
 
+const musicBtn = document.getElementById("musicBtn");
+const musicDropdown = document.getElementById("musicDropdown");
+const musicPlayPause = document.getElementById("musicPlayPause");
+const bgMusic = document.getElementById("bgMusic");
+
+let isPlaying = false;
+
+// Toggle dropdown
+musicBtn.addEventListener("click", () => {
+  musicDropdown.style.display = musicDropdown.style.display === "block" ? "none" : "block";
+});
+
+// Play/pause toggle
+musicPlayPause.addEventListener("click", () => {
+  if(isPlaying) {
+    bgMusic.pause();
+    musicBtn.classList.remove("rotating");
+  } else {
+    bgMusic.play().catch(()=>{});
+    musicBtn.classList.add("rotating");
+  }
+  isPlaying = !isPlaying;
+});
+
+// Play specific song
+function playSong(src) {
+  bgMusic.src = src;
+  bgMusic.play().catch(()=>{});
+  musicBtn.classList.add("rotating");
+  isPlaying = true;
+}
+
+
+
+
+  
 });
