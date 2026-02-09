@@ -92,46 +92,50 @@ function attachNoButton(){
   const responseText = document.getElementById("responseText");
   if(!yesBtn||!noBtn) return;
 
-  /* --- SAFE POSITION CALCULATION --- */
+  yesBtn.onclick=()=>{
+    responseText.innerText="I knew it! 💖 Best decision ever 😌";
+  };
 
-  function getSafePosition() {
-    const area = finalPage.getBoundingClientRect();
-    const btnW = noBtn.offsetWidth;
-    const btnH = noBtn.offsetHeight;
-    const padding = 20;
+  let noActive=false;
+  setTimeout(()=> noActive=true, 500);
 
-    let x, y, tries = 0;
+  function moveNo(){
+    if(!noActive) return;
 
-    do {
-      x = Math.random() * (area.width - btnW - padding * 2) + padding;
-      y = Math.random() * (area.height - btnH - padding * 2) + padding;
+    const area = yesBtn.parentElement.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
+    const yesRect = yesBtn.getBoundingClientRect();
+
+    let x,y,tries=0;
+
+    do{
+      x=(Math.random()*120)-60;  // small move range
+      y=(Math.random()*60)-30;
       tries++;
-      if (tries > 50) break;
-    } while (isNearYes(x, y, btnW, btnH));
+      if(tries>40) break;
+    }
+    while(isNearYes(btnRect.left+x, btnRect.top+y, yesRect));
 
-    return { x, y };
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+    if(audioUnlocked && ENABLE_MOVE_SOUND){
+      const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
+      s.play().catch(()=>{});
+    }
   }
 
-  function isNearYes(x, y, w, h) {
-    const r = yesBtn.getBoundingClientRect();
-    const area = finalPage.getBoundingClientRect();
-
-    const yesX = r.left - area.left;
-    const yesY = r.top - area.top;
-
+  function isNearYes(x,y,yesRect){
     return !(
-      x + w < yesX - 100 ||
-      x > yesX + r.width + 100 ||
-      y + h < yesY - 100 ||
-      y > yesY + r.height + 100
+      x+noBtn.offsetWidth < yesRect.left-30 ||
+      x > yesRect.right+30 ||
+      y+noBtn.offsetHeight < yesRect.top-30 ||
+      y > yesRect.bottom+30
     );
   }
 
-  function placeNo() {
-    const pos = getSafePosition();
-    noBtn.style.left = pos.x + "px";
-    noBtn.style.top = pos.y + "px";
-  }
+  noBtn.addEventListener("mouseenter", moveNo);
+  noBtn.addEventListener("touchstart", moveNo);
+}
 
   /* --- YES CLICK --- */
 
@@ -144,21 +148,4 @@ function attachNoButton(){
     }
   };
 
-  /* --- NO MOVEMENT --- */
-
-  let noActive = false;
-  setTimeout(() => noActive = true, 600); // prevents jump on load
-
-  function moveNo() {
-    if (!noActive) return;
-    placeNo();
-
-    if(audioUnlocked && ENABLE_MOVE_SOUND){
-      const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
-      s.play().catch(()=>{});
-    }
-  }
-
-  noBtn.addEventListener("mouseenter", moveNo);
-  noBtn.addEventListener("touchstart", moveNo);
-}
+ 
