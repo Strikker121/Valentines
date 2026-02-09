@@ -91,9 +91,12 @@ function attachNoButton(){
   if(!yesBtn||!noBtn) return;
 
   // CENTER YES PROPERLY
-  yesBtn.style.left="50%";
-  yesBtn.style.top="55%";
-  yesBtn.style.transform="translate(-50%,-50%)";
+const yesW = yesBtn.offsetWidth;
+const yesH = yesBtn.offsetHeight;
+
+yesBtn.style.left = (window.innerWidth/2 - yesW/2) + "px";
+yesBtn.style.top  = (window.innerHeight*0.55 - yesH/2) + "px";
+
 
   placeNo();
 
