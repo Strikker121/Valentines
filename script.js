@@ -90,13 +90,6 @@ function attachNoButton(){
   const responseText = document.getElementById("responseText");
   if(!yesBtn||!noBtn) return;
 
-  // CENTER YES PROPERLY
-const yesW = yesBtn.offsetWidth;
-const yesH = yesBtn.offsetHeight;
-
-yesBtn.style.left = (window.innerWidth/2 - yesW/2) + "px";
-yesBtn.style.top  = (window.innerHeight*0.55 - yesH/2) + "px";
-
 
   placeNo();
 
