@@ -152,7 +152,7 @@ button {
 }
 
 /* Both buttons in normal layout initially */
-#yesBtn, #noBtn {
+#yesBtn {
   position: relative;
 }
 
