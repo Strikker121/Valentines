@@ -1,3 +1,5 @@
+document.addEventListener("DOMContentLoaded", () => {
+
 const ENABLE_POP_SOUND = true;
 const ENABLE_MOVE_SOUND = true;
 
@@ -28,6 +30,7 @@ document.addEventListener("touchstart", unlockAudio, {once:true});
 /* ---------------- HEART FLOATING ---------------- */
 
 function createHeart(){
+  if(!heartsContainer) return;
   const heart = document.createElement("div");
   heart.className = "heart";
   heart.style.left = Math.random()*100 + "vw";
@@ -40,13 +43,8 @@ setInterval(createHeart, 500);
 
 /* ---------------- SPARKLE TRAIL ---------------- */
 
-document.addEventListener("mousemove", e=> createSparkle(e.clientX,e.clientY));
-document.addEventListener("touchmove", e=>{
-  const t=e.touches[0];
-  createSparkle(t.clientX,t.clientY);
-});
-
 function createSparkle(x,y){
+  if(!sparklesContainer) return;
   const s=document.createElement("div");
   s.className="sparkle";
   s.style.left=x+"px";
@@ -54,6 +52,12 @@ function createSparkle(x,y){
   sparklesContainer.appendChild(s);
   setTimeout(()=>s.remove(),1000);
 }
+
+document.addEventListener("mousemove", e=> createSparkle(e.clientX,e.clientY));
+document.addEventListener("touchmove", e=>{
+  const t=e.touches[0];
+  createSparkle(t.clientX,t.clientY);
+});
 
 
 /* ---------------- PAGE NAV ---------------- */
@@ -87,94 +91,94 @@ function loadMemories(){
 /* ---------------- YES / NO BUTTON LOGIC ---------------- */
 
 function attachNoButton(){
+
   const yesBtn = document.getElementById("yesBtn");
   const noBtn = document.getElementById("noBtn");
   const responseText = document.getElementById("responseText");
   if(!yesBtn||!noBtn) return;
 
+  // Prevent text selection highlight on mobile
+  noBtn.style.userSelect = "none";
+  noBtn.style.webkitTapHighlightColor = "transparent";
+
+  // Ensure button starts inside screen
+  noBtn.style.left = (window.innerWidth * 0.65) + "px";
+  noBtn.style.top  = (window.innerHeight * 0.55) + "px";
+
   let noActive = false;
-setTimeout(()=> noActive = true, 500);
+  setTimeout(()=> noActive = true, 600);
 
-const ESCAPE_DISTANCE = 160; // bigger = runs further
+  const ESCAPE_DISTANCE = 180;
 
-function moveNoAway(cursorX, cursorY) {
-  if (!noActive) return;
-
-  const btnW = noBtn.offsetWidth;
-  const btnH = noBtn.offsetHeight;
-  const screenW = window.innerWidth;
-  const screenH = window.innerHeight;
-  const yesRect = yesBtn.getBoundingClientRect();
-
-  let newX, newY, tries = 0;
-
-  do {
-    newX = Math.random() * (screenW - btnW - 20);
-    newY = Math.random() * (screenH - btnH - 20);
-    tries++;
-    if (tries > 80) break;
+  function distance(x1,y1,x2,y2){
+    return Math.hypot(x2-x1, y2-y1);
   }
-  while (
-    isNearYes(newX, newY, yesRect) ||
-    distance(newX + btnW/2, newY + btnH/2, cursorX, cursorY) < ESCAPE_DISTANCE
-  );
 
-  // 🔥 USE LEFT/TOP (NOT transform)
-  noBtn.style.left = newX + "px";
-  noBtn.style.top  = newY + "px";
-
-  if(audioUnlocked && ENABLE_MOVE_SOUND){
-    const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
-    s.play().catch(()=>{});
+  function isNearYes(x,y,w,h,yesRect){
+    return !(
+      x+w < yesRect.left-120 ||
+      x > yesRect.right+120 ||
+      y+h < yesRect.top-120 ||
+      y > yesRect.bottom+120
+    );
   }
-}
 
-function distance(x1,y1,x2,y2){
-  return Math.hypot(x2-x1, y2-y1);
-}
+  function moveNoAway(cursorX, cursorY){
+    if(!noActive) return;
 
-function isNearYes(x,y,yesRect){
-  const w = noBtn.offsetWidth;
-  const h = noBtn.offsetHeight;
-  return !(
-    x+w < yesRect.left-100 ||
-    x > yesRect.right+100 ||
-    y+h < yesRect.top-100 ||
-    y > yesRect.bottom+100
-  );
-}
+    const btnW = noBtn.offsetWidth;
+    const btnH = noBtn.offsetHeight;
+    const screenW = window.innerWidth;
+    const screenH = window.innerHeight;
+    const yesRect = yesBtn.getBoundingClientRect();
 
-// PC — detect cursor getting close
-document.addEventListener("mousemove", e=>{
-  const rect = noBtn.getBoundingClientRect();
-  const dist = distance(
-    rect.left + rect.width/2,
-    rect.top + rect.height/2,
-    e.clientX,
-    e.clientY
-  );
+    let newX,newY,tries=0;
 
-  if (dist < ESCAPE_DISTANCE) {
-    moveNoAway(e.clientX, e.clientY);
+    do{
+      newX = Math.random()*(screenW-btnW-20);
+      newY = Math.random()*(screenH-btnH-20);
+      tries++;
+      if(tries>100) break;
+    }
+    while(
+      isNearYes(newX,newY,btnW,btnH,yesRect) ||
+      distance(newX+btnW/2,newY+btnH/2,cursorX,cursorY)<ESCAPE_DISTANCE
+    );
+
+    noBtn.style.left=newX+"px";
+    noBtn.style.top=newY+"px";
+
+    if(audioUnlocked && ENABLE_MOVE_SOUND){
+      const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
+      s.play().catch(()=>{});
+    }
   }
-});
 
-// PHONE
-noBtn.addEventListener("touchstart", e=>{
-  const t = e.touches[0];
-  moveNoAway(t.clientX, t.clientY);
-});
+  // PC
+  document.addEventListener("mousemove", e=>{
+    const rect = noBtn.getBoundingClientRect();
+    const d = distance(rect.left+rect.width/2,rect.top+rect.height/2,e.clientX,e.clientY);
+    if(d < ESCAPE_DISTANCE){
+      moveNoAway(e.clientX,e.clientY);
+    }
+  });
 
+  // PHONE
+  noBtn.addEventListener("touchstart", e=>{
+    const t=e.touches[0];
+    moveNoAway(t.clientX,t.clientY);
+  });
 
-  /* --- YES CLICK --- */
-
+  // YES CLICK
   yesBtn.onclick=()=>{
     responseText.innerText="I knew it! 💖 Best decision ever 😌";
     if(audioUnlocked && ENABLE_POP_SOUND){
-      const s = new Audio("pop.mp3");
+      const s=new Audio("pop.mp3");
       s.volume=0.3;
       s.play().catch(()=>{});
     }
   };
 
- 
+}
+
+});
