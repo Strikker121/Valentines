@@ -185,62 +185,53 @@ function attachNoButton(){
 }
 
 
-  const musicBtn = document.getElementById("musicBtn");
-  const musicDropdown = document.getElementById("musicDropdown");
-  const musicPlayPause = document.getElementById("musicPlayPause");
-  const bgMusic = document.getElementById("bgMusic");
+ const musicBtn = document.getElementById("musicBtn");
+const musicDropdown = document.getElementById("musicDropdown");
+const musicPlayPause = document.getElementById("musicPlayPause");
+const bgMusic = document.getElementById("bgMusic");
 
-  let isPlaying = false;
-  let dropdownOpen = false;
+let isPlaying = false;
 
-  // 🔓 Unlock audio for mobile
-  function unlockAudio() {
-    bgMusic.play().then(() => bgMusic.pause()).catch(()=>{});
-  }
-  document.addEventListener("click", unlockAudio, { once: true });
-  document.addEventListener("touchstart", unlockAudio, { once: true });
+// Prevent mobile selection/highlight
+musicBtn.style.webkitTapHighlightColor = "transparent";
+musicBtn.style.userSelect = "none";
 
-  // Toggle dropdown from icon
-  musicBtn.addEventListener("click", (e) => {
-    e.stopPropagation(); // prevent closing immediately
-    dropdownOpen = !dropdownOpen;
-    musicDropdown.classList.toggle("show", dropdownOpen);
+// Click music icon → rotate + toggle dropdown
+musicBtn.addEventListener("click", e => {
+  e.stopPropagation(); // prevent body click closing immediately
+  musicBtn.classList.toggle("rotating");
+  musicDropdown.classList.toggle("active");
+});
 
-    if(dropdownOpen && !isPlaying){
-      bgMusic.play().catch(()=>{});
-      musicBtn.classList.add("rotating");
-      isPlaying = true;
-    }
-  });
+// Click anywhere outside → close dropdown + stop rotation
+document.body.addEventListener("click", () => {
+  musicDropdown.classList.remove("active");
+  musicBtn.classList.remove("rotating");
+});
 
-  // Close dropdown when clicking outside
-  document.addEventListener("click", () => {
-    if(dropdownOpen){
-      dropdownOpen = false;
-      musicDropdown.classList.remove("show");
-    }
-  });
-
-  // Play/Pause toggle inside dropdown
-  musicPlayPause.addEventListener("click", (e) => {
-    e.stopPropagation(); // prevent closing dropdown
-    if(isPlaying){
-      bgMusic.pause();
-      musicBtn.classList.remove("rotating");
-      isPlaying = false;
-    } else {
-      bgMusic.play().catch(()=>{});
-      musicBtn.classList.add("rotating");
-      isPlaying = true;
-    }
-  });
-
-  // Play a specific song
-  window.playSong = function(src){
-    bgMusic.src = src;
-    bgMusic.play().catch(()=>{});
-    musicBtn.classList.add("rotating");
+// Play/pause button
+musicPlayPause.addEventListener("click", e => {
+  e.stopPropagation(); // don't close dropdown
+  if (!isPlaying) {
+    bgMusic.play();
+    musicPlayPause.src = "pause.png"; // replace with pause icon
     isPlaying = true;
-  };
+  } else {
+    bgMusic.pause();
+    musicPlayPause.src = "play.png"; // replace with play icon
+    isPlaying = false;
+  }
+});
+
+// Songs list (example for first song)
+function playSong(src) {
+  bgMusic.src = src;
+  bgMusic.play();
+  musicPlayPause.src = "pause.png";
+  isPlaying = true;
+  musicDropdown.classList.add("active");
+  musicBtn.classList.add("rotating");
+}
+
   
 });
