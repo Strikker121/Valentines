@@ -92,42 +92,36 @@ function attachNoButton(){
   const responseText = document.getElementById("responseText");
   if(!yesBtn||!noBtn) return;
 
-  yesBtn.onclick=()=>{
-    responseText.innerText="I knew it! 💖 Best decision ever 😌";
-  };
+  let noActive = false;
+setTimeout(()=> noActive = true, 500);
 
-  let noActive=false;
-  setTimeout(()=> noActive=true, 500);
+const ESCAPE_DISTANCE = 160; // bigger = runs further
 
-  function moveNo(e){
-  if(!noActive) return;
+function moveNoAway(cursorX, cursorY) {
+  if (!noActive) return;
 
-  const area = noBtn.parentElement.getBoundingClientRect();
   const btnW = noBtn.offsetWidth;
   const btnH = noBtn.offsetHeight;
+  const screenW = window.innerWidth;
+  const screenH = window.innerHeight;
   const yesRect = yesBtn.getBoundingClientRect();
 
-  let x, y, tries = 0;
+  let newX, newY, tries = 0;
 
   do {
-    // Cursor position
-    const cursorX = e ? e.clientX : window.innerWidth / 2;
-    const cursorY = e ? e.clientY : window.innerHeight / 2;
-
-    // Move opposite direction of cursor
-    x = Math.random() * (area.width - btnW);
-    y = Math.random() * (area.height - btnH);
-
+    newX = Math.random() * (screenW - btnW - 20);
+    newY = Math.random() * (screenH - btnH - 20);
     tries++;
-    if (tries > 50) break;
-
-  } while(
-    isNearYes(x + area.left, y + area.top, yesRect) ||
-    isNearCursor(x + area.left, y + area.top, btnW, btnH, e)
+    if (tries > 80) break;
+  }
+  while (
+    isNearYes(newX, newY, yesRect) ||
+    distance(newX + btnW/2, newY + btnH/2, cursorX, cursorY) < ESCAPE_DISTANCE
   );
 
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
+  // 🔥 USE LEFT/TOP (NOT transform)
+  noBtn.style.left = newX + "px";
+  noBtn.style.top  = newY + "px";
 
   if(audioUnlocked && ENABLE_MOVE_SOUND){
     const s = moveAudio[Math.floor(Math.random()*moveAudio.length)].cloneNode();
@@ -135,18 +129,42 @@ function attachNoButton(){
   }
 }
 
-
-
-  function isNearCursor(x,y,w,h,e){
-  if(!e) return false;
-  const dist = Math.hypot(e.clientX - (x + w/2), e.clientY - (y + h/2));
-  return dist < 120; // distance buffer from cursor
+function distance(x1,y1,x2,y2){
+  return Math.hypot(x2-x1, y2-y1);
 }
 
-  noBtn.addEventListener("mouseenter", moveNo);
-noBtn.addEventListener("touchstart", moveNo);
-
+function isNearYes(x,y,yesRect){
+  const w = noBtn.offsetWidth;
+  const h = noBtn.offsetHeight;
+  return !(
+    x+w < yesRect.left-100 ||
+    x > yesRect.right+100 ||
+    y+h < yesRect.top-100 ||
+    y > yesRect.bottom+100
+  );
 }
+
+// PC — detect cursor getting close
+document.addEventListener("mousemove", e=>{
+  const rect = noBtn.getBoundingClientRect();
+  const dist = distance(
+    rect.left + rect.width/2,
+    rect.top + rect.height/2,
+    e.clientX,
+    e.clientY
+  );
+
+  if (dist < ESCAPE_DISTANCE) {
+    moveNoAway(e.clientX, e.clientY);
+  }
+});
+
+// PHONE
+noBtn.addEventListener("touchstart", e=>{
+  const t = e.touches[0];
+  moveNoAway(t.clientX, t.clientY);
+});
+
 
   /* --- YES CLICK --- */
 
