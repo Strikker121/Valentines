@@ -190,33 +190,47 @@ const musicBtn = document.getElementById("musicBtn");
   const bgMusic = document.getElementById("bgMusic");
 
   let isPlaying = false;
+  let dropdownOpen = false;
 
-  // 🔓 Unlock audio on first user interaction (mobile)
+  // 🔓 Unlock audio for mobile
   function unlockAudio() {
     bgMusic.play().then(() => bgMusic.pause()).catch(()=>{});
   }
   document.addEventListener("click", unlockAudio, { once: true });
   document.addEventListener("touchstart", unlockAudio, { once: true });
 
-  // Toggle dropdown on icon click
+  // Toggle dropdown
   musicBtn.addEventListener("click", () => {
-    musicDropdown.classList.toggle("show");
+    dropdownOpen = !dropdownOpen;
+    musicDropdown.classList.toggle("show", dropdownOpen);
+
+    // Start music + rotation only when dropdown opens for first time
+    if(dropdownOpen && !isPlaying){
+      bgMusic.play().catch(()=>{});
+      musicBtn.classList.add("rotating");
+      isPlaying = true;
+    }
   });
 
-  // Play/pause toggle
+  // Play/Pause toggle inside dropdown
   musicPlayPause.addEventListener("click", () => {
     if(isPlaying){
       bgMusic.pause();
       musicBtn.classList.remove("rotating");
+      isPlaying = false;
     } else {
       bgMusic.play().catch(()=>{});
       musicBtn.classList.add("rotating");
+      isPlaying = true;
     }
-    isPlaying = !isPlaying;
   });
 
   // Play a specific song
   window.playSong = function(src){
+    if(bgMusic.src.includes(src) && !bgMusic.paused){
+      // Already playing same song, do nothing
+      return;
+    }
     bgMusic.src = src;
     bgMusic.play().catch(()=>{});
     musicBtn.classList.add("rotating");
