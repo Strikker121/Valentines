@@ -184,31 +184,28 @@ function attachNoButton(){
 
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const musicBtn = document.getElementById("musicBtn");
+const musicBtn = document.getElementById("musicBtn");
   const musicDropdown = document.getElementById("musicDropdown");
   const musicPlayPause = document.getElementById("musicPlayPause");
   const bgMusic = document.getElementById("bgMusic");
 
   let isPlaying = false;
 
-  // Unlock audio on first user gesture
+  // 🔓 Unlock audio on first user interaction (mobile)
   function unlockAudio() {
-    bgMusic.play().then(() => {
-      bgMusic.pause();
-    }).catch(() => {});
+    bgMusic.play().then(() => bgMusic.pause()).catch(()=>{});
   }
   document.addEventListener("click", unlockAudio, { once: true });
   document.addEventListener("touchstart", unlockAudio, { once: true });
 
-  // Toggle dropdown
+  // Toggle dropdown on icon click
   musicBtn.addEventListener("click", () => {
     musicDropdown.classList.toggle("show");
   });
 
   // Play/pause toggle
   musicPlayPause.addEventListener("click", () => {
-    if(isPlaying) {
+    if(isPlaying){
       bgMusic.pause();
       musicBtn.classList.remove("rotating");
     } else {
@@ -218,13 +215,12 @@ document.addEventListener("DOMContentLoaded", () => {
     isPlaying = !isPlaying;
   });
 
-  // Play specific song
-  window.playSong = function(src) {
+  // Play a specific song
+  window.playSong = function(src){
     bgMusic.src = src;
     bgMusic.play().catch(()=>{});
     musicBtn.classList.add("rotating");
     isPlaying = true;
   };
-
   
 });
