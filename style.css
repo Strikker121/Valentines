@@ -153,14 +153,21 @@ button {
 
 #yesBtn, #noBtn {
   position: fixed;
-  transform: none; /* 🔥 important */
-  z-index: 10;
+  transform: none;
   transition: left 0.3s ease, top 0.3s ease;
 }
 
+/* Perfect center alignment */
+#yesBtn {
+  left: 40%;
+  top: 55%;
+}
 
-#yesBtn { left: 42%; top: 30%; }
-#noBtn  { left: 65%; top: 50%; }
+#noBtn {
+  left: 60%;
+  top: 55%;
+}
+
 
 #final h1 {
   margin-top: 20px;  /* move UP */
