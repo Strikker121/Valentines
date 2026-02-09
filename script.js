@@ -97,8 +97,10 @@ function attachNoButton(){
     const btnW=noBtn.offsetWidth;
     const btnH=noBtn.offsetHeight;
     const padding=20;
-    const maxX=window.innerWidth-btnW-padding;
-    const maxY=window.innerHeight-btnH-padding;
+    const area = finalPage.getBoundingClientRect();
+    const maxX = area.width - btnW - padding;
+    const maxY = area.height - btnH - padding;
+
 
     let x,y;
     do{
@@ -106,8 +108,9 @@ function attachNoButton(){
       y=Math.random()*maxY;
     }while(isNearYes(x,y,btnW,btnH));
 
-    noBtn.style.left=x+"px";
-    noBtn.style.top=y+"px";
+    noBtn.style.left = (area.left + x) + "px";
+    noBtn.style.top  = (area.top  + y) + "px";
+
   }
 
   function isNearYes(x,y,w,h){
