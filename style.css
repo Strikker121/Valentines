@@ -160,12 +160,11 @@ button {
   transform: translateX(-120%);
 }
 
-
 #noBtn {
-  left: 60%;
-  top: 70px;
-  transform: translateX(20%);
-}
+  position: fixed;
+  transition: left 0.25s ease, top 0.25s ease;
+} 
+
 #yesBtn, #noBtn {
   padding: 14px 28px;
   border-radius: 40px;
