@@ -178,83 +178,100 @@ button {
 
 
 /* Floating music control */
+/* Main music control container */
 #musicControl {
   position: fixed;
-  top: 15px;
-  right: 15px;
-  z-index: 100;
+  top: 20px;
+  right: 20px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Music Icon Image */
+/* Music icon */
 #musicBtn {
   width: 50px;
   height: 50px;
   cursor: pointer;
-  transition: transform 0.2s ease;
   border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3); /* subtle shadow to blend */
+  transition: transform 0.3s ease, box-shadow 0.2s ease;
+  background-color: rgba(255,255,255,0); /* transparent fallback */
 }
 
-#musicBtn:active {
-  transform: scale(0.9); /* subtle click effect */
-}
-
+/* Rotating animation */
 #musicBtn.rotating {
   animation: rotate360 4s linear infinite;
 }
 
 @keyframes rotate360 {
   from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  to   { transform: rotate(360deg); }
 }
 
-/* Dropdown starts collapsed (hidden) */
+/* Dropdown container */
 #musicDropdown {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 50px;
-  height: 50px;
-  background: rgba(0,0,0,0.8);
-  border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  margin-top: 10px;
+  background: rgba(255, 77, 109, 0.15); /* matches page vibe */
+  border: 2px solid #ff4d6d;
+  border-radius: 20px;
+  padding: 10px 15px;
   opacity: 0;
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: all 0.3s ease;
   pointer-events: none;
-  transition: all 0.5s ease;
 }
 
-/* Expanded state */
-#musicDropdown.show {
-  width: 180px;
-  height: auto;
-  padding: 15px;
-  border-radius: 12px;
+/* Show dropdown */
+#musicDropdown.active {
   opacity: 1;
-  pointer-events: all;
+  transform: scaleY(1);
+  pointer-events: auto;
 }
 
-/* Play/Pause button in center */
+/* Play/pause button inside dropdown */
 #musicPlayPause {
-  font-size: 24px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
   margin-bottom: 10px;
+  transition: transform 0.15s ease;
+}
+
+#musicPlayPause:active {
+  transform: scale(0.9); /* subtle press effect */
+}
+
+/* Song list buttons */
+#songList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 120px;
 }
 
 #songList button {
-  display: block;
-  width: 100%;
-  margin: 4px 0;
-  padding: 6px;
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: 1px solid #ff4d6d;
+  border-radius: 12px;
+  padding: 6px 10px;
   font-size: 14px;
-  border-radius: 6px;
   cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease;
 }
 
-/* Prevent selection / highlight on mobile */
+#songList button:active {
+  transform: translateY(2px); /* little popup effect */
+  background: rgba(255,255,255,0.2);
+}
+
+/* Mobile fixes */
 #musicBtn, #musicPlayPause, #songList button {
   -webkit-tap-highlight-color: transparent;
   user-select: none;
