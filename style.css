@@ -152,9 +152,17 @@ button {
 }
 
 /* Both buttons in normal layout initially */
-#yesBtn {
-  position: relative;
+#noBtn.moving {
+  position: fixed;
+  z-index: 10;
+
+  /* ✨ Smooth motion */
+  transition: left 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              top 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+
+  will-change: left, top;
 }
+
 
 /* When JS starts moving NO, it will switch to absolute */
 #noBtn.moving {
