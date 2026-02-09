@@ -184,96 +184,53 @@ button {
   top: 20px;
   right: 20px;
   z-index: 50;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
-/* Music icon */
 #musicBtn {
-  width: 50px;
+  width: 50px;           /* or whatever size fits your page */
   height: 50px;
+  object-fit: contain;    /* preserves image ratio */
+  border: none;           /* remove borders if any */
+  outline: none;          /* remove focus outline */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3); /* subtle shadow to blend in */
+  background: none;       /* ensure no background */
   cursor: pointer;
-  border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3); /* subtle shadow to blend */
-  transition: transform 0.3s ease, box-shadow 0.2s ease;
-  background-color: rgba(255,255,255,0); /* transparent fallback */
+  border-radius: 50%;     /* optional, smooth edges */
 }
 
-/* Rotating animation */
-#musicBtn.rotating {
-  animation: rotate360 4s linear infinite;
+
+#musicBtn.clicked {
+  transform: scale(1.2); /* subtle pop on click */
 }
 
+#musicDropdown {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: rgba(255,255,255,0.1);
+  border: 2px solid #ff4d6d;
+  border-radius: 12px;
+  padding: 10px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 120px;
+}
+
+#musicDropdown.active {
+  display: flex;
+}
+
+/* Rotation animation */
 @keyframes rotate360 {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
 
-/* Dropdown container */
-#musicDropdown {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
-  background: rgba(255, 77, 109, 0.15); /* matches page vibe */
-  border: 2px solid #ff4d6d;
-  border-radius: 20px;
-  padding: 10px 15px;
-  opacity: 0;
-  transform: scaleY(0);
-  transform-origin: top center;
-  transition: all 0.3s ease;
-  pointer-events: none;
+#musicBtn.playing {
+  animation: rotate360 3s linear infinite;
+  filter: drop-shadow(0 0 6px #fff9); /* subtle glow while playing */
 }
-
-/* Show dropdown */
-#musicDropdown.active {
-  opacity: 1;
-  transform: scaleY(1);
-  pointer-events: auto;
-}
-
-/* Play/pause button inside dropdown */
-#musicPlayPause {
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  margin-bottom: 10px;
-  transition: transform 0.15s ease;
-}
-
-#musicPlayPause:active {
-  transform: scale(0.9); /* subtle press effect */
-}
-
-/* Song list buttons */
-#songList {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 120px;
-}
-
-#songList button {
-  background: rgba(255,255,255,0.1);
-  color: white;
-  border: 1px solid #ff4d6d;
-  border-radius: 12px;
-  padding: 6px 10px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: transform 0.15s ease, background 0.2s ease;
-}
-
-#songList button:active {
-  transform: translateY(2px); /* little popup effect */
-  background: rgba(255,255,255,0.2);
-}
-
-/* Mobile fixes */
-#musicBtn, #musicPlayPause, #songList button {
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-  outline: none;
+#musicBtn.clicked {
+  transform: scale(1.15); /* quick pop effect on click */
 }
