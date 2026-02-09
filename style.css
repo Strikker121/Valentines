@@ -132,7 +132,7 @@ button {
 }
 
 /* Final page */
-#final {
+/*#final {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -141,7 +141,7 @@ button {
   height: 100%;
   text-align: center;
   position: relative;
-}
+}*/
 
 .valentine-buttons {
   position: relative;
@@ -151,21 +151,30 @@ button {
   align-items: center;
 }
 
+#final {
+  position: relative;
+}
+
+/* Buttons live INSIDE the final section */
 #yesBtn, #noBtn {
   position: absolute;
+  transform: translate(-50%, -50%);
+  transition: left 0.35s ease, top 0.35s ease;
+  z-index: 10;
 }
 
-
-/* Perfect center alignment */
+/* YES centered */
 #yesBtn {
-  left: 40%;
-  top: 55%;
+  left: 50%;
+  top: 60%;
 }
 
+/* NO starts near YES but will move */
 #noBtn {
-  left: 60%;
-  top: 55%;
+  left: 65%;
+  top: 60%;
 }
+
 
 
 #final h1 {
