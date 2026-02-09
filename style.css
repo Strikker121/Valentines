@@ -144,26 +144,24 @@ button {
 }*/
 
 .valentine-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;          /* space between YES & NO */
+  margin-top: 30px;
   position: relative;
-  width: 320px;
-  height: 120px;
-  margin-top: 20px;
 }
 
+/* BOTH buttons look same */
 #yesBtn, #noBtn {
-  position: absolute;
-  transition: all 0.25s ease;
-}
-#yesBtn {
-  left: 40%;
-  top: 70px;
-  transform: translateX(-120%);
+  position: relative;   /* start in normal layout */
+  padding: 14px 28px;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 18px;
+  transition: left 0.25s ease, top 0.25s ease;
 }
 
-#noBtn {
-  position: fixed;
-  transition: left 0.25s ease, top 0.25s ease;
-} 
 
 #yesBtn, #noBtn {
   padding: 14px 28px;
