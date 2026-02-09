@@ -197,7 +197,7 @@ button {
   font-size: 24px;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  transition: transform 0.4s ease, width 0.4s ease, height 0.4s ease;
+  transition: all 0.5s ease;
 }
 
 #musicBtn.rotating {
@@ -209,7 +209,7 @@ button {
   to { transform: rotate(360deg); }
 }
 
-/* Dropdown container starts collapsed */
+/* Dropdown starts collapsed (hidden) */
 #musicDropdown {
   position: absolute;
   top: 0;
@@ -224,19 +224,21 @@ button {
   justify-content: center;
   overflow: hidden;
   opacity: 0;
+  pointer-events: none;
   transition: all 0.5s ease;
 }
 
 /* Expanded state */
 #musicDropdown.show {
-  width: 150px;
+  width: 180px;
   height: auto;
-  padding: 10px;
+  padding: 15px;
   border-radius: 12px;
   opacity: 1;
+  pointer-events: all;
 }
 
-/* Pause/Play in middle of expanded dropdown */
+/* Play/Pause in center */
 #musicPlayPause {
   font-size: 24px;
   cursor: pointer;
@@ -253,7 +255,7 @@ button {
   cursor: pointer;
 }
 
-/* Prevent mobile selection highlight */
+/* Prevent selection / highlight on mobile */
 #musicBtn, #musicPlayPause, #songList button {
   -webkit-tap-highlight-color: transparent;
   user-select: none;
