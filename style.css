@@ -163,13 +163,6 @@ button {
   will-change: left, top;
 }
 
-
-/* When JS starts moving NO, it will switch to absolute */
-#noBtn.moving {
-  position: fixed;   /* JS movement works relative to screen */
-  z-index: 10;
-}
-
 button {
   -webkit-tap-highlight-color: transparent;
   user-select: none;
