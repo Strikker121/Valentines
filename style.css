@@ -172,4 +172,11 @@ button {
   font-weight: 600;
   font-size: 18px;
 }
+button {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
 
+#yesBtn, #noBtn {
+  outline: none;
+}
