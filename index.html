@@ -47,19 +47,17 @@
 </div>
 
 <!-- 🎵 Floating Music Control -->
-<!-- Music Control -->
 <div id="musicControl">
   <img id="musicBtn" src="music-icon.png" alt="Music" />
+
   <div id="musicDropdown">
-    <div id="songList">
-      <button onclick="playSong('music.mp3')">Romantic 1</button>
-      <button onclick="playSong('song2.mp3')">Romantic 2</button>
-    </div>
+    <button onclick="playMainSong()">Romantic Theme ❤️</button>
+    <button onclick="playRandomSong()">Surprise Me ✨</button>
+    <button onclick="stopMusic()">Do Not Play 🔕</button>
   </div>
 </div>
 
-<audio id="bgMusic" loop></audio>
-
+<audio id="bgMusic"></audio>
 
 
 
