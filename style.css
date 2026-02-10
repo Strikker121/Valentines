@@ -2,7 +2,7 @@ html, body {
   margin: 0;
   height: 100%;
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #ff758c, #ff7eb3, #ffb199);
+  background: linear-gradient(135deg, #ff5c6c, #ff4d6d, #ee343f);
   color: white;
   overflow: hidden;
 }
@@ -59,7 +59,7 @@ button {
   bottom: -40px;
   width: 18px;
   height: 18px;
-  background: #ff4d6d;
+  background: #ee343f;
   transform: rotate(45deg);
   animation: floatUp linear forwards;
 }
@@ -68,7 +68,7 @@ button {
   position: absolute;
   width: 18px;
   height: 18px;
-  background: #ff4d6d;
+  background: #ee343f;
   border-radius: 50%;
 }
 .heart::before { top: -9px; left: 0; }
@@ -125,7 +125,8 @@ button {
   pointer-events: none;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 6px rgba(255,255,255,0.6), 0 0 10px rgba(255,192,203,0.4);
+  box-shadow: 0 0 6px rgba(255,255,255,0.6),
+            0 0 12px rgba(238,52,63,0.5);
   width: 6px;
   height: 6px;
   animation: sparkleAnim 1s ease-out forwards;
@@ -196,9 +197,13 @@ button {
 
   filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 }
+
 #musicBtn {
+  opacity: 0.9;
+  filter: drop-shadow(0 0 6px rgba(238,52,63,0.5));
   transition: transform 0.2s ease;
 }
+
 
 #musicBtn:active {
   transform: scale(0.9);
