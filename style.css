@@ -193,10 +193,8 @@ button {
 
   background: transparent;
   border: none;
-  outline: none;
 
-  image-rendering: -webkit-optimize-contrast; /* fixes halo in Chrome */
-  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.35)); /* blends edges nicely */
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 }
 #musicBtn {
   transition: transform 0.2s ease;
@@ -215,27 +213,30 @@ button {
   padding: 14px;
   border-radius: 18px;
 
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 
-  border: 1px solid rgba(255,255,255,0.25);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
 
-  display: none;
   flex-direction: column;
   gap: 10px;
 
-  transform: scale(0.8);
   opacity: 0;
+  transform: scale(0.85);
+  pointer-events: none;
+
   transition: all 0.25s ease;
 }
 
+/* When open */
 #musicDropdown.show {
-  display: flex;
-  transform: scale(1);
   opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
 }
+
 
 
 #musicDropdown.active {
