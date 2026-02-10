@@ -188,52 +188,56 @@ function attachNoButton(){
 const musicBtn = document.getElementById("musicBtn");
 const dropdown = document.getElementById("musicDropdown");
 const bgMusic = document.getElementById("bgMusic");
-const playBtn = document.getElementById("musicPlayPause");
 
-let dropdownOpen = false;
+let musicOpen = false;
 let isPlaying = false;
 
-/* 🎵 ICON CLICK → TOGGLE DROPDOWN */
+const playlist = [
+  "song2.mp3",
+  "song3.mp3",
+  "song4.mp3"
+];
+
+// toggle dropdown
 musicBtn.addEventListener("click", (e) => {
   e.stopPropagation();
-  dropdownOpen = !dropdownOpen;
-  dropdown.classList.toggle("show", dropdownOpen);
+  dropdown.classList.toggle("show");
+  musicOpen = !musicOpen;
 });
 
-/* ▶ PLAY / PAUSE BUTTON */
-playBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
+// close if clicking outside
+document.addEventListener("click", () => {
+  dropdown.classList.remove("show");
+});
 
-  if (!isPlaying) {
-    bgMusic.play().catch(()=>{});
+// play main theme
+function playMainSong() {
+  bgMusic.src = "music.mp3";
+  bgMusic.loop = true;
+  bgMusic.play().then(() => {
     musicBtn.classList.add("playing");
     isPlaying = true;
-  } else {
-    bgMusic.pause();
-    musicBtn.classList.remove("playing");
-    isPlaying = false;
-  }
-
-  // tiny press effect
-  playBtn.classList.add("pressed");
-  setTimeout(()=> playBtn.classList.remove("pressed"), 150);
-});
-
-/* 🎵 SONG SELECT */
-function playSong(src){
-  bgMusic.src = src;
-  bgMusic.play().catch(()=>{});
-  musicBtn.classList.add("playing");
-  isPlaying = true;
+  }).catch(()=>{});
 }
 
-/* CLICK OUTSIDE → CLOSE */
-document.addEventListener("click", (e)=>{
-  if (!musicBtn.contains(e.target) && !dropdown.contains(e.target)) {
-    dropdown.classList.remove("show");
-    dropdownOpen = false;
-  }
-});
+// play random romantic song
+function playRandomSong() {
+  const random = playlist[Math.floor(Math.random() * playlist.length)];
+  bgMusic.src = random;
+  bgMusic.loop = true;
+  bgMusic.play().then(() => {
+    musicBtn.classList.add("playing");
+    isPlaying = true;
+  }).catch(()=>{});
+}
+
+// stop music
+function stopMusic() {
+  bgMusic.pause();
+  bgMusic.currentTime = 0;
+  musicBtn.classList.remove("playing");
+  isPlaying = false;
+}
 
   
 });
