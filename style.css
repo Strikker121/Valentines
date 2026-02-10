@@ -187,38 +187,77 @@ button {
 }
 
 #musicBtn {
-  width: 50px;           /* or whatever size fits your page */
-  height: 50px;
-  object-fit: contain;    /* preserves image ratio */
-  border: none;           /* remove borders if any */
-  outline: none;          /* remove focus outline */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3); /* subtle shadow to blend in */
-  background: none;       /* ensure no background */
-  cursor: pointer;
-  border-radius: 50%;     /* optional, smooth edges */
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+
+  background: transparent;
+  border: none;
+  outline: none;
+
+  image-rendering: -webkit-optimize-contrast; /* fixes halo in Chrome */
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.35)); /* blends edges nicely */
+}
+#musicBtn {
+  transition: transform 0.2s ease;
 }
 
-
-#musicBtn.clicked {
-  transform: scale(1.2); /* subtle pop on click */
+#musicBtn:active {
+  transform: scale(0.9);
 }
+
 
 #musicDropdown {
   position: absolute;
-  top: 60px;
+  top: 65px;
   right: 0;
-  background: rgba(255,255,255,0.1);
-  border: 2px solid #ff4d6d;
-  border-radius: 12px;
-  padding: 10px;
+
+  padding: 14px;
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,255,255,0.25);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+
   display: none;
   flex-direction: column;
   gap: 10px;
-  min-width: 120px;
+
+  transform: scale(0.8);
+  opacity: 0;
+  transition: all 0.25s ease;
 }
+
+#musicDropdown.show {
+  display: flex;
+  transform: scale(1);
+  opacity: 1;
+}
+
 
 #musicDropdown.active {
   display: flex;
+}
+
+#musicDropdown button {
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 20px;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.25);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#musicDropdown button:hover {
+  background: rgba(255,255,255,0.3);
+  transform: scale(1.05);
 }
 
 /* Rotation animation */
