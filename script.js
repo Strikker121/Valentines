@@ -185,46 +185,55 @@ function attachNoButton(){
 }
 
 
- const musicBtn = document.getElementById("musicBtn");
-const musicDropdown = document.getElementById("musicDropdown");
+const musicBtn = document.getElementById("musicBtn");
+const dropdown = document.getElementById("musicDropdown");
 const bgMusic = document.getElementById("bgMusic");
+const playBtn = document.getElementById("musicPlayPause");
+
+let dropdownOpen = false;
 let isPlaying = false;
 
-// Click icon → show dropdown + start/stop music
-musicBtn.addEventListener("click", e => {
+/* 🎵 ICON CLICK → TOGGLE DROPDOWN */
+musicBtn.addEventListener("click", (e) => {
   e.stopPropagation();
-  musicDropdown.classList.toggle("active");
+  dropdownOpen = !dropdownOpen;
+  dropdown.classList.toggle("show", dropdownOpen);
+});
 
-  musicBtn.classList.add("clicked");
-  setTimeout(() => musicBtn.classList.remove("clicked"), 200);
+/* ▶ PLAY / PAUSE BUTTON */
+playBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
 
   if (!isPlaying) {
-    bgMusic.src = "music.mp3"; // default song
-    bgMusic.play().then(() => {
-      musicBtn.classList.add("playing"); // start rotation
-      isPlaying = true;
-    }).catch(()=>{});
+    bgMusic.play().catch(()=>{});
+    musicBtn.classList.add("playing");
+    isPlaying = true;
   } else {
     bgMusic.pause();
-    musicBtn.classList.remove("playing"); // stop rotation
+    musicBtn.classList.remove("playing");
     isPlaying = false;
   }
+
+  // tiny press effect
+  playBtn.classList.add("pressed");
+  setTimeout(()=> playBtn.classList.remove("pressed"), 150);
 });
 
-// Clicking outside closes dropdown
-document.body.addEventListener("click", () => {
-  musicDropdown.classList.remove("active");
-});
-
-// Play specific song
-function playSong(src) {
+/* 🎵 SONG SELECT */
+function playSong(src){
   bgMusic.src = src;
-  bgMusic.play().then(() => {
-    musicBtn.classList.add("playing"); // ensure rotation starts
-    isPlaying = true;
-  }).catch(()=>{});
-  musicDropdown.classList.remove("active");
+  bgMusic.play().catch(()=>{});
+  musicBtn.classList.add("playing");
+  isPlaying = true;
 }
+
+/* CLICK OUTSIDE → CLOSE */
+document.addEventListener("click", (e)=>{
+  if (!musicBtn.contains(e.target) && !dropdown.contains(e.target)) {
+    dropdown.classList.remove("show");
+    dropdownOpen = false;
+  }
+});
 
   
 });
