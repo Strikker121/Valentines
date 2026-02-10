@@ -185,6 +185,7 @@ function attachNoButton(){
 }
 
 
+
 const musicBtn = document.getElementById("musicBtn");
 const dropdown = document.getElementById("musicDropdown");
 const bgMusic = document.getElementById("bgMusic");
@@ -210,7 +211,7 @@ document.addEventListener("click", () => {
   dropdown.classList.remove("show");
 });
 
-// play main theme
+// 🎵 PLAY MAIN
 function playMainSong() {
   bgMusic.src = "music.mp3";
   bgMusic.loop = true;
@@ -220,7 +221,7 @@ function playMainSong() {
   }).catch(()=>{});
 }
 
-// play random romantic song
+// 🎵 RANDOM SONG
 function playRandomSong() {
   const random = playlist[Math.floor(Math.random() * playlist.length)];
   bgMusic.src = random;
@@ -231,13 +232,19 @@ function playRandomSong() {
   }).catch(()=>{});
 }
 
-// stop music
+// 🛑 STOP
 function stopMusic() {
   bgMusic.pause();
   bgMusic.currentTime = 0;
   musicBtn.classList.remove("playing");
   isPlaying = false;
 }
+
+/* 🔥 MAKE THEM GLOBAL FOR HTML BUTTONS */
+window.playMainSong = playMainSong;
+window.playRandomSong = playRandomSong;
+window.stopMusic = stopMusic;
+
 
   
 });
