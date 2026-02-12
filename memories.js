@@ -92,4 +92,39 @@ window.addEventListener('DOMContentLoaded', () => {
       createSparkleAt(touch.clientX, touch.clientY);
     }
   });
+
+  /* ===== Memory Expand Logic ===== */
+
+const overlay = document.getElementById("memoryOverlay");
+const memoryCards = document.querySelectorAll(".memory, .memory-box");
+const memoriesContainer = document.querySelector(".memories-container");
+const timelineContainer = document.querySelector(".timeline");
+
+memoryCards.forEach(card=>{
+  card.addEventListener("click", ()=>{
+    const isActive = card.classList.contains("active");
+
+    // reset all
+    memoryCards.forEach(c=>c.classList.remove("active"));
+    overlay.classList.remove("show");
+    memoriesContainer?.classList.remove("dim");
+    timelineContainer?.classList.remove("dim");
+
+    // activate clicked
+    if(!isActive){
+      card.classList.add("active");
+      overlay.classList.add("show");
+      memoriesContainer?.classList.add("dim");
+      timelineContainer?.classList.add("dim");
+    }
+  });
+});
+
+overlay.addEventListener("click", ()=>{
+  memoryCards.forEach(c=>c.classList.remove("active"));
+  overlay.classList.remove("show");
+  memoriesContainer?.classList.remove("dim");
+  timelineContainer?.classList.remove("dim");
+});
+
 });
