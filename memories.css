@@ -84,4 +84,56 @@ body {
   100% { opacity: 0; transform: scale(2) translateY(-20px); }
 }
 
+/* ===== Memory Focus Overlay ===== */
+#memoryOverlay{
+  position:fixed;
+  inset:0;
+  backdrop-filter:blur(12px);
+  background:rgba(0,0,0,0.35);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.4s ease;
+  z-index:5;
+}
+
+#memoryOverlay.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* Smooth animation base */
+.memory, .memory-box{
+  transition:all 0.45s cubic-bezier(.2,.8,.2,1);
+  cursor:pointer;
+}
+
+/* Expanded state */
+.memory.active, .memory-box.active{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(1.1);
+  width:85vw;
+  max-width:420px;
+  z-index:10;
+  box-shadow:0 25px 70px rgba(0,0,0,0.55);
+  border-radius:18px;
+}
+
+/* Image bigger when expanded */
+.memory.active img,
+.memory-box.active img{
+  width:100%;
+  height:260px;
+  object-fit:cover;
+}
+
+/* Fade others */
+.memories-container.dim .memory-box:not(.active),
+.timeline.dim .memory:not(.active){
+  opacity:0.2;
+  transform:scale(0.95);
+}
+
+
 
