@@ -72,16 +72,17 @@ document.getElementById("next2Btn").onclick=()=>{page2.style.display="none";page
 document.getElementById("memoriesBtn").onclick=loadMemories;
 
 function loadMemories(){
-  fetch("memories.html").then(r=>r.text()).then(html=>{
-    memoriesSection.innerHTML=html;
-    page3.style.display="none";
-    setTimeout(() => {
-  if (typeof initMemoryExpand === "function") {
-    initMemoryExpand();
-  }
-}, 50);
+ fetch("memories.html").then(r=>r.text()).then(html=>{
+  memoriesSection.innerHTML=html;
 
-    memoriesSection.style.display="flex";
+  setTimeout(() => {
+    initMemoriesPage();
+  }, 50);
+
+  page3.style.display="none";
+  memoriesSection.style.display="flex";
+});
+
     setTimeout(()=>{
       const backBtn = memoriesSection.querySelector("#memoriesBackBtn");
       backBtn.onclick=()=>{
