@@ -75,6 +75,12 @@ function loadMemories(){
   fetch("memories.html").then(r=>r.text()).then(html=>{
     memoriesSection.innerHTML=html;
     page3.style.display="none";
+    setTimeout(() => {
+  if (typeof initMemoryExpand === "function") {
+    initMemoryExpand();
+  }
+}, 50);
+
     memoriesSection.style.display="flex";
     setTimeout(()=>{
       const backBtn = memoriesSection.querySelector("#memoriesBackBtn");
