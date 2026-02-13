@@ -107,5 +107,43 @@
   }
 }
 
+/*Phone enhanced*/
+
+@media (max-width: 600px) {
+  .memories-container {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .memory-box {
+    border-radius: 24px;
+    padding-bottom: 10px;
+  }
+
+  .memory-box img {
+    aspect-ratio: 4 / 5;
+    border-radius: 24px 24px 0 0;
+  }
+}
+
+.memory-box p {
+  padding: 18px 20px 22px;
+  font-size: 15px;
+  line-height: 1.6;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.memory-box p {
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.memory-box p {
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
 
 
