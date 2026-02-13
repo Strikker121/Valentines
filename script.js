@@ -40,6 +40,31 @@ function createHeart(){
 }
 setInterval(createHeart, 500);
 
+/*Heart Explosion on Yes*/
+  function triggerYesEffects() {
+
+  for (let i = 0; i < 25; i++) {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (2 + Math.random() * 2) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 4000);
+  }
+
+  document.body.classList.add("glowEffect");
+
+  setTimeout(() => {
+    document.body.classList.remove("glowEffect");
+  }, 800);
+}
+
+
 
 /* ---------------- SPARKLE TRAIL ---------------- */
 
