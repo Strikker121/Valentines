@@ -207,10 +207,7 @@ function attachNoButton(){
       s.volume=0.3;
       s.play().catch(()=>{});
     }
-     // 🔔 Small vibration (mobile only)
-    alert("clicked");
-  navigator.vibrate?.(100);
-
+     
   triggerYesEffects();
   };
 
@@ -226,6 +223,7 @@ let musicOpen = false;
 let isPlaying = false;
 
 const playlist = [
+  "song1.mp3",
   "song2.mp3",
   "song3.mp3",
   "song4.mp3"
