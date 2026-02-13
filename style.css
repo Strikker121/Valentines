@@ -84,36 +84,6 @@ button {
 .pop { animation: popAnim 0.25s forwards !important; }
 @keyframes popAnim { 0% { transform: scale(1.2) rotate(45deg); opacity:1; } 100% { transform: scale(0) rotate(45deg); opacity:0; } }
 
-/* Memories */
-.memories-container {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 90%;
-  max-width: 600px;
-  margin: 0 auto;
-  overflow-y: auto;
-  padding-bottom: 20px;
-}
-.memory-box {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  background: rgba(255,255,255,0.1);
-  border: 2px solid #ff4d6d;
-  border-radius: 12px;
-  padding: 10px;
-}
-.memory-box img {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-.memory-box p {
-  color: white;
-  font-size: 16px;
-}
 
 @keyframes sparkleAnim {
   0% { opacity: 1; transform: scale(1); }
