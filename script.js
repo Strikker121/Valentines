@@ -74,6 +74,11 @@ document.getElementById("memoriesBtn").onclick=loadMemories;
 function loadMemories(){
   fetch("memories.html").then(r=>r.text()).then(html=>{
     memoriesSection.innerHTML=html;
+    setTimeout(() => {
+  if (typeof initMemories === "function") {
+    initMemories();
+  }
+}, 50);
     page3.style.display="none";
     memoriesSection.style.display="flex";
     setTimeout(()=>{
