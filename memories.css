@@ -112,3 +112,10 @@
         opacity: 1;
     }
 }
+
+.memories-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  padding: 20px;
+}
