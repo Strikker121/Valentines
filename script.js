@@ -43,26 +43,23 @@ setInterval(createHeart, 500);
 /*Heart Explosion on Yes*/
   function triggerYesEffects() {
 
-  for (let i = 0; i < 25; i++) {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
+  for (let i = 0; i < 20; i++) {
+    const burst = document.createElement("div");
+    burst.classList.add("yes-burst");
 
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (2 + Math.random() * 2) + "s";
+    const x = (Math.random() - 0.5) * 400 + "px";
+    const y = (Math.random() - 0.5) * 400 + "px";
 
-    document.body.appendChild(heart);
+    burst.style.setProperty("--x", x);
+    burst.style.setProperty("--y", y);
 
-    setTimeout(() => {
-      heart.remove();
-    }, 4000);
+    document.body.appendChild(burst);
+
+    setTimeout(() => burst.remove(), 1200);
   }
 
-  document.body.classList.add("glowEffect");
-
-  setTimeout(() => {
-    document.body.classList.remove("glowEffect");
-  }, 800);
 }
+
 
 
 
@@ -210,6 +207,12 @@ function attachNoButton(){
       s.volume=0.3;
       s.play().catch(()=>{});
     }
+     // 🔔 Small vibration (mobile only)
+  if (navigator.vibrate) {
+    navigator.vibrate(100);
+  }
+
+  triggerYesEffects();
   };
 
 }
