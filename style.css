@@ -252,3 +252,58 @@ button {
     left: auto;
   }
 }
+
+
+
+
+/*Heart Explosion*/
+.yes-burst {
+  position: fixed;
+  bottom: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  background: #ff4d6d;
+  transform: translate(-50%, -50%) rotate(45deg);
+  pointer-events: none;
+  animation: yesExplode 1.2s ease-out forwards;
+  z-index: 1000;
+}
+
+.yes-burst::before,
+.yes-burst::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: #ff4d6d;
+  border-radius: 50%;
+}
+
+.yes-burst::before {
+  top: -8px;
+  left: 0;
+}
+
+.yes-burst::after {
+  left: -8px;
+  top: 0;
+}
+
+@keyframes yesExplode {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.5) rotate(45deg);
+  }
+  100% {
+    opacity: 0;
+    transform: 
+      translate(
+        calc(-50% + var(--x)), 
+        calc(-50% + var(--y))
+      )
+      scale(1.4)
+      rotate(45deg);
+  }
+}
+
