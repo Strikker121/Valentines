@@ -1,95 +1,97 @@
-// Memory data
-const memories = [
-  {
-    img: "photos/pic1.jpg",
-    text: "The day we met and everything changed 💫"
-  },
-  {
-    img: "photos/pic2.jpg",
-    text: "Our first photo together ❤️"
-  },
-  {
-    img: "photos/pic3.jpg",
-    text: "Laughing at nothing but loving everything 😌"
-  }
-];
+// Wait until page is fully loaded
+window.addEventListener("DOMContentLoaded", () => {
 
-// Get timeline container
-const timeline = document.getElementById("timeline");
+  /* ===============================
+     MEMORY EXPAND LOGIC
+  =============================== */
 
-// Dynamically create memory boxes
-memories.forEach(m => {
-  const div = document.createElement("div");
-  div.className = "memory";
+  const overlay = document.getElementById("memoryOverlay");
+  const memoryCards = document.querySelectorAll(".memory-box");
+  const memoriesContainer = document.querySelector(".memories-container");
 
-  div.innerHTML = `
-    <img src="${m.img}">
-    <div class="memory-text">${m.text}</div>
-  `;
+  memoryCards.forEach(card => {
 
-  timeline.appendChild(div);
-});
+    card.addEventListener("click", () => {
 
-// Optional: goBack function (can be used for a button)
-function goBack() {
-  window.location.href = "index.html";
-}
+      const isActive = card.classList.contains("active");
 
-// Wait until DOM is loaded
-window.addEventListener('DOMContentLoaded', () => {
-  const memoryBoxes = document.querySelectorAll('.memory');
+      // Reset all cards
+      memoryCards.forEach(c => c.classList.remove("active"));
+      overlay.classList.remove("show");
+      memoriesContainer.classList.remove("dim");
 
-  // --- Fade-up on scroll using IntersectionObserver ---
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.transform = 'translateY(0)';
-        entry.target.style.opacity = 1;
+      // Activate clicked card
+      if (!isActive) {
+        card.classList.add("active");
+        overlay.classList.add("show");
+        memoriesContainer.classList.add("dim");
       }
+
     });
-  }, { threshold: 0.1 });
 
-  memoryBoxes.forEach(m => {
-    // Initial state for animation
-    m.style.transform = 'translateY(20px)';
-    m.style.opacity = 0;
-    m.style.transition = 'all 0.6s ease-out';
-
-    observer.observe(m);
-
-    // Tap bounce for mobile
-    m.addEventListener('touchstart', () => {
-      m.style.transform = 'scale(1.05)';
-      setTimeout(() => m.style.transform = '', 200);
-    });
   });
 
-  // --- Sparkle Trail Effect ---
-  const sparklesContainer = document.querySelector('.sparkles');
+  // Close when clicking overlay
+  overlay.addEventListener("click", () => {
+    memoryCards.forEach(c => c.classList.remove("active"));
+    overlay.classList.remove("show");
+    memoriesContainer.classList.remove("dim");
+  });
 
-  function createSparkleAt(x, y) {
-    const sparkle = document.createElement('div');
-    sparkle.className = 'sparkle';
-    sparkle.style.left = x + 'px';
-    sparkle.style.top = y + 'px';
-    sparkle.style.width = 8 + Math.random() * 4 + 'px';
-    sparkle.style.height = 8 + Math.random() * 4 + 'px';
-    sparkle.style.background = 'rgba(255,255,255,0.8)';
-    sparkle.style.borderRadius = '50%';
-    sparkle.style.position = 'absolute';
-    sparkle.style.pointerEvents = 'none';
-    sparkle.style.animation = `sparkleAnim ${1 + Math.random() * 1}s ease-out forwards`;
+
+  /* ===============================
+     FADE-IN ANIMATION ON LOAD
+  =============================== */
+
+  memoryCards.forEach(card => {
+    card.style.opacity = "0";
+    card.style.transform = "translateY(20px)";
+    card.style.transition = "all 0.6s ease";
+
+    setTimeout(() => {
+      card.style.opacity = "1";
+      card.style.transform = "translateY(0)";
+    }, 200);
+  });
+
+
+  /* ===============================
+     SPARKLE TRAIL EFFECT
+  =============================== */
+
+  const sparklesContainer = document.querySelector(".sparkles");
+
+  function createSparkle(x, y) {
+    const sparkle = document.createElement("div");
+    sparkle.className = "sparkle";
+
+    sparkle.style.left = x + "px";
+    sparkle.style.top = y + "px";
+
+    sparkle.style.width = 6 + Math.random() * 6 + "px";
+    sparkle.style.height = sparkle.style.width;
+
+    sparkle.style.position = "absolute";
+    sparkle.style.pointerEvents = "none";
+
+    sparkle.style.animation =
+      `sparkleAnim ${1 + Math.random()}s ease-out forwards`;
+
     sparklesContainer.appendChild(sparkle);
-    setTimeout(() => sparkle.remove(), 2000);
+
+    setTimeout(() => sparkle.remove(), 1500);
   }
 
-  // Mouse trail for PC
-  document.addEventListener('mousemove', e => createSparkleAt(e.clientX, e.clientY));
+  // Desktop mouse sparkle
+  document.addEventListener("mousemove", e => {
+    createSparkle(e.clientX, e.clientY);
+  });
 
-  // Finger trail for mobile
-  document.addEventListener('touchmove', e => {
-    for (const touch of e.touches) {
-      createSparkleAt(touch.clientX, touch.clientY);
+  // Mobile touch sparkle
+  document.addEventListener("touchmove", e => {
+    for (let touch of e.touches) {
+      createSparkle(touch.clientX, touch.clientY);
     }
   });
+
 });
