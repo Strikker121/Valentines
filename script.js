@@ -208,9 +208,8 @@ function attachNoButton(){
       s.play().catch(()=>{});
     }
      // 🔔 Small vibration (mobile only)
-  if (navigator.vibrate) {
-    navigator.vibrate(100);
-  }
+    alert("clicked");
+  navigator.vibrate?.(100);
 
   triggerYesEffects();
   };
