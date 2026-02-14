@@ -53,7 +53,7 @@ let secretTap = 0;
 document.addEventListener("click", () => {
     secretTap++;
 
-    if (secretTap === 10) {
+    if (secretTap === 4) {
         openLoveDashboard();
         secretTap = 0;
     }
