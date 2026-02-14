@@ -1,5 +1,73 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+
+// ===============================
+// ❤️ LOVE ANALYTICS SYSTEM
+// ===============================
+
+// ---- VISIT COUNT ----
+let visitCount = parseInt(localStorage.getItem("visitCount") || "0");
+visitCount++;
+localStorage.setItem("visitCount", visitCount);
+
+// ---- SESSION START ----
+const visitStartTime = Date.now();
+
+// ---- STAY TIME TRACKING ----
+window.addEventListener("beforeunload", () => {
+    const staySeconds = Math.floor((Date.now() - visitStartTime) / 1000);
+
+    let totalStay = parseInt(localStorage.getItem("totalStay") || "0");
+    totalStay += staySeconds;
+
+    localStorage.setItem("totalStay", totalStay);
+});
+
+// ---- PASSWORD DASHBOARD ----
+function openLoveDashboard() {
+
+    const password = prompt("Enter secret password:");
+
+    if (password === "shivu2001") {   // 👈 CHANGE THIS
+
+        const visits = localStorage.getItem("visitCount") || 0;
+        const totalStay = localStorage.getItem("totalStay") || 0;
+        const currentStay = Math.floor((Date.now() - visitStartTime) / 1000);
+
+        alert(`
+❤️ LOVE DASHBOARD ❤️
+
+Total Visits: ${visits}
+Total Time Spent: ${Math.floor(totalStay / 60)} minutes
+Current Visit: ${currentStay} seconds
+        `);
+
+    } else {
+        alert("Wrong password 💔");
+    }
+}
+
+// ---- SECRET TRIGGER (10 heart clicks) ----
+let secretTap = 0;
+
+document.addEventListener("click", () => {
+    secretTap++;
+
+    if (secretTap === 10) {
+        openLoveDashboard();
+        secretTap = 0;
+    }
+
+    setTimeout(() => {
+        secretTap = 0;
+    }, 1500);
+});
+
+
+  
+
+
+  
 const ENABLE_POP_SOUND = true;
 const ENABLE_MOVE_SOUND = true;
 
